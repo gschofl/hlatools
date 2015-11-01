@@ -1,0 +1,40 @@
+Package: hlatools
+Title: Collection of tools to work with HLA data
+Version: 0.0.0.9000
+Authors@R: person("Gerhard", "Schöfl", email = "gerhard.schofl@gmail.com", role = c("aut", "cre"))
+Description: Collection of tools to work with HLA data.
+Depends: 
+    R (>= 3.2.2)
+License: MIT + file LICENSE
+Suggests: 
+    testthat (>= 0.8)
+LazyData: true
+Type: Package
+Maintainer: Gerhard Schöfl <gerhard.schofl@gmail.com>
+Encoding: UTF-8
+Imports: 
+    git2r,
+    XML,
+    Biostrings,
+    IRanges,
+    GenomicRanges,
+    S4Vectors,
+    foreach,
+    parallel,
+    doParallel,
+    methods,
+    iterators,
+    R6,
+    data.table
+RoxygenNote: 5.0.0
+Collate: 
+    'utils.r'
+    'all-generics.r'
+    'HLARanges.r'
+    'HlaAllele.r'
+    'NGSSample.r'
+    'hlatools-package.r'
+    'iterator.r'
+    'parse_hla_alleles.r'
+    'remotes.r'
+    'zzz.r'
