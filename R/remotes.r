@@ -1,5 +1,7 @@
-#' Clone the IMGTHLA repo on github
+#' Clone or update the IMGTHLA repo on github
 #'
+#' @note Due to some limitation in the \pkg{git2r} this will not work
+#' behind a proxy.
 #' @param local_path Local directory to clone to. Defaults to \file{~/local/db/IMGTHLA}.
 #'
 #' @return A S4 \code{\linkS4class{git_repository}} object.
@@ -7,6 +9,7 @@
 #' @examples
 #' \dontrun{
 #' repo <- fetch_IMGTHLA()
+#' update_IMGTHLA()
 #' }
 fetch_IMGTHLA <- function(local_path = getOption("hlatools.local_repos")) {
   stopifnot(requireNamespace("git2r", quietly = TRUE))
@@ -19,15 +22,9 @@ fetch_IMGTHLA <- function(local_path = getOption("hlatools.local_repos")) {
   git2r::clone(url, local_path)
 }
 
-
-#' Update a local IMGTHLA repo
-#'
+#' @rdname fetch_IMGTHLA
 #' @return \code{invisible(NULL)}
 #' @export
-#' @examples
-#' \dontrun{
-#' update_IMGTHLA()
-#' }
 update_IMGTHLA <- function() {
   stopifnot(requireNamespace("git2r", quietly = TRUE))
   repo <- git2r::repository(file.path(getOption("hlatools.local_repos"), "IMGTHLA"))
@@ -35,15 +32,17 @@ update_IMGTHLA <- function() {
 }
 
 
-#' Parse the IMGT/HLA hla.xml file
+#' Fetch and parse or update the IMGT/HLA hla.xml file
 #'
 #' @param remote [logical] Pull data from the IMGT/HLA ftp server or
 #' \code{getOption("hlatools.local_repos")}
 #'
 #' @return An object of class (S3) \code{XMLInternalDocument}.
 #' @export
-#' @examples
+#' @examples \dontrun{
 #' doc <- read_hla_xml(remote = TRUE)
+#' update_hla_xml()
+#' }
 read_hla_xml <- function(remote = FALSE) {
   stopifnot(requireNamespace("XML", quietly = TRUE))
 
@@ -57,11 +56,28 @@ read_hla_xml <- function(remote = FALSE) {
   } else {
     dbpath <- getOption("hlatools.local_repos")
     dbfile <- normalizePath(file.path(dbpath, "IMGTHLA", "xml", "hla.xml.zip"), mustWork = TRUE)
-    tfile <- unzip(zipfile = dbfile, exdir = tdir)
+    tfile <- unzip(zipfile = dbfile, exdir = tdir)[1]
   }
 
   doc <- XML::xmlInternalTreeParse(tfile)
   unlink(tfile, force = TRUE)
   doc
 }
+
+
+#' @rdname read_hla_xml
+#' @return \code{invisible(NULL)}
+#' @export
+update_hla_xml <- function() {
+  assertive::is_not_null(getOption("hlatools.local_repos"))
+  dbpath <- getOption("hlatools.local_repos")
+  dlfile <- normalizePath(file.path(dbpath, "IMGTHLA", "xml", "hla.xml.zip"), mustWork = FALSE)
+  ftpfile <- "ftp://ftp.ebi.ac.uk/pub/databases/ipd/imgt/hla/xml/hla.xml.zip"
+  download.file(url = ftpfile, destfile = dlfile, method = "libcurl")
+}
+
+
+
+
+
 

@@ -1,18 +1,18 @@
 Package: hlatools
 Title: Collection of tools to work with HLA data
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: person("Gerhard", "Schöfl", email = "gerhard.schofl@gmail.com", role = c("aut", "cre"))
 Description: Collection of tools to work with HLA data.
-Depends: 
+Depends:
     R (>= 3.2.2)
 License: MIT + file LICENSE
-Suggests: 
+Suggests:
     testthat (>= 0.8)
 LazyData: true
 Type: Package
 Maintainer: Gerhard Schöfl <gerhard.schofl@gmail.com>
 Encoding: UTF-8
-Imports: 
+Imports:
     git2r,
     XML,
     Biostrings,
@@ -25,13 +25,17 @@ Imports:
     methods,
     iterators,
     R6,
-    data.table
-RoxygenNote: 5.0.0
-Collate: 
+    data.table,
+    assertive,
+    XVector,
+    DECIPHER
+RoxygenNote: 5.0.1
+Collate:
     'utils.r'
     'all-generics.r'
     'HLARanges.r'
-    'HlaAllele.r'
+    'HLAAllele.r'
+    'HLAGene.r'
     'NGSSample.r'
     'hlatools-package.r'
     'iterator.r'

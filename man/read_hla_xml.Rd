@@ -2,9 +2,12 @@
 % Please edit documentation in R/remotes.r
 \name{read_hla_xml}
 \alias{read_hla_xml}
-\title{Parse the IMGT/HLA hla.xml file}
+\alias{update_hla_xml}
+\title{Fetch and parse or update the IMGT/HLA hla.xml file}
 \usage{
 read_hla_xml(remote = FALSE)
+
+update_hla_xml()
 }
 \arguments{
 \item{remote}{[logical] Pull data from the IMGT/HLA ftp server or
@@ -12,11 +15,16 @@ read_hla_xml(remote = FALSE)
 }
 \value{
 An object of class (S3) \code{XMLInternalDocument}.
+
+\code{invisible(NULL)}
 }
 \description{
-Parse the IMGT/HLA hla.xml file
+Fetch and parse or update the IMGT/HLA hla.xml file
 }
 \examples{
+\dontrun{
 doc <- read_hla_xml(remote = TRUE)
+update_hla_xml()
+}
 }
 

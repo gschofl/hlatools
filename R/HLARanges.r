@@ -11,10 +11,10 @@ NULL
 #' @slot frame integer.
 #'
 #' @importClassesFrom GenomicRanges GRanges GRangesList
-#' @importFrom S4Vectors Rle
 #' @importFrom IRanges IRanges relist
 #' @importFrom GenomicRanges GRanges GRangesList
-#' @keywords classes
+#' @keywords classes internal
+#' @seealso \code{\link{parse_hla_alleles}}, \code{\link{HLAAllele}}
 #' @export
 #' @examples
 #' showClass("HLARanges")
@@ -30,7 +30,7 @@ setClass(
   )
 )
 
-#' Construct HLARanges objects
+#' Constructor for \code{\linkS4class{HLARanges}} objects
 #'
 #' @param seqnames character vector of the sequence name.
 #' @param ranges IRanges object containing the ranges.
@@ -39,21 +39,22 @@ setClass(
 #' @param type character vector of feature type.
 #' @param status character vector of completeness status
 #' @param frame integer vector of reading order.
-#' @param ... Arguments passed to \code{Granges}
+#' @param ... Arguments passed to \code{\link[GenomicRanges]{Granges}}.
 #'
-#' @return A HLARanges object
+#' @return A \code{\linkS4class{HLARanges}} object.
+#' @seealso \code{\link{parse_hla_alleles}}, \code{\link{HLAAllele}}
 #' @export
 #' @examples
-#' ##
-HLARanges <- function(seqnames = Rle(), ranges = IRanges(),
+#' showClass("HLARanges")
+HLARanges <- function(seqnames = S4Vectors::Rle(), ranges = IRanges::IRanges(),
                       id = NA_character_, order = NA_integer_,
                       type = NA_character_, status = NA_character_,
                       frame = NA_integer_, ...) {
   len <- length(ranges)
   if (is(seqnames, "character")) {
-    seqnames <- Rle(seqnames, len)
+    seqnames <- S4Vectors::Rle(seqnames, len)
   }
-  gr <- GRanges(seqnames, ranges, strand = Rle("+", len), ...)
+  gr <- GRanges(seqnames, ranges, strand = S4Vectors::Rle("+", len), ...)
   if (!all(i <- type %in% c("Exon", "Intron", "UTR")) && !is.na(type)) {
     stop("Unknown feature type(s) ", comma(sQuote(type[!i])))
   }
@@ -132,6 +133,8 @@ setMethod(GenomicRanges:::extraColumnSlotNames, "HLARanges", function(x) {
 #' @importClassesFrom S4Vectors List
 #' @keywords classes
 #' @export
+#' @seealso \code{\link{parse_hla_alleles}}, \code{\link{HLAAllele}},
+#' \code{\link{HLARanges}}
 #' @examples
 #' showClass("HLARangesList")
 setClass(
@@ -148,14 +151,16 @@ setClass(
   contains = c("HLARangesList", "GRangesList")
 )
 
-#' Construct HLARangesList objects
+#' Constructor for \code{\linkS4class{HLARangesList}} objects
 #'
 #' @param ... HLARanges objects.
 #'
-#' @return A HLARangesList object
+#' @return A \code{\linkS4class{HLARangesList}} object
+#' @seealso \code{\link{parse_hla_alleles}}, \code{\link{HLAAllele}},
+#' \code{\link{HLARanges}}
 #' @export
 #' @examples
-#' ###
+#' showClass("HLARangesList")
 HLARangesList <- function(...) {
   new("CompressedHLARangesList", GRangesList(...))
 }

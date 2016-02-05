@@ -3,15 +3,17 @@ NULL
 
 #' Class \code{"HLAAllele"}
 #'
-#' @slot sequence DNAStringSet.
-#' @slot metadata DataFrame.
-#' @slot features HLARangesList.
+#' A container for data parsed from the IMGT/HLA hla.xml file.
+#' Part of a \code{\link{HLAGene}} object.
+#'
+#' @slot sequence A \code{\linkS4class{DNAStringSet}} object.
+#' @slot metadata A \code{\linkS4class{DataFrame}} object.
+#' @slot features A \code{\linkS4class{HLARangesList}} object.
 #'
 #' @importClassesFrom Biostrings DNAStringSet
 #' @importClassesFrom S4Vectors DataFrame
-#' @importFrom Biostrings DNAStringSet
-#' @importFrom S4Vectors DataFrame
-#' @keywords classes
+#' @keywords classes internal
+#' @seealso \code{\link{HLAGene}}.
 #' @export
 #' @examples
 #' showClass("HLAAllele")
@@ -24,14 +26,16 @@ setClass(
   )
 )
 
-#' Construct HLARanges objects
+#' Constructor for \code{\linkS4class{HLAAllele}} objects
 #'
+#' @note Don't run directly. This function is called by \code{\link{parse_hla_alleles}}.
 #' @param node An allele node from a hla.xml object.
 #'
-#' @return A HLAAllele object
+#' @return A \code{\linkS4class{HLAAllele}} object
+#' @seealso \code{\link{parse_hla_alleles}}
 #' @export
 #' @examples
-#' ##
+#' showClass("HLAAllele")
 HLAAllele <- function(node) {
   if (missing(node)) {
     return(new("HLAAllele"))
@@ -41,9 +45,9 @@ HLAAllele <- function(node) {
 
 setMethod("initialize", signature(.Object = "HLAAllele"), function(.Object, node) {
   if (missing(node)) {
-    .Object@sequence = DNAStringSet()
+    .Object@sequence = Biostrings::DNAStringSet()
     .Object@features = HLARangesList()
-    .Object@metadata = DataFrame()
+    .Object@metadata = S4Vectors::DataFrame()
   } else {
     .Object@sequence = HLAAllele_parser$parse_sequence(node)
     .Object@features = HLAAllele_parser$parse_features(node)
@@ -170,8 +174,8 @@ make_hla_allele_parser <- function() {
     # @keywords internal
     parse_sequence = function(node) {
       xpexpr <- './x:sequence/x:nucsequence'
-      nucseq <- DNAStringSet(xval(node, xpexpr, namespaces = ns))
-      names(nucseq) <- xmlGetAttr(node, "name")
+      nucseq <- Biostrings::DNAStringSet(xval(node, xpexpr, namespaces = ns))
+      names(nucseq) <- XML::xmlGetAttr(node, "name")
       nucseq
     },
     # Parse metadata from gr_unlistan hla.xml allele node
@@ -181,9 +185,9 @@ make_hla_allele_parser <- function() {
     # @return A DataFrame object.
     # @keywords internal
     parse_metadata = function(node) {
-      DataFrame(
-        allele_name = xmlGetAttr(node, "name"),
-        allele_id   = xmlGetAttr(node, "id"),
+      S4Vectors::DataFrame(
+        allele_name = XML::xmlGetAttr(node, "name"),
+        allele_id   = XML::xmlGetAttr(node, "id"),
         cwd_status  = xattr(node, "./x:cwd_catalogue", "cwd_status", namespaces = ns),
         ## Has 5'UTR or 3'UTR feature
         complete    = xval(node, "count(./x:sequence/x:feature[@featuretype=\"UTR\"])>0", as = "logical", namespaces = ns),

@@ -23,5 +23,9 @@ Class \code{"HLARanges"}
 \examples{
 showClass("HLARanges")
 }
+\seealso{
+\code{\link{parse_hla_alleles}}, \code{\link{HLAAllele}}
+}
 \keyword{classes}
+\keyword{internal}
 

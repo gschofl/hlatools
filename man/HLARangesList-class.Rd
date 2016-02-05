@@ -10,5 +10,9 @@ Class \code{"HLARangesList"}
 \examples{
 showClass("HLARangesList")
 }
+\seealso{
+\code{\link{parse_hla_alleles}}, \code{\link{HLAAllele}},
+\code{\link{HLARanges}}
+}
 \keyword{classes}
 

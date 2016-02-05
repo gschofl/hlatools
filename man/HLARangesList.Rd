@@ -2,7 +2,7 @@
 % Please edit documentation in R/HLARanges.r
 \name{HLARangesList}
 \alias{HLARangesList}
-\title{Construct HLARangesList objects}
+\title{Constructor for \code{\linkS4class{HLARangesList}} objects}
 \usage{
 HLARangesList(...)
 }
@@ -10,12 +10,16 @@ HLARangesList(...)
 \item{...}{HLARanges objects.}
 }
 \value{
-A HLARangesList object
+A \code{\linkS4class{HLARangesList}} object
 }
 \description{
-Construct HLARangesList objects
+Constructor for \code{\linkS4class{HLARangesList}} objects
 }
 \examples{
-###
+showClass("HLARangesList")
+}
+\seealso{
+\code{\link{parse_hla_alleles}}, \code{\link{HLAAllele}},
+\code{\link{HLARanges}}
 }
 

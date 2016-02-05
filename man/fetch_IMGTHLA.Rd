@@ -2,22 +2,32 @@
 % Please edit documentation in R/remotes.r
 \name{fetch_IMGTHLA}
 \alias{fetch_IMGTHLA}
-\title{Clone the IMGTHLA repo on github}
+\alias{update_IMGTHLA}
+\title{Clone or update the IMGTHLA repo on github}
 \usage{
 fetch_IMGTHLA(local_path = getOption("hlatools.local_repos"))
+
+update_IMGTHLA()
 }
 \arguments{
 \item{local_path}{Local directory to clone to. Defaults to \file{~/local/db/IMGTHLA}.}
 }
 \value{
 A S4 \code{\linkS4class{git_repository}} object.
+
+\code{invisible(NULL)}
 }
 \description{
-Clone the IMGTHLA repo on github
+Clone or update the IMGTHLA repo on github
+}
+\note{
+Due to some limitation in the \pkg{git2r} this will not work
+behind a proxy.
 }
 \examples{
 \dontrun{
 repo <- fetch_IMGTHLA()
+update_IMGTHLA()
 }
 }
 

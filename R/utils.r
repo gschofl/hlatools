@@ -1,7 +1,9 @@
 #' @importFrom XML xpathApply xmlValue xmlName xmlGetAttr
 NULL
 
-valid_hla_loci_ <- c('HLA-A', 'HLA-B', 'HLA-C', 'HLA-DPA1', 'HLA-DPB1', 'HLA-DQA1', 'HLA-DQB1', 'HLA-DRB')
+valid_hla_loci_ <- function() {
+  c('HLA-A', 'HLA-B', 'HLA-C', 'HLA-DPA1', 'HLA-DPB1', 'HLA-DQA1', 'HLA-DQB1', 'HLA-DRB')
+}
 
 expand_allele <- function(x) {
   if (!grepl("^HLA-\\S+", x)) {
@@ -11,7 +13,7 @@ expand_allele <- function(x) {
 
 match_hla_locus <- function(locus) {
   locus <- expand_allele(locus)
-  match.arg(locus, valid_hla_loci_)
+  match.arg(locus, valid_hla_loci_())
 }
 
 `%||%` <- function(a, b) {
@@ -40,7 +42,7 @@ normalise_ranges <- function(x) {
   if (is(x, "GenomicRanges")) {
     x <- ranges(x)
   }
-  stopifnot(is(x, "IRanges"))
+  assertive::assert_is_any_of(x, "IRanges")
   cs <- cumsum(width(x))
   IRanges(
     start = c(1L, cs[-length(cs)] + 1),
@@ -78,7 +80,7 @@ set_mode <- function(x, as) {
 }
 
 strsplitN <- function(x, split, n, from = "start", collapse = split, ...) {
-  stopifnot(is.vector(x))
+  assertive::assert_is_vector(x)
   from <- match.arg(from, c("start", "end"))
   xs <- strsplit(x, split, ...)
   end <- vapply(xs, length, 0L)

@@ -2,11 +2,11 @@
 % Please edit documentation in R/HLARanges.r
 \name{HLARanges}
 \alias{HLARanges}
-\title{Construct HLARanges objects}
+\title{Constructor for \code{\linkS4class{HLARanges}} objects}
 \usage{
-HLARanges(seqnames = Rle(), ranges = IRanges(), id = NA_character_,
-  order = NA_integer_, type = NA_character_, status = NA_character_,
-  frame = NA_integer_, ...)
+HLARanges(seqnames = S4Vectors::Rle(), ranges = IRanges::IRanges(),
+  id = NA_character_, order = NA_integer_, type = NA_character_,
+  status = NA_character_, frame = NA_integer_, ...)
 }
 \arguments{
 \item{seqnames}{character vector of the sequence name.}
@@ -23,15 +23,18 @@ HLARanges(seqnames = Rle(), ranges = IRanges(), id = NA_character_,
 
 \item{frame}{integer vector of reading order.}
 
-\item{...}{Arguments passed to \code{Granges}}
+\item{...}{Arguments passed to \code{\link[GenomicRanges]{Granges}}.}
 }
 \value{
-A HLARanges object
+A \code{\linkS4class{HLARanges}} object.
 }
 \description{
-Construct HLARanges objects
+Constructor for \code{\linkS4class{HLARanges}} objects
 }
 \examples{
-##
+showClass("HLARanges")
+}
+\seealso{
+\code{\link{parse_hla_alleles}}, \code{\link{HLAAllele}}
 }
 
