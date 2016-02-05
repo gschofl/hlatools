@@ -28,6 +28,7 @@ HLAGene <- function(locusname) {
 #' @field dm \code{[matrix]}; Genetic distances between exons 2.
 #'
 #' @keywords data internal
+#' @importFrom XVector subseq
 #' @return Object of \code{\link{R6Class}} representing an HLA gene.
 #' @section Methods:
 #' \describe{
@@ -99,7 +100,7 @@ HLAGene_$set("public", "get_reference_sequence", function(allele) {
     while (hlatools::hasNext(Rref) && hlatools::hasNext(Ralt)) {
       rref <- nextElem(Rref)
       ralt <- nextElem(Ralt)
-      XVector::subseq(sref, start(rref), end(rref)) <- XVector::subseq(salt, start(ralt), end(ralt))
+      subseq(sref, start(rref), end(rref)) <- subseq(salt, start(ralt), end(ralt))
     }
     sref <- Biostrings::BStringSet(sref)
     names(sref) <- as(merge(fref, falt), "character")
@@ -136,7 +137,7 @@ calc_exon2_distance <- function(x, verbose = TRUE) {
   name <- "Exon 2"
   df <- as.data.frame(ranges(features(x)))
   df <- df[df$names == name, c("start", "end")]
-  exon2 <- XVector::subseq(sequences(x), df$start, df$end)
+  exon2 <- subseq(sequences(x), df$start, df$end)
   aln <- DECIPHER::AlignSeqs(exon2, verbose = verbose)
   DECIPHER::DistanceMatrix(aln, includeTerminalGaps = TRUE, verbose = verbose)
 }

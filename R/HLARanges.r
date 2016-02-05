@@ -46,15 +46,15 @@ setClass(
 #' @export
 #' @examples
 #' showClass("HLARanges")
-HLARanges <- function(seqnames = S4Vectors::Rle(), ranges = IRanges::IRanges(),
+HLARanges <- function(seqnames = Rle(), ranges = IRanges(),
                       id = NA_character_, order = NA_integer_,
                       type = NA_character_, status = NA_character_,
                       frame = NA_integer_, ...) {
   len <- length(ranges)
   if (is(seqnames, "character")) {
-    seqnames <- S4Vectors::Rle(seqnames, len)
+    seqnames <- Rle(seqnames, len)
   }
-  gr <- GRanges(seqnames, ranges, strand = S4Vectors::Rle("+", len), ...)
+  gr <- GRanges(seqnames, ranges, strand = Rle("+", len), ...)
   if (!all(i <- type %in% c("Exon", "Intron", "UTR")) && !is.na(type)) {
     stop("Unknown feature type(s) ", comma(sQuote(type[!i])))
   }
@@ -130,7 +130,8 @@ setMethod(GenomicRanges:::extraColumnSlotNames, "HLARanges", function(x) {
 
 #' Class \code{"HLARangesList"}
 #'
-#' @importClassesFrom S4Vectors List
+#' @importClassesFrom S4Vectors DataFrame List
+#' @importFrom S4Vectors DataFrame Rle
 #' @keywords classes
 #' @export
 #' @seealso \code{\link{parse_hla_alleles}}, \code{\link{HLAAllele}},

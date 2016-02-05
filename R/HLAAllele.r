@@ -47,7 +47,7 @@ setMethod("initialize", signature(.Object = "HLAAllele"), function(.Object, node
   if (missing(node)) {
     .Object@sequence = Biostrings::DNAStringSet()
     .Object@features = HLARangesList()
-    .Object@metadata = S4Vectors::DataFrame()
+    .Object@metadata = DataFrame()
   } else {
     .Object@sequence = HLAAllele_parser$parse_sequence(node)
     .Object@features = HLAAllele_parser$parse_features(node)
@@ -156,7 +156,7 @@ show_HLAAllele <- function(x) {
   SeqLen <- width(sequences(x))
   FeatureType <- unname(vapply(getType(features(x)), paste0, collapse = ":", FUN.VALUE = "", USE.NAMES = FALSE))
   cat("An object of class ", sQuote(class(x)), "\n", sep = "")
-  show(S4Vectors::DataFrame(elementMetadata(x)[, 1:4], SeqLen, FeatureType))
+  show(DataFrame(elementMetadata(x)[, 1:4], SeqLen, FeatureType))
 }
 
 setMethod("show", "HLAAllele", function(object) {
@@ -185,7 +185,7 @@ make_hla_allele_parser <- function() {
     # @return A DataFrame object.
     # @keywords internal
     parse_metadata = function(node) {
-      S4Vectors::DataFrame(
+      DataFrame(
         allele_name = XML::xmlGetAttr(node, "name"),
         allele_id   = XML::xmlGetAttr(node, "id"),
         cwd_status  = xattr(node, "./x:cwd_catalogue", "cwd_status", namespaces = ns),
