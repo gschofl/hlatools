@@ -2,3 +2,5 @@
 ^\.Rproj\.user$
 scratch.[rR]
 testdata
+^README\.Rmd$
+^README-.*\.png$

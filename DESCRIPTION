@@ -1,8 +1,8 @@
 Package: hlatools
-Title: Collection of tools to work with HLA data
+Title: A collection of tools to work with IMGT/HLA data
 Version: 0.0.1
 Authors@R: person("Gerhard", "Schöfl", email = "gerhard.schofl@gmail.com", role = c("aut", "cre"))
-Description: Collection of tools to work with HLA data.
+Description: A collection of tools to work with IMGT/HLA data.
 Depends:
     R (>= 3.2.2)
 License: MIT + file LICENSE

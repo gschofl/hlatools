@@ -12,6 +12,7 @@ NULL
 #'
 #' @return A \code{\link[=NGSSample_]{NGSSample}} object.
 #' @export
+#' @keywords internal
 #' @examples
 #' \dontrun{
 #' NGSSample("path-to-NGSengine-xml")

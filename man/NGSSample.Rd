@@ -22,4 +22,5 @@ Constructor for \code{\link[=NGSSample_]{NGSSample}} objects
 NGSSample("path-to-NGSengine-xml")
 }
 }
+\keyword{internal}
 
