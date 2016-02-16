@@ -148,6 +148,10 @@ setMethod("cwd_status", signature(x = "HLAAllele"), function(x, ...) {
   elementMetadata(x)$cwd_status
 })
 
+setMethod("ethnicity", signature(x = "HLAAllele"), function(x, ...) {
+  elementMetadata(x)$ethnicity
+})
+
 setMethod("is_complete", signature(x = "HLAAllele"), function(x, ...) {
   elementMetadata(x)$complete
 })
@@ -192,7 +196,7 @@ make_hla_allele_parser <- function() {
         ## Has 5'UTR or 3'UTR feature
         complete    = xval(node, "count(./x:sequence/x:feature[@featuretype=\"UTR\"])>0", as = "logical", namespaces = ns),
         pmid        = colon(xattr(node, "./x:citations/x:citation", "pubmed", namespaces = ns)),
-        etnicity    = colon(xval(node, "./x:sourcematerial/x:ethnicity/x:sample_ethnicity", namespaces = ns))
+        ethnicity    = colon(xval(node, "./x:sourcematerial/x:ethnicity/x:sample_ethnicity", namespaces = ns))
       )
     },
     # Parse features from an hla.xml allele node

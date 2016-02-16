@@ -37,7 +37,10 @@ setGeneric("features<-", signature = "x", function(x, ..., value) standardGeneri
 #' @return A character vector of allele IDs.
 #' @export
 #' @examples
-#' ##
+#' \dontrun{
+#' dpb1 <- parse_hla_alleles(read_hla_xml(), "DPB1")
+#' allele_id(dpb1[is_complete(dpb1), ])
+#' }
 setGeneric("allele_id", signature = "x", function(x, ...) standardGeneric("allele_id"))
 
 #' Access allele names
@@ -48,7 +51,10 @@ setGeneric("allele_id", signature = "x", function(x, ...) standardGeneric("allel
 #' @return A character vector of allele names.
 #' @export
 #' @examples
-#' ##
+#' \dontrun{
+#' dpb1 <- parse_hla_alleles(read_hla_xml(), "DPB1")
+#' allele_name(dpb1[is_complete(dpb1), ])
+#' }
 setGeneric("allele_name", signature = "x", function(x, ...) standardGeneric("allele_name"))
 
 #' Access CWD status
@@ -59,8 +65,25 @@ setGeneric("allele_name", signature = "x", function(x, ...) standardGeneric("all
 #' @return A character vector of CWD status codes.
 #' @export
 #' @examples
-#' ##
+#' \dontrun{
+#' dpb1 <- parse_hla_alleles(read_hla_xml(), "DPB1")
+#' cwd_status(dpb1[is_complete(dpb1), ])
+#' }
 setGeneric("cwd_status", signature = "x", function(x, ...) standardGeneric("cwd_status"))
+
+#' Access ethnicity status
+#'
+#' @param x A \code{\linkS4class{HLAAllele}} object.
+#' @param ... Further arguments passed to methods.
+#'
+#' @return A character vector of colon-separated sample ethnicities.
+#' @export
+#' @examples
+#' \dontrun{
+#' dpb1 <- parse_hla_alleles(read_hla_xml(), "DPB1")
+#' etnicity(dpb1[is_complete(dpb1), ])
+#' }
+setGeneric("ethnicity", signature = "x", function(x, ...) standardGeneric("ethnicity"))
 
 #' Access completeness status
 #'
@@ -70,7 +93,10 @@ setGeneric("cwd_status", signature = "x", function(x, ...) standardGeneric("cwd_
 #' @return A logical vector.
 #' @export
 #' @examples
-#' ##
+#' \dontrun{
+#' dpb1 <- parse_hla_alleles(read_hla_xml(), "DPB1")
+#' dpb1[is_complete(dpb1), ]
+#' }
 setGeneric("is_complete", signature = "x", function(x, ...) standardGeneric("is_complete"))
 
 ### -------------------------------------------------------------------------

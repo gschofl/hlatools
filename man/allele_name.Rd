@@ -18,6 +18,9 @@ A character vector of allele names.
 Access allele names
 }
 \examples{
-##
+\dontrun{
+dpb1 <- parse_hla_alleles(read_hla_xml(), "DPB1")
+allele_name(dpb1[is_complete(dpb1), ])
+}
 }
 
