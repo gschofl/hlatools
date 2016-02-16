@@ -156,6 +156,25 @@ setMethod("is_complete", signature(x = "HLAAllele"), function(x, ...) {
   elementMetadata(x)$complete
 })
 
+setAs(from = "HLAAllele", to = "data.table", function(from) {
+  alleles <- strsplit(allele_name(from), "*", fixed = TRUE)
+  fts <- features(from)
+  dplyr::tbl_dt(data.table(
+    gene = vapply(alleles, `[[`, 1, FUN.VALUE = ""),
+    allele_name = vapply(alleles, `[[`, 2, FUN.VALUE = ""),
+    data_assigned = lubridate::ymd(hlatools::elementMetadata(from)$date_assigned),
+    cwd_status = cwd_status(from),
+    ethnicity = gsub(":", "|", ethnicity(from)),
+    exons = vapply(fts, function(x) collapse(getOrder(x)[getType(x) == "Exon"]/2), FUN.VALUE = "", USE.NAMES = FALSE),
+    exon_status = vapply(fts, function(x) collapse(substr(getStatus(x), 1, 1)[getType(x) == "Exon"]), FUN.VALUE = "", USE.NAMES = FALSE)
+  ))
+})
+
+#' @export
+setMethod("as.data.table", signature(x = "HLAAllele"), function(x, ...) {
+  as(x, "data.table")
+})
+
 show_HLAAllele <- function(x) {
   SeqLen <- width(sequences(x))
   FeatureType <- unname(vapply(getType(features(x)), paste0, collapse = ":", FUN.VALUE = "", USE.NAMES = FALSE))
@@ -190,13 +209,14 @@ make_hla_allele_parser <- function() {
     # @keywords internal
     parse_metadata = function(node) {
       DataFrame(
-        allele_name = XML::xmlGetAttr(node, "name"),
-        allele_id   = XML::xmlGetAttr(node, "id"),
-        cwd_status  = xattr(node, "./x:cwd_catalogue", "cwd_status", namespaces = ns),
+        allele_name   = XML::xmlGetAttr(node, "name"),
+        allele_id     = XML::xmlGetAttr(node, "id"),
+        date_assigned = XML::xmlGetAttr(node, "dateassigned"),
+        cwd_status = xattr(node, "./x:cwd_catalogue", "cwd_status", namespaces = ns),
         ## Has 5'UTR or 3'UTR feature
-        complete    = xval(node, "count(./x:sequence/x:feature[@featuretype=\"UTR\"])>0", as = "logical", namespaces = ns),
-        pmid        = colon(xattr(node, "./x:citations/x:citation", "pubmed", namespaces = ns)),
-        ethnicity    = colon(xval(node, "./x:sourcematerial/x:ethnicity/x:sample_ethnicity", namespaces = ns))
+        complete   = xval(node, "count(./x:sequence/x:feature[@featuretype=\"UTR\"])>0", as = "logical", namespaces = ns),
+        pmid       = colon(xattr(node, "./x:citations/x:citation", "pubmed", namespaces = ns)),
+        ethnicity  = colon(xval(node, "./x:sourcematerial/x:ethnicity/x:sample_ethnicity", namespaces = ns))
       )
     },
     # Parse features from an hla.xml allele node

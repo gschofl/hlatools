@@ -28,7 +28,8 @@ Imports:
     data.table,
     assertive,
     XVector,
-    DECIPHER
+    DECIPHER,
+    dplyr
 RoxygenNote: 5.0.1
 Collate:
     'utils.r'
