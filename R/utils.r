@@ -5,10 +5,24 @@ valid_hla_loci_ <- function() {
   c('HLA-A', 'HLA-B', 'HLA-C', 'HLA-DPA1', 'HLA-DPB1', 'HLA-DQA1', 'HLA-DQB1', 'HLA-DRB')
 }
 
-expand_allele <- function(x) {
-  if (!grepl("^HLA-\\S+", x)) {
-    paste0("HLA-", x)
-  } else x
+expand_allele <- function(x, locus = NULL) {
+  if (is.null(locus)) {
+    if (!grepl("^HLA-\\S+", x)) {
+      paste0("HLA-", x)
+    } else x
+  } else {
+    locus <- sub("HLA-", "", toupper(locus))
+    pattern1 <- paste0("^HLA-", locus, "[*]\\d\\d\\d?:.+$")
+    pattern2 <- paste0("^", locus, "[*]\\d\\d\\d?:.+$")
+    pattern3 <- "^\\d\\d\\d?:.+$"
+    if (grepl(pattern1, x)) {
+      x
+    } else if (grepl(pattern2, x)) {
+      paste0("HLA-", x)
+    } else if (grepl(pattern3, x)) {
+      paste0("HLA-", locus, "*", x)
+    } else x
+  }
 }
 
 match_hla_locus <- function(locus) {

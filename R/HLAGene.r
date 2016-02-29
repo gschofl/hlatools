@@ -28,7 +28,7 @@ HLAGene <- function(locusname) {
 #' @field dm \code{[matrix]}; Genetic distances between exons 2.
 #'
 #' @keywords data internal
-#' @importFrom XVector subseq
+#' @importFrom XVector subseq subseq<-
 #' @return Object of \code{\link{R6Class}} representing an HLA gene.
 #' @section Methods:
 #' \describe{
@@ -51,7 +51,10 @@ HLAGene_ <- R6::R6Class(
   ),
   private = list(
     closest_complete_neighbor = function(allele) {
-      allele <- expand_allele(allele)
+      allele <- expand_allele(allele, self$locusname)
+      if (!allele %in% allele_name(self)) {
+        stop("Allele ", dQuote(allele), " not found.", call. = FALSE)
+      }
       nm_complete <- allele_name(self$alleles[which(is_complete(self$alleles))])
       if (allele %in% nm_complete) {
         return(allele)
@@ -67,7 +70,10 @@ HLAGene_ <- R6::R6Class(
 
 
 HLAGene_$set("public", "get_closest_complete_neighbor", function(allele) {
-  allele <- expand_allele(allele)
+  allele <- expand_allele(allele, self$locusname)
+  if (!allele %in% allele_name(self)) {
+    stop("Allele ", dQuote(allele), " not found.", call. = FALSE)
+  }
   nm_complete <- allele_name(self$alleles[which(is_complete(self$alleles))])
   if (allele %in% nm_complete) {
     return(allele)
@@ -77,7 +83,7 @@ HLAGene_$set("public", "get_closest_complete_neighbor", function(allele) {
 })
 
 HLAGene_$set("public", "get_allele", function(allele) {
-  allele <- expand_allele(allele)
+  allele <- expand_allele(allele, self$locusname)
   self$alleles[allele]
 })
 
