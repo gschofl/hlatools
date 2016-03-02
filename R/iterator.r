@@ -5,7 +5,7 @@
 #'
 #' @return The iterator
 #' @export
-#' @importFrom iterators iter
+#' @importFrom iterators iter nextElem
 #' @examples
 #' iR <- iter(IRanges(1:3, 10:13))
 #' nextElem(iR)
