@@ -26,6 +26,7 @@ HLAGene <- function(locusname) {
 #' @field locusname \code{[character]}; A valid HLA gene.
 #' @field alleles \code{[HLAAllele]}; An \code{\linkS4class{HLAAllele}} object.
 #' @field dm \code{[matrix]}; Genetic distances between exons 2.
+#' @field cons \code{[DNAStringSet]}; Strict consensus of completely sequenced alleles.
 #'
 #' @keywords data internal
 #' @importFrom XVector subseq subseq<-
@@ -43,10 +44,18 @@ HLAGene_ <- R6::R6Class(
     locusname = NULL, # [character]
     alleles   = NULL, # [HLAAllele]
     dm        = NULL, # [matrix]
+    cons      = NULL, # [DNAStringSet]
     initialize = function(locusname, ncores = parallel::detectCores(), verbose = TRUE) {
       self$locusname <- match_hla_locus(locusname)
       self$alleles   <- parse_hla_alleles(read_hla_xml(), self$locusname, ncores)
       self$dm        <- calc_exon2_distance(self$alleles, verbose)
+      self$cons      <- calc_consensus_string(self$alleles, self$locusname, verbose)
+    },
+    print = function() {
+      fmt0 <- "HLA locus <%s>\n"
+      cat(sprintf(fmt0, self$locusname))
+      print(self$alleles)
+      invisible(self)
     }
   ),
   private = list(
@@ -55,7 +64,7 @@ HLAGene_ <- R6::R6Class(
       if (!allele %in% allele_name(self)) {
         stop("Allele ", dQuote(allele), " not found.", call. = FALSE)
       }
-      nm_complete <- allele_name(self$alleles[which(is_complete(self$alleles))])
+      nm_complete <- allele_name(self$alleles[is_complete(self$alleles)])
       if (allele %in% nm_complete) {
         return(allele)
       }
@@ -74,7 +83,7 @@ HLAGene_$set("public", "get_closest_complete_neighbor", function(allele) {
   if (!allele %in% allele_name(self)) {
     stop("Allele ", dQuote(allele), " not found.", call. = FALSE)
   }
-  nm_complete <- allele_name(self$alleles[which(is_complete(self$alleles))])
+  nm_complete <- allele_name(self$alleles[is_complete(self$alleles)])
   if (allele %in% nm_complete) {
     return(allele)
   }
@@ -144,6 +153,24 @@ calc_exon2_distance <- function(x, verbose = TRUE) {
   df <- as.data.frame(ranges(features(x)))
   df <- df[df$names == name, c("start", "end")]
   exon2 <- subseq(sequences(x), df$start, df$end)
-  aln <- DECIPHER::AlignSeqs(exon2, verbose = verbose)
+  aln <- DECIPHER::AlignSeqs(exon2, iterations = 0, refinements = 0,
+                             restrict = -500, verbose = verbose)
   DECIPHER::DistanceMatrix(aln, includeTerminalGaps = TRUE, verbose = verbose)
 }
+
+calc_consensus_string <- function(x, locusname = "", verbose = TRUE) {
+  stopifnot(
+    requireNamespace("DECIPHER", quietly = TRUE),
+    requireNamespace("Biostrings", quietly = TRUE)
+  )
+  NUC <- c("A", "C", "G", "T")
+  seqs <- sequences(x[is_complete(x)])
+  aln <- DECIPHER::AlignSeqs(seqs, verbose = TRUE)
+  cm <- t(Biostrings::consensusMatrix(aln))[, NUC]
+  cm <- sweep(cm, 1, .rowSums(cm, NROW(cm), NCOL(cm)), `/`)
+  cseq <- Biostrings::DNAStringSet(paste0(NUC[apply(cm, 1, which.max)], collapse = ""))
+  names(cseq) <- trimws(paste0(locusname, " consensus"))
+  cseq
+}
+
+

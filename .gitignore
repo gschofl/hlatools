@@ -2,3 +2,4 @@
 .Rhistory
 .RData
 scratch.[rR]
+testdata/*.RDS

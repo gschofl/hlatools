@@ -22,6 +22,8 @@ Class \code{"HLAGene"}
 \item{\code{alleles}}{\code{[HLAAllele]}; An \code{\linkS4class{HLAAllele}} object.}
 
 \item{\code{dm}}{\code{[matrix]}; Genetic distances between exons 2.}
+
+\item{\code{cons}}{\code{[DNAStringSet]}; Strict consensus of completely sequenced alleles.}
 }}
 \section{Methods}{
 
