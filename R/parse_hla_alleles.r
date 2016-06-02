@@ -21,10 +21,15 @@ utils::globalVariables("node", package = "hlatools")
 #' }
 parse_hla_alleles <- function (doc, locusname, ncores = detectCores()) {
   registerDoParallel(cl = ncores)
+  drb_name  <- NULL
   locusname <- match_hla_locus(locusname)
+  if (dkms::starts_with(locusname, "HLA-DRB")) {
+    drb_name  <- locusname
+    locusname <- "HLA-DRB"
+  }
   ns <- c("x" = "http://hla.alleles.org/xml")
   xpexpr <- paste0("/x:alleles/x:allele/x:locus[@locusname='", locusname, "']/parent::node()")
-  foreach(node = xset(doc, xpexpr, namespaces = ns), .combine = "c") %dopar% {
+  rs <- foreach(node = xset(doc, xpexpr, namespaces = ns), .combine = "c") %dopar% {
     tryCatch({
       HLAAllele(node)
     }, error = function(e) {
@@ -32,4 +37,10 @@ parse_hla_alleles <- function (doc, locusname, ncores = detectCores()) {
       HLAAllele()
     })
   }
+  ## nasty hack to work around the fact that all DRBs are put together
+  ## in hla.xml
+  if (!is.null(drb_name)) {
+    rs <- rs[which(dkms::starts_with(allele_name(rs), drb_name))]
+  }
+  rs
 }

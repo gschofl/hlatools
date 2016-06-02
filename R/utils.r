@@ -2,7 +2,7 @@
 NULL
 
 valid_hla_loci_ <- function() {
-  c('HLA-A', 'HLA-B', 'HLA-C', 'HLA-DPA1', 'HLA-DPB1', 'HLA-DQA1', 'HLA-DQB1', 'HLA-DRB')
+  c('HLA-A', 'HLA-B', 'HLA-C', 'HLA-DPB1', 'HLA-DQB1', 'HLA-DRB1')
 }
 
 expand_allele <- function(x, locus = NULL) {
