@@ -25,6 +25,11 @@ parse_hla_alleles <- function (doc, locusname, ncores = detectCores()) {
   ns <- c("x" = "http://hla.alleles.org/xml")
   xpexpr <- paste0("/x:alleles/x:allele/x:locus[@locusname='", locusname, "']/parent::node()")
   foreach(node = xset(doc, xpexpr, namespaces = ns), .combine = "c") %dopar% {
-    HLAAllele(node)
+    tryCatch({
+      HLAAllele(node)
+    }, error = function(e) {
+      warning(e$message, immediate. = TRUE)
+      HLAAllele()
+    })
   }
 }

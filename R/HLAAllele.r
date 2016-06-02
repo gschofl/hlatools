@@ -126,8 +126,8 @@ setMethod("[", signature(x = "HLAAllele", i = "logical", j = "missing"), functio
 #' @describeIn HLAAllele Subset \code{HLAAllele} objects.
 setMethod("[", signature(x = "HLAAllele", i = "character", j = "missing"), function (x, i, j, ..., drop = TRUE) {
   ans <- HLAAllele()
-  i <- which( names(x) == expand_allele(i) )
-  if (length(i) == 0) {
+  i <- match(expand_allele(i), names(x))
+  if (length(i <- i[!is.na(i)]) == 0) {
     return(ans)
   }
   sequences(ans) <- sequences(x)[i]
@@ -201,7 +201,7 @@ make_hla_allele_parser <- function() {
       names(nucseq) <- XML::xmlGetAttr(node, "name")
       nucseq
     },
-    # Parse metadata from gr_unlistan hla.xml allele node
+    # Parse metadata from an hla.xml allele node
     #
     # @param node A hla.xml allele node.
     #

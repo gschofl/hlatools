@@ -7,21 +7,19 @@ valid_hla_loci_ <- function() {
 
 expand_allele <- function(x, locus = NULL) {
   if (is.null(locus)) {
-    if (!grepl("^HLA-\\S+", x)) {
-      paste0("HLA-", x)
-    } else x
+    ifelse(!grepl("^HLA-\\S+", x), paste0("HLA-", x), x)
   } else {
     locus <- sub("HLA-", "", toupper(locus))
     pattern1 <- paste0("^HLA-", locus, "[*]\\d\\d\\d?:.+$")
     pattern2 <- paste0("^", locus, "[*]\\d\\d\\d?:.+$")
     pattern3 <- "^\\d\\d\\d?:.+$"
-    if (grepl(pattern1, x)) {
-      x
-    } else if (grepl(pattern2, x)) {
-      paste0("HLA-", x)
-    } else if (grepl(pattern3, x)) {
-      paste0("HLA-", locus, "*", x)
-    } else x
+    ifelse(grepl(pattern1, x),
+           x,
+           ifelse(grepl(pattern2, x),
+                  paste0("HLA-", x),
+                  ifelse(grepl(pattern3, x),
+                         paste0("HLA-", locus, "*", x), x)))
+
   }
 }
 

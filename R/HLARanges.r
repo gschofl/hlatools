@@ -166,38 +166,40 @@ HLARangesList <- function(...) {
   new("CompressedHLARangesList", GRangesList(...))
 }
 
-gr_unlist <- GenomicRanges::unlist
+#gr_unlist <- GenomicRanges::unlist
 
 setMethod("getId", "HLARangesList", function(x, ...) {
-  unlisted_x <- gr_unlist(x)
+  unlisted_x <- unlist(x)
   relist(getId(unlisted_x), x)
 })
 
 setMethod("getOrder", "HLARangesList", function(x, ...) {
-  unlisted_x <- gr_unlist(x)
+  unlisted_x <- unlist(x)
   relist(getOrder(unlisted_x), x)
 })
 
 setMethod("getType", "HLARangesList", function(x, ...) {
-  unlisted_x <- GenomicRanges::unlist(x)
+  unlisted_x <- unlist(x)
   relist(getType(unlisted_x), x)
 })
 
 setMethod("getStatus", "HLARangesList", function(x, ...) {
-  unlisted_x <- gr_unlist(x)
+  unlisted_x <- unlist(x)
   relist(getStatus(unlisted_x), x)
 })
 
 setMethod("getFrame", "HLARangesList", function(x, ...) {
-  unlisted_x <- gr_unlist(x)
+  unlisted_x <- unlist(x)
   relist(getFrame(unlisted_x), x)
 })
 
 HLARanges_to_string <- function(hr) {
   seqnm  <- as.character(unique(seqnames(hr)))
   seqnum <- seq_along(seqnm)
-  seqnm <- paste0(paste0(seqnm, ".", seqnum), collapse = "|")
-  fname  <- names(hr)
+  seqnm2  <- paste0(paste0(seqnm, ".", seqnum), collapse = "|")
+  seqnum2 <- ifelse(as.character(seqnames(hr)) %in% seqnm[1], 1, 2)
+  fname  <- gsub("[ ']", "", names(hr))
+  fname  <- ifelse(grepl("UTR$", fname), paste0(substr(fname, 2, 4), substr(fname, 1, 1)), fname)
   fstart <- start(hr)
   fend   <- end(hr)
   fid    <- getId(hr)
@@ -205,9 +207,9 @@ HLARanges_to_string <- function(hr) {
   fstat  <- toupper(substr(getStatus(hr) %|na|% "", 1, 1))
   fframe <- getFrame(hr) %|na|% ""
   str <- paste0(
-    paste0(seqnum, ":", fname, ":", fstart, ":", fend, ":", fid, ":", ftype, ":", fstat, ":", fframe, ":"),
+    paste0(seqnum2, ":", fname, ":", fstart, ":", fend, ":", fid, ":", ftype, ":", fstat, ":", fframe, ":"),
     collapse = "|")
-  sprintf("%s~%s", seqnm, str)
+  sprintf("%s~%s", seqnm2, str)
 }
 
 setAs("HLARanges", "character", function(from) HLARanges_to_string(from))
@@ -223,6 +225,8 @@ string_to_HLARanges <- function(hstr) {
   fmat <- data.table(do.call("rbind", strsplit(fstr2, ":")), key = "V1")
   m <- seqmat[fmat][, V2 := NULL]
   setnames(m, names(m), c("seqnames", "names", "start", "end", "id", "type", "status", "frame"))
+  m[, names := paste0(substr(names, 1, nchar(names) - 1), " ", substr(names, nchar(names), nchar(names)))]
+  m[, names := ifelse(grepl("^UTR", names), paste0(substr(names, nchar(names), nchar(names)), "' UTR"), names)]
   m[, order := as.integer(strsplitN(id, ".", 2, fixed = TRUE))]
   m[, type := ifelse(type == "E", "Exon", ifelse(type == "I", "Intron", ifelse(type == "U", "UTR", NA_character_)))]
   m[, status := ifelse(status == "C", "Complete", ifelse(type == "P", "Partial", NA_character_))]

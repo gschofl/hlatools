@@ -13,7 +13,6 @@ Type: Package
 Maintainer: Gerhard Schöfl <gerhard.schofl@gmail.com>
 Encoding: UTF-8
 Imports:
-    git2r,
     XML,
     Biostrings,
     IRanges,
@@ -30,6 +29,8 @@ Imports:
     XVector,
     DECIPHER,
     dplyr
+Suggests:
+    git2r
 RoxygenNote: 5.0.1
 Collate:
     'utils.r'

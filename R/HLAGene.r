@@ -56,10 +56,8 @@ HLAGene_ <- R6::R6Class(
       cat(sprintf(fmt0, self$locusname))
       print(self$alleles)
       invisible(self)
-    }
-  ),
-  private = list(
-    closest_complete_neighbor = function(allele) {
+    },
+    closest_complete_neighbor_ = function(allele) {
       allele <- expand_allele(allele, self$locusname)
       if (!allele %in% allele_name(self)) {
         stop("Allele ", dQuote(allele), " not found.", call. = FALSE)
@@ -97,7 +95,7 @@ HLAGene_$set("public", "get_allele", function(allele) {
 })
 
 HLAGene_$set("public", "get_reference_sequence", function(allele) {
-  ref <- private$closest_complete_neighbor(allele)
+  ref <- self$closest_complete_neighbor_(allele)
   if (allele == ref) {
     ref <- self$get_allele(allele)
     sref <- Biostrings::BStringSet(sequences(ref)[[1]])
@@ -105,11 +103,11 @@ HLAGene_$set("public", "get_reference_sequence", function(allele) {
   } else {
     ref <- self$get_allele(ref)
     alt <- self$get_allele(allele)
-    falt <- features(alt)[[1]]
     fref <- features(ref)[[1]]
-    salt <- Biostrings::BString(sequences(alt)[[1]])
+    falt <- features(alt)[[1]]
     sref <- Biostrings::BString(tolower(sequences(ref)[[1]]))
-    i <- which(names(fref) %in% names(falt))
+    salt <- Biostrings::BString(toupper(sequences(alt)[[1]]))
+    i <- match(names(falt), names(fref))
     Rref <- iter(ranges(fref)[i, ])
     Ralt <- iter(ranges(falt))
     while (hlatools::hasNext(Rref) && hlatools::hasNext(Ralt)) {
@@ -118,11 +116,71 @@ HLAGene_$set("public", "get_reference_sequence", function(allele) {
       subseq(sref, start(rref), end(rref)) <- subseq(salt, start(ralt), end(ralt))
     }
     sref <- Biostrings::BStringSet(sref)
-    names(sref) <- as(merge(fref, falt), "character")
+    names(sref) <- as(merge(x = fref, y = falt), "character")
   }
   sref
 })
 
+
+HLAGene_$set("public", "get_all_reference_sequences", function(allele) {
+  allele <- hlatools:::expand_allele(allele, self$locusname)
+  complete_alleles <- allele_name(self$alleles[is_complete(self$alleles)])
+  if (allele %in% complete_alleles) {
+    ref <- self$get_allele(allele)
+    sref <- Biostrings::BStringSet(sequences(ref)[[1]])
+    names(sref) <- as(features(ref)[[1]], "character")
+    sref
+  } else {
+    alt  <- self$get_allele(allele)
+    refs <- self$alleles[complete_alleles]
+    falt <- features(alt)[[1]]
+    frefs <- features(refs)
+    salt <- Biostrings::BString(toupper(sequences(alt)[[1]]))
+    srefs <- Biostrings::BStringSet(tolower(sequences(refs)))
+    foreach(fref = frefs, sref = srefs, .combine = "c") %do% {
+      i <- match(names(falt), names(fref))
+      Rref <- iter(ranges(fref)[i, ])
+      Ralt <- iter(ranges(falt))
+      while (hlatools::hasNext(Rref) && hlatools::hasNext(Ralt)) {
+        rref <- nextElem(Rref)
+        ralt <- nextElem(Ralt)
+        subseq(sref, start(rref), end(rref)) <- subseq(salt, start(ralt), end(ralt))
+      }
+      sref <- Biostrings::BStringSet(sref)
+      names(sref) <- as(merge(x = fref, y = falt), "character")
+      sref
+    }
+  }
+})
+
+HLAGene_$set("public", "get_reference_sequence_as_ft", function(allele) {
+  allele <- expand_allele(allele, self$locusname)
+  x <- self$get_reference_sequence(allele)
+  sprintf(
+    "%s\n%s\n%s%s\n",
+    hla_dat_id(x),
+    hla_dat_de(x),
+    hla_dat_ft(x),
+    hla_dat_sq(x)
+  )
+})
+
+HLAGene_$set("public", "get_all_reference_sequences_as_ft", function(allele) {
+  allele <- expand_allele(allele, self$locusname)
+  x <- self$get_all_reference_sequences(allele)
+  n <- length(x)
+  rs <- character(n)
+  for (i in seq_len(n)) {
+    rs[i] <- sprintf(
+      "%s\n%s\n%s%s\n",
+      hlatools:::hla_dat_id(x[i]),
+      hlatools:::hla_dat_de(x[i]),
+      hlatools:::hla_dat_ft(x[i]),
+      hlatools:::hla_dat_sq(x[i])
+    )
+  }
+  paste0(rs, collapse = "")
+})
 
 # Formal Methods (S4) -----------------------------------------------------
 
@@ -172,5 +230,57 @@ calc_consensus_string <- function(x, locusname = "", verbose = TRUE) {
   names(cseq) <- trimws(paste0(locusname, " consensus"))
   cseq
 }
+
+hla_dat_id <- function(x) {
+  paste0("ID   HLAxxxxx; SV 1; standard; DNA; HUM; ", width(x), " BP.")
+}
+
+hla_dat_de <- function(x) {
+  s <- names(x)
+  s <- strsplit(s, "~", fixed = TRUE)[[1]][1]
+  s <- strsplitN(strsplit(s, "|", fixed = TRUE)[[1]], "[.]", 1)
+  s <- if (length(s) > 1) {
+    paste0("DE   ", s[1], "[", strsplitN(s[2], "*", 2, fixed = TRUE), "]")
+  } else {
+    paste0("DE   ", s)
+  }
+  paste0(s, ", Human MHC sequence")
+}
+
+hla_dat_ft <- function(x) {
+  tbl <- as(names(x), "HLARanges")
+  nm <- names(tbl)
+  nm <- ifelse(grepl("UTR$", nm), "UTR", nm)
+  status   <- getStatus(tbl)
+  keys     <- strsplitN(nm, " ", 1)
+  numbers  <- strsplitN(nm, " ", 2)
+  keys     <- ifelse(keys == "UTR", keys, tolower(keys))
+  numbers  <- ifelse(numbers == "UTR", "", numbers)
+  #partials <- ifelse(is.na(status) | status == "Complete", FALSE, TRUE)
+  foreach(k = keys, s = start(tbl), e = end(tbl), n = numbers, .combine = "paste0") %do% {
+    l1 <- sprintf("FT   %-16s%s..%s\n", k, s, e)
+    l2 <- if (nzchar(n)) {
+      sprintf('FT                   /number="%s"\n', n)
+    } else ""
+    paste0(l1, l2)
+  }
+}
+
+hla_dat_sq <- function(x) {
+  l <- Biostrings::width(x)
+  l1 <- paste0("SQ   Sequence ", l, " BP;\n")
+  i <- seq(1, l, by = 60)
+  if (i[length(i)] == l) {
+    i <- i[-length(i)]
+  }
+  j <- unique(c(seq(61, l, by = 60), l))
+  l2 <- paste0(vapply(Biostrings::substring(x, i, j), function(x) paste0("     ", paste0(
+    substring(x, c(1, 11, 21, 31, 41, 51), c(10, 20, 30, 40, 50, 60)),
+    collapse = " "
+  )), FUN.VALUE = ""), collapse = "\n")
+  l3 <- "\n//"
+  paste0(l1, l2, l3)
+}
+
 
 
