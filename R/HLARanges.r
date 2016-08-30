@@ -159,6 +159,7 @@ setClass(
 #' @return A \code{\linkS4class{HLARangesList}} object
 #' @seealso \code{\link{parse_hla_alleles}}, \code{\link{HLAAllele}},
 #' \code{\link{HLARanges}}
+#' @importFrom GenomicRanges merge
 #' @export
 #' @examples
 #' showClass("HLARangesList")

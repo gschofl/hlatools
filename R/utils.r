@@ -5,7 +5,7 @@ valid_hla_loci_ <- function() {
   c('HLA-A', 'HLA-B', 'HLA-C', 'HLA-DPB1', 'HLA-DQB1', 'HLA-DRB1')
 }
 
-expand_allele <- function(x, locus = NULL) {
+expand_hla_allele <- function(x, locus = NULL) {
   if (is.null(locus)) {
     ifelse(!grepl("^HLA-\\S+", x), paste0("HLA-", x), x)
   } else {
@@ -24,7 +24,7 @@ expand_allele <- function(x, locus = NULL) {
 }
 
 match_hla_locus <- function(locus) {
-  locus <- expand_allele(locus)
+  locus <- expand_hla_allele(locus)
   match.arg(locus, valid_hla_loci_())
 }
 

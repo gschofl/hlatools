@@ -58,7 +58,7 @@ HLAGene_ <- R6::R6Class(
       invisible(self)
     },
     closest_complete_neighbor_ = function(allele) {
-      allele <- expand_allele(allele, self$locusname)
+      allele <- expand_hla_allele(allele, self$locusname)
       if (!allele %in% allele_name(self)) {
         stop("Allele ", dQuote(allele), " not found.", call. = FALSE)
       }
@@ -77,7 +77,7 @@ HLAGene_ <- R6::R6Class(
 
 
 HLAGene_$set("public", "get_closest_complete_neighbor", function(allele) {
-  allele <- expand_allele(allele, self$locusname)
+  allele <- expand_hla_allele(allele, self$locusname)
   if (!allele %in% allele_name(self)) {
     stop("Allele ", dQuote(allele), " not found.", call. = FALSE)
   }
@@ -90,7 +90,7 @@ HLAGene_$set("public", "get_closest_complete_neighbor", function(allele) {
 })
 
 HLAGene_$set("public", "get_allele", function(allele) {
-  allele <- expand_allele(allele, self$locusname)
+  allele <- expand_hla_allele(allele, self$locusname)
   self$alleles[allele]
 })
 
@@ -123,7 +123,7 @@ HLAGene_$set("public", "get_reference_sequence", function(allele) {
 
 
 HLAGene_$set("public", "get_all_reference_sequences", function(allele) {
-  allele <- hlatools:::expand_allele(allele, self$locusname)
+  allele <- expand_hla_allele(allele, self$locusname)
   complete_alleles <- allele_name(self$alleles[is_complete(self$alleles)])
   if (allele %in% complete_alleles) {
     ref <- self$get_allele(allele)
@@ -154,7 +154,7 @@ HLAGene_$set("public", "get_all_reference_sequences", function(allele) {
 })
 
 HLAGene_$set("public", "get_reference_sequence_as_ft", function(allele) {
-  allele <- expand_allele(allele, self$locusname)
+  allele <- expand_hla_allele(allele, self$locusname)
   x <- self$get_reference_sequence(allele)
   sprintf(
     "%s\n%s\n%s%s\n",
@@ -166,7 +166,7 @@ HLAGene_$set("public", "get_reference_sequence_as_ft", function(allele) {
 })
 
 HLAGene_$set("public", "get_all_reference_sequences_as_ft", function(allele) {
-  allele <- expand_allele(allele, self$locusname)
+  allele <- expand_hla_allele(allele, self$locusname)
   x <- self$get_all_reference_sequences(allele)
   n <- length(x)
   rs <- character(n)

@@ -126,7 +126,7 @@ setMethod("[", signature(x = "HLAAllele", i = "logical", j = "missing"), functio
 #' @describeIn HLAAllele Subset \code{HLAAllele} objects.
 setMethod("[", signature(x = "HLAAllele", i = "character", j = "missing"), function (x, i, j, ..., drop = TRUE) {
   ans <- HLAAllele()
-  i <- match(expand_allele(i), names(x))
+  i <- match(expand_hla_allele(i), names(x))
   if (length(i <- i[!is.na(i)]) == 0) {
     return(ans)
   }
