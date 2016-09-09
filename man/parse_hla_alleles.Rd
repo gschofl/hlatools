@@ -4,15 +4,15 @@
 \alias{parse_hla_alleles}
 \title{Parse all HLA alleles for a locus from hla.xml}
 \usage{
-parse_hla_alleles(doc, locusname, ncores = detectCores())
+parse_hla_alleles(doc, locusname, ncores = parallel::detectCores())
 }
 \arguments{
-\item{doc}{\file{hla.xml} as an \code{XMLInternalDocument} object.}
+\item{doc}{\file{hla.xml} as an \code{xml_document} object.}
 
 \item{locusname}{One of [\code{HLA-A, HLA-B, HLA-C, HLA-DPA1, HLA-DPB1,
 HLA-DQA1, HLA-DQB1, HLA-DRB}]}
 
-\item{ncores}{Number of cores}
+\item{ncores}{he number of compute cores to use.}
 }
 \value{
 A \code{\linkS4class{HLAAllele}} object.
@@ -23,7 +23,7 @@ Parse all HLA alleles for a locus from hla.xml
 \examples{
 \dontrun{
 doc <- read_hla_xml()
-dpb1 <- parse_hla_alleles(doc, "HLA-DPB1", 12)
+dpb1 <- parse_hla_alleles(doc, "HLA-DPB1")
 }
 }
 

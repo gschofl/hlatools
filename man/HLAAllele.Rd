@@ -4,10 +4,12 @@
 \alias{HLAAllele}
 \title{Constructor for \code{\linkS4class{HLAAllele}} objects}
 \usage{
-HLAAllele(node)
+HLAAllele(nodes, ncores = parallel::detectCores())
 }
 \arguments{
-\item{node}{An allele node from a hla.xml object.}
+\item{nodes}{Allele nodes from a hla.xml object.}
+
+\item{ncores}{The number of compute cores to use.}
 }
 \value{
 A \code{\linkS4class{HLAAllele}} object

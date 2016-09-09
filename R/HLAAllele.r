@@ -29,29 +29,30 @@ setClass(
 #' Constructor for \code{\linkS4class{HLAAllele}} objects
 #'
 #' @note Don't run directly. This function is called by \code{\link{parse_hla_alleles}}.
-#' @param node An allele node from a hla.xml object.
+#' @param nodes Allele nodes from a hla.xml object.
+#' @param ncores The number of compute cores to use.
 #'
 #' @return A \code{\linkS4class{HLAAllele}} object
 #' @seealso \code{\link{parse_hla_alleles}}
 #' @export
 #' @examples
 #' showClass("HLAAllele")
-HLAAllele <- function(node) {
-  if (missing(node)) {
+HLAAllele <- function(nodes, ncores = parallel::detectCores()) {
+  if (missing(nodes)) {
     return(new("HLAAllele"))
   }
-  new("HLAAllele", node)
+  new("HLAAllele", nodes, ncores)
 }
 
-setMethod("initialize", signature(.Object = "HLAAllele"), function(.Object, node) {
-  if (missing(node)) {
+setMethod("initialize", signature(.Object = "HLAAllele"), function(.Object, nodes, ncores) {
+  if (missing(nodes)) {
     .Object@sequence = Biostrings::DNAStringSet()
     .Object@features = HLARangesList()
-    .Object@metadata = DataFrame()
+    .Object@metadata = S4Vectors::DataFrame()
   } else {
-    .Object@sequence = HLAAllele_parser$parse_sequence(node)
-    .Object@features = HLAAllele_parser$parse_features(node)
-    .Object@metadata = HLAAllele_parser$parse_metadata(node)
+    .Object@sequence = HLAAllele_parser$parse_sequence(nodes)
+    .Object@features = HLAAllele_parser$parse_features(nodes, ncores)
+    .Object@metadata = HLAAllele_parser$parse_metadata(nodes)
   }
   .Object
 })
@@ -159,7 +160,7 @@ setMethod("is_complete", signature(x = "HLAAllele"), function(x, ...) {
 setAs(from = "HLAAllele", to = "data.table", function(from) {
   alleles <- strsplit(allele_name(from), "*", fixed = TRUE)
   fts <- features(from)
-  dplyr::tbl_dt(data.table(
+  dtplyr::tbl_dt(data.table(
     gene = vapply(alleles, `[[`, 1, FUN.VALUE = ""),
     allele_name = vapply(alleles, `[[`, 2, FUN.VALUE = ""),
     data_assigned = lubridate::ymd(hlatools::elementMetadata(from)$date_assigned),
@@ -179,7 +180,7 @@ show_HLAAllele <- function(x) {
   SeqLen <- width(sequences(x))
   FeatureType <- unname(vapply(getType(features(x)), paste0, collapse = ":", FUN.VALUE = "", USE.NAMES = FALSE))
   cat("An object of class ", sQuote(class(x)), "\n", sep = "")
-  show(DataFrame(elementMetadata(x)[, 1:4], SeqLen, FeatureType))
+  show(S4Vectors::DataFrame(elementMetadata(x)[, 1:4], SeqLen, FeatureType))
 }
 
 setMethod("show", "HLAAllele", function(object) {
@@ -187,36 +188,41 @@ setMethod("show", "HLAAllele", function(object) {
 })
 
 make_hla_allele_parser <- function() {
-  ns <- c("x" = "http://hla.alleles.org/xml")
   list(
     # Parse nuclear sequence from an hla.xml allele node
     #
-    # @param node A hla.xml allele node.
+    # @param nodes A hla.xml allele nodeset.
     #
     # @return A DNAStringSet object.
     # @keywords internal
-    parse_sequence = function(node) {
-      xpexpr <- './x:sequence/x:nucsequence'
-      nucseq <- Biostrings::DNAStringSet(xval(node, xpexpr, namespaces = ns))
-      names(nucseq) <- XML::xmlGetAttr(node, "name")
+    parse_sequence = function(nodes) {
+      ns     <- xml2::xml_ns(nodes)
+      xpath  <- './d1:sequence/d1:nucsequence'
+      nucseq <- Biostrings::DNAStringSet(xml2::xml_text(xml2::xml_find_all(nodes, xpath, ns)))
+      names(nucseq) <- xml2::xml_attr(nodes, "name")
       nucseq
     },
     # Parse metadata from an hla.xml allele node
     #
-    # @param node A hla.xml allele node.
+    # @param nodes A hla.xml allele nodeset.
     #
     # @return A DataFrame object.
     # @keywords internal
-    parse_metadata = function(node) {
-      DataFrame(
-        allele_name   = XML::xmlGetAttr(node, "name"),
-        allele_id     = XML::xmlGetAttr(node, "id"),
-        date_assigned = XML::xmlGetAttr(node, "dateassigned"),
-        cwd_status = xattr(node, "./x:cwd_catalogue", "cwd_status", namespaces = ns),
-        ## Has 5'UTR or 3'UTR feature
-        complete   = xval(node, "count(./x:sequence/x:feature[@featuretype=\"UTR\"])>0", as = "logical", namespaces = ns),
-        pmid       = colon(xattr(node, "./x:citations/x:citation", "pubmed", namespaces = ns)),
-        ethnicity  = colon(xval(node, "./x:sourcematerial/x:ethnicity/x:sample_ethnicity", namespaces = ns))
+    parse_metadata = function(nodes) {
+      ns      <- xml2::xml_ns(nodes)
+      cit_idx <- xml2::xml_find_lgl(nodes, "boolean(d1:citations)", ns)
+      S4Vectors::DataFrame(
+        allele_name   = xml2::xml_attr(nodes, "name"),
+        allele_id     = xml2::xml_attr(nodes, "id"),
+        date_assigned = xml2::xml_attr(nodes, "dateassigned"),
+        cwd_status    = xml2::xml_find_chr(nodes, "string(./d1:cwd_catalogue/@cwd_status)", ns),
+        complete      = xml2::xml_find_lgl(nodes, "count(./d1:sequence/d1:feature[@featuretype=\"UTR\"])>0", ns),
+        pmid          = ifelse(cit_idx, vapply(xml2::xml_find_all(nodes[cit_idx], "./d1:citations", ns), function(node) {
+          colon(xml2::xml_attr(xml2::xml_children(node), "pubmed"))
+        }, FUN.VALUE = character(1)), NA_character_),
+        ethnicity     = vapply(xml2::xml_find_all(nodes, "./d1:sourcematerial/d1:ethnicity", ns), function(node) {
+          colon(xml2::xml_text(xml2::xml_children(node)))
+        }, FUN.VALUE = character(1))
       )
     },
     # Parse features from an hla.xml allele node
@@ -225,28 +231,29 @@ make_hla_allele_parser <- function() {
     #
     # @return A GRangesList object.
     # @keywords internal
-    parse_features = function(node) {
-      xp <- './x:sequence/x:feature[not(@featuretype="Protein")]'
-      fset <- xset(node, xp, namespaces = ns)
-      allele_name = xmlGetAttr(node, "name")
-      hr <- HLARanges(
-        seqnames = allele_name,
-        ranges =  IRanges(
-          start = xattr(node, paste0(xp, "/x:SequenceCoordinates"), "start", as = "integer", namespaces = ns),
-          end   = xattr(node, paste0(xp, "/x:SequenceCoordinates"), "end", as = "integer", namespaces = ns),
-          names = xattr(node, xp, "name", namespaces = ns)
-        ),
-        id     = xattr(node, xp, "id", namespaces = ns),
-        order  = xattr(node, xp, "order", as = "integer", namespaces = ns),
-        type   = xattr(node, xp, "featuretype", namespaces = ns),
-        status = vapply(fset, function(x) xmlGetAttr(x, "status") %||% NA_character_, FUN.VALUE = ""),
-        frame  = vapply(fset, function(x) {
-          xattr(x, "./x:cDNACoordinates", "readingframe", as = "integer", namespaces = ns)
-        }, FUN.VALUE = 0L)
-      )
-      hrl <- HLARangesList(hr)
-      names(hrl) <- allele_name
-      hrl
+    parse_features = function(nodes, ncores) {
+      ns       <- xml2::xml_ns(nodes)
+      nodeset  <- xml2::xml_find_all(nodes, "./d1:sequence", ns)
+      xpath    <- "./d1:feature[not(@featuretype=\"Protein\")]"
+      seqnames <- xml2::xml_attr(nodes, "name")
+      rs <- HLARangesList(parallel::mcMap(function(seqname, node) {
+          HLARanges(
+            seqnames = seqname,
+            ranges   = IRanges::IRanges(
+              start = as.integer(xml2::xml_text(xml2::xml_find_all(node, paste0(xpath, "/d1:SequenceCoordinates/@start"), ns))),
+              end   = as.integer(xml2::xml_text(xml2::xml_find_all(node, paste0(xpath, "/d1:SequenceCoordinates/@end"), ns))),
+              names = xml2::xml_text(xml2::xml_find_all(node, paste0(xpath, "/@name"), ns))
+            ),
+            id     = xml2::xml_text(xml2::xml_find_all(node, paste0(xpath, "/@id"), ns)),
+            order  = as.integer(xml2::xml_text(xml2::xml_find_all(node, paste0(xpath, "/@order"), ns))),
+            type   = xml2::xml_text(xml2::xml_find_all(node, paste0(xpath, "/@featuretype"), ns)),
+            status = vapply(xml2::xml_find_all(node, xpath, ns), xml2::xml_attr, "status", FUN.VALUE = ""),
+            frame  = vapply(xml2::xml_find_all(node, xpath, ns), function(node) {
+              as.integer(xml2::xml_find_chr(node, "string(./d1:cDNACoordinates/@readingframe)", ns))
+            }, FUN.VALUE = 0L)
+          )
+      }, seqname = seqnames, node = nodeset, mc.cores = ncores))
+      rs
     }
   )
 }

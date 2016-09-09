@@ -11,8 +11,6 @@ NULL
 #' @slot frame integer.
 #'
 #' @importClassesFrom GenomicRanges GRanges GRangesList
-#' @importFrom IRanges IRanges relist
-#' @importFrom GenomicRanges GRanges GRangesList
 #' @keywords classes internal
 #' @seealso \code{\link{parse_hla_alleles}}, \code{\link{HLAAllele}}
 #' @export
@@ -46,15 +44,15 @@ setClass(
 #' @export
 #' @examples
 #' showClass("HLARanges")
-HLARanges <- function(seqnames = Rle(), ranges = IRanges(),
+HLARanges <- function(seqnames = S4Vectors::Rle(), ranges = IRanges::IRanges(),
                       id = NA_character_, order = NA_integer_,
                       type = NA_character_, status = NA_character_,
                       frame = NA_integer_, ...) {
   len <- length(ranges)
   if (is(seqnames, "character")) {
-    seqnames <- Rle(seqnames, len)
+    seqnames <- S4Vectors::Rle(seqnames, len)
   }
-  gr <- GRanges(seqnames, ranges, strand = Rle("+", len), ...)
+  gr <- GenomicRanges::GRanges(seqnames, ranges, strand = S4Vectors::Rle("+", len), ...)
   if (!all(i <- type %in% c("Exon", "Intron", "UTR")) && !is.na(type)) {
     stop("Unknown feature type(s) ", comma(sQuote(type[!i])))
   }
@@ -131,7 +129,6 @@ setMethod(GenomicRanges:::extraColumnSlotNames, "HLARanges", function(x) {
 #' Class \code{"HLARangesList"}
 #'
 #' @importClassesFrom S4Vectors DataFrame List
-#' @importFrom S4Vectors DataFrame Rle
 #' @keywords classes
 #' @export
 #' @seealso \code{\link{parse_hla_alleles}}, \code{\link{HLAAllele}},
@@ -164,34 +161,34 @@ setClass(
 #' @examples
 #' showClass("HLARangesList")
 HLARangesList <- function(...) {
-  new("CompressedHLARangesList", GRangesList(...))
+  new("CompressedHLARangesList", GenomicRanges::GRangesList(...))
 }
 
 #gr_unlist <- GenomicRanges::unlist
 
 setMethod("getId", "HLARangesList", function(x, ...) {
   unlisted_x <- unlist(x)
-  relist(getId(unlisted_x), x)
+  IRanges::relist(getId(unlisted_x), x)
 })
 
 setMethod("getOrder", "HLARangesList", function(x, ...) {
   unlisted_x <- unlist(x)
-  relist(getOrder(unlisted_x), x)
+  IRanges::relist(getOrder(unlisted_x), x)
 })
 
 setMethod("getType", "HLARangesList", function(x, ...) {
   unlisted_x <- unlist(x)
-  relist(getType(unlisted_x), x)
+  IRanges::relist(getType(unlisted_x), x)
 })
 
 setMethod("getStatus", "HLARangesList", function(x, ...) {
   unlisted_x <- unlist(x)
-  relist(getStatus(unlisted_x), x)
+  IRanges::relist(getStatus(unlisted_x), x)
 })
 
 setMethod("getFrame", "HLARangesList", function(x, ...) {
   unlisted_x <- unlist(x)
-  relist(getFrame(unlisted_x), x)
+  IRanges::relist(getFrame(unlisted_x), x)
 })
 
 HLARanges_to_string <- function(hr) {
@@ -234,8 +231,8 @@ string_to_HLARanges <- function(hstr) {
   m[, frame := ifelse(nzchar(frame), frame, NA_character_)]
   setorder(m, "order")
   HLARanges(
-    seqnames = Rle(m$seqnames),
-    ranges = IRanges(
+    seqnames = S4Vectors::Rle(m$seqnames),
+    ranges = IRanges::IRanges(
       start = as.integer(m$start),
       end = as.integer(m$end),
       names = m$names

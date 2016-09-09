@@ -12,7 +12,9 @@
 #' update_IMGTHLA()
 #' }
 fetch_IMGTHLA <- function(local_path = getOption("hlatools.local_repos")) {
-  stopifnot(requireNamespace("git2r", quietly = TRUE))
+  assertive.base::assert_all_are_true(
+    requireNamespace("git2r", quietly = TRUE)
+  )
   local_path <- normalizePath(file.path(local_path, "IMGTHLA"), mustWork = FALSE)
   if (!dir.exists(local_path)) {
     dir.create(local_path, recursive = TRUE)
@@ -26,7 +28,9 @@ fetch_IMGTHLA <- function(local_path = getOption("hlatools.local_repos")) {
 #' @return \code{invisible(NULL)}
 #' @export
 update_IMGTHLA <- function() {
-  stopifnot(requireNamespace("git2r", quietly = TRUE))
+  assertive.base::assert_all_are_true(
+    requireNamespace("git2r", quietly = TRUE)
+  )
   repo <- git2r::repository(file.path(getOption("hlatools.local_repos"), "IMGTHLA"))
   git2r::pull(repo)
 }
@@ -44,10 +48,7 @@ update_IMGTHLA <- function() {
 #' update_hla_xml()
 #' }
 read_hla_xml <- function(remote = FALSE) {
-  stopifnot(requireNamespace("XML", quietly = TRUE))
-
   tdir <- tempdir()
-
   if (remote) {
     ftpfile <- "ftp://ftp.ebi.ac.uk/pub/databases/ipd/imgt/hla/xml/hla.xml.zip"
     dlfile <- tempfile(tmpdir = tdir)
@@ -58,8 +59,7 @@ read_hla_xml <- function(remote = FALSE) {
     dbfile <- normalizePath(file.path(dbpath, "IMGTHLA", "xml", "hla.xml.zip"), mustWork = TRUE)
     tfile <- unzip(zipfile = dbfile, exdir = tdir)[1]
   }
-
-  doc <- XML::xmlInternalTreeParse(tfile)
+  doc <- xml2::read_xml(tfile)
   unlink(tfile, force = TRUE)
   doc
 }
@@ -69,7 +69,7 @@ read_hla_xml <- function(remote = FALSE) {
 #' @return \code{invisible(NULL)}
 #' @export
 update_hla_xml <- function() {
-  assertive::is_not_null(getOption("hlatools.local_repos"))
+  assertive.properties::assert_is_not_null(getOption("hlatools.local_repos"))
   dbpath <- getOption("hlatools.local_repos")
   dlfile <- normalizePath(file.path(dbpath, "IMGTHLA", "xml", "hla.xml.zip"), mustWork = FALSE)
   ftpfile <- "ftp://ftp.ebi.ac.uk/pub/databases/ipd/imgt/hla/xml/hla.xml.zip"
