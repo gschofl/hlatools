@@ -4,7 +4,7 @@
 \alias{HLAGene}
 \title{Constructor for \code{\link[=HLAGene_]{HLAGene}} objects.}
 \usage{
-HLAGene(locusname)
+HLAGene(locusname, ...)
 }
 \arguments{
 \item{locusname}{A valid HLA gene name.}

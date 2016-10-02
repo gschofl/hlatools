@@ -1,6 +1,3 @@
-#' @importFrom XML xpathApply xmlValue xmlName xmlGetAttr
-NULL
-
 valid_hla_loci_ <- function() {
   c('HLA-A', 'HLA-B', 'HLA-C', 'HLA-DPB1', 'HLA-DQB1', 'HLA-DRB1')
 }
@@ -54,45 +51,17 @@ normalise_ranges <- function(x) {
   if (is(x, "GenomicRanges")) {
     x <- ranges(x)
   }
-  assertive::assert_is_any_of(x, "IRanges")
+  assertive.types::assert_is_any_of(x, "IRanges")
   cs <- cumsum(width(x))
-  IRanges(
+  IRanges::IRanges(
     start = c(1L, cs[-length(cs)] + 1),
     end   = cs,
     names = names(x)
   )
 }
 
-xval <- function(doc, path, alt = NA_character_, as = 'character', ...) {
-  v <- unlist(xpathApply(doc, path, xmlValue, ...)) %||% alt
-  set_mode(v, as)
-}
-
-xname <- function(doc, path, alt = NA_character_, as = 'character', ...) {
-  n <- unlist(xpathApply(doc, path, xmlName, ...)) %||% alt
-  set_mode(n, as)
-}
-
-xattr <- function(doc, path, name, alt = NA_character_, as = 'character', ...) {
-  a <- unlist(xpathApply(doc, path, xmlGetAttr, name = name, ...)) %||% alt
-  set_mode(a, as)
-}
-
-xsize <- function(doc, path, ...) {
-  length(xpathApply(doc, path, ...))
-}
-
-xset <- function(doc, path, ...) {
-  xpathApply(doc, path, fun = NULL, ...)
-}
-
-set_mode <- function(x, as) {
-  AS <- match.fun(paste0('as.', as))
-  if (!is.null(x)) AS(x) else x
-}
-
 strsplitN <- function(x, split, n, from = "start", collapse = split, ...) {
-  assertive::assert_is_vector(x)
+  assertive.properties::assert_is_vector(x)
   from <- match.arg(from, c("start", "end"))
   xs <- strsplit(x, split, ...)
   end <- vapply(xs, length, 0L)

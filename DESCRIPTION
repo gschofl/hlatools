@@ -1,26 +1,24 @@
 Package: hlatools
 Title: A collection of tools to work with IMGT/HLA data
-Version: 0.0.1.9000
+Version: 0.0.2
 Authors@R: person("Gerhard", "Schöfl", email = "gerhard.schofl@gmail.com", role = c("aut", "cre"))
 Description: A collection of tools to work with IMGT/HLA data.
 Depends:
-    R (>= 3.2.2)
+    R (>= 3.3.0)
 License: MIT + file LICENSE
 Suggests:
-    testthat (>= 0.8)
+    git2r
 LazyData: true
 Type: Package
 Maintainer: Gerhard Schöfl <gerhard.schofl@gmail.com>
 Encoding: UTF-8
 Imports:
-    XML,
     Biostrings,
     IRanges,
     GenomicRanges,
     S4Vectors,
     foreach,
     parallel,
-    doParallel,
     methods,
     iterators,
     R6,
@@ -28,9 +26,11 @@ Imports:
     assertive,
     XVector,
     DECIPHER,
-    dplyr
-Suggests:
-    git2r
+    dtplyr,
+    xml2,
+    assertive.types,
+    assertive.base,
+    assertive.properties
 RoxygenNote: 5.0.1
 Collate:
     'utils.r'

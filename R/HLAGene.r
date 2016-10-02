@@ -15,8 +15,8 @@ NULL
 #' \dontrun{
 #' HLAGene("DPB1")
 #' }
-HLAGene <- function(locusname) {
-  HLAGene_$new(locusname)
+HLAGene <- function(locusname, ...) {
+  HLAGene_$new(locusname, ...)
 }
 
 #' Class \code{"HLAGene"}
@@ -30,6 +30,7 @@ HLAGene <- function(locusname) {
 #'
 #' @keywords data internal
 #' @importFrom XVector subseq subseq<-
+#' @import foreach
 #' @return Object of \code{\link{R6Class}} representing an HLA gene.
 #' @section Methods:
 #' \describe{

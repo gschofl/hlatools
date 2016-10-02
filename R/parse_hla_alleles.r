@@ -4,43 +4,32 @@ utils::globalVariables("node", package = "hlatools")
 
 #' Parse all HLA alleles for a locus from hla.xml
 #'
-#' @param doc \file{hla.xml} as an \code{XMLInternalDocument} object.
+#' @param doc \file{hla.xml} as an \code{xml_document} object.
 #' @param locusname One of [\code{HLA-A, HLA-B, HLA-C, HLA-DPA1, HLA-DPB1,
 #' HLA-DQA1, HLA-DQB1, HLA-DRB}]
-#' @param ncores Number of cores
+#' @param ncores he number of compute cores to use.
 #'
 #' @return A \code{\linkS4class{HLAAllele}} object.
 #' @export
-#' @importFrom parallel detectCores
-#' @importFrom doParallel registerDoParallel
-#' @import foreach
 #' @examples
 #' \dontrun{
 #' doc <- read_hla_xml()
-#' dpb1 <- parse_hla_alleles(doc, "HLA-DPB1", 12)
+#' dpb1 <- parse_hla_alleles(doc, "HLA-DPB1")
 #' }
-parse_hla_alleles <- function (doc, locusname, ncores = detectCores()) {
-  registerDoParallel(cl = ncores)
+parse_hla_alleles <- function(doc, locusname, ncores = parallel::detectCores()) {
   drb_name  <- NULL
   locusname <- match_hla_locus(locusname)
-  if (dkms::starts_with(locusname, "HLA-DRB")) {
+  if (startsWith(locusname, "HLA-DRB")) {
     drb_name  <- locusname
     locusname <- "HLA-DRB"
   }
-  ns <- c("x" = "http://hla.alleles.org/xml")
-  xpexpr <- paste0("/x:alleles/x:allele/x:locus[@locusname='", locusname, "']/parent::node()")
-  rs <- foreach(node = xset(doc, xpexpr, namespaces = ns), .combine = "c") %dopar% {
-    tryCatch({
-      HLAAllele(node)
-    }, error = function(e) {
-      warning(e$message, immediate. = TRUE)
-      HLAAllele()
-    })
-  }
+  ns <- xml2::xml_ns(doc)
+  xpath <- paste0("/d1:alleles/d1:allele/d1:locus[@locusname='", locusname, "']/parent::node()")
+  rs <- HLAAllele(nodes = xml2::xml_find_all(doc, xpath, ns), ncores = ncores)
   ## nasty hack to work around the fact that all DRBs are put together
   ## in hla.xml
   if (!is.null(drb_name)) {
-    rs <- rs[which(dkms::starts_with(allele_name(rs), drb_name))]
+    rs <- rs[which(startsWith(allele_name(rs), drb_name))]
   }
   rs
 }
