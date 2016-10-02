@@ -8,6 +8,8 @@ HLAGene(locusname, ...)
 }
 \arguments{
 \item{locusname}{A valid HLA gene name.}
+
+\item{...}{Passed on.}
 }
 \value{
 A \code{\link[=HLAGene_]{HLAGene}} object
@@ -17,7 +19,16 @@ Constructor for \code{\link[=HLAGene_]{HLAGene}} objects.
 }
 \examples{
 \dontrun{
-HLAGene("DPB1")
+x <- HLAGene("DPB1")
+db_version(x)
+locusname(x)
+length(x)
+
+## extract alleles with complete sequences
+x[is_complete(x)]
+
+## extract all Common alleles
+x[cwd_status(x) == "Common"]
 }
 }
 

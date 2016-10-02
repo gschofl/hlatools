@@ -78,10 +78,10 @@ setMethod("elementMetadata<-", "HLAAllele", function(x, ..., value) {
   x
 })
 
-#' @export
+#' @describeIn HLAAllele Get sequence names from \code{HLAAllele}s.
 setMethod("names", "HLAAllele", function(x) names(sequences(x)))
 
-#' @export
+#' @describeIn HLAAllele Get number of \code{HLAAllele}s.
 setMethod("length", "HLAAllele", function(x) length(sequences(x)))
 
 #' @describeIn HLAAllele Combine \code{HLAAllele} objects.
@@ -103,7 +103,7 @@ setMethod("c", signature(x = "HLAAllele"), function (x, ..., recursive = FALSE) 
 })
 
 #' @describeIn HLAAllele Subset \code{HLAAllele} objects.
-setMethod("[", signature(x = "HLAAllele", i = "numeric", j = "missing"), function (x, i, j, ..., drop = TRUE) {
+setMethod("[", signature(x = "HLAAllele", i = "numeric", j = "missing"), function(x, i, j, ..., drop = TRUE) {
   ans <- HLAAllele()
   sequences(ans) <- sequences(x)[i]
   features(ans) <- features(x)[i]
@@ -112,7 +112,7 @@ setMethod("[", signature(x = "HLAAllele", i = "numeric", j = "missing"), functio
 })
 
 #' @describeIn HLAAllele Subset \code{HLAAllele} objects.
-setMethod("[", signature(x = "HLAAllele", i = "logical", j = "missing"), function (x, i, j, ..., drop = TRUE) {
+setMethod("[", signature(x = "HLAAllele", i = "logical", j = "missing"), function(x, i, j, ..., drop = TRUE) {
   ans <- HLAAllele()
   i <- which(i)
   if (length(i) == 0) {
@@ -125,7 +125,7 @@ setMethod("[", signature(x = "HLAAllele", i = "logical", j = "missing"), functio
 })
 
 #' @describeIn HLAAllele Subset \code{HLAAllele} objects.
-setMethod("[", signature(x = "HLAAllele", i = "character", j = "missing"), function (x, i, j, ..., drop = TRUE) {
+setMethod("[", signature(x = "HLAAllele", i = "character", j = "missing"), function(x, i, j, ..., drop = TRUE) {
   ans <- HLAAllele()
   i <- match(expand_hla_allele(i), names(x))
   if (length(i <- i[!is.na(i)]) == 0) {

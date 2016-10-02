@@ -10,7 +10,7 @@ sequences(x, ...)
 sequences(x, ...) <- value
 }
 \arguments{
-\item{x}{A \code{\linkS4class{HLAAllele}} object.}
+\item{x}{A \code{\link{HLAGene}} or \code{\linkS4class{HLAAllele}} object.}
 
 \item{...}{Further arguments passed to methods.}
 
@@ -23,6 +23,9 @@ A DNAStringSet object.
 Get or set sequence data
 }
 \examples{
-##
+\dontrun{
+x <- HLAGene("DPB1")
+sequences(x[is_complete(x)])
+}
 }
 

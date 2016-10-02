@@ -10,7 +10,7 @@ features(x, ...)
 features(x, ...) <- value
 }
 \arguments{
-\item{x}{A \code{\linkS4class{HLAAllele}} object.}
+\item{x}{A \code{\link{HLAGene}} or \code{\linkS4class{HLAAllele}} object.}
 
 \item{...}{Further arguments passed to methods.}
 
@@ -23,6 +23,9 @@ A HLAFeatureList object.
 Get or set feature data
 }
 \examples{
-##
+\dontrun{
+x <- HLAGene("DPB1")
+features(x[is_complete(x)])
+}
 }
 

@@ -7,8 +7,14 @@
 \alias{[,HLAAllele,logical,missing-method}
 \alias{[,HLAAllele,numeric,missing-method}
 \alias{c,HLAAllele-method}
+\alias{length,HLAAllele-method}
+\alias{names,HLAAllele-method}
 \title{Class \code{"HLAAllele"}}
 \usage{
+\S4method{names}{HLAAllele}(x)
+
+\S4method{length}{HLAAllele}(x)
+
 \S4method{c}{HLAAllele}(x, ..., recursive = FALSE)
 
 \S4method{[}{HLAAllele,numeric,missing}(x, i, j, ..., drop = TRUE)
@@ -23,6 +29,10 @@ Part of a \code{\link{HLAGene}} object.
 }
 \section{Methods (by generic)}{
 \itemize{
+\item \code{names}: Get sequence names from \code{HLAAllele}s.
+
+\item \code{length}: Get number of \code{HLAAllele}s.
+
 \item \code{c}: Combine \code{HLAAllele} objects.
 
 \item \code{[}: Subset \code{HLAAllele} objects.

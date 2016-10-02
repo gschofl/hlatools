@@ -6,7 +6,7 @@
 \title{Class \code{"HLAGene"}}
 \format{An object of class \code{R6ClassGenerator} of length 24.}
 \usage{
-HLAgene(locusname)
+HLAgene(locusname, ncores = parallel::detectCores(), with_dist = FALSE)
 }
 \value{
 Object of \code{\link{R6Class}} representing an HLA gene.
@@ -14,24 +14,15 @@ Object of \code{\link{R6Class}} representing an HLA gene.
 \description{
 Class \code{"HLAGene"}
 }
-\section{Fields}{
-
-\describe{
-\item{\code{locusname}}{\code{[character]}; A valid HLA gene.}
-
-\item{\code{alleles}}{\code{[HLAAllele]}; An \code{\linkS4class{HLAAllele}} object.}
-
-\item{\code{dm}}{\code{[matrix]}; Genetic distances between exons 2.}
-
-\item{\code{cons}}{\code{[DNAStringSet]}; Strict consensus of completely sequenced alleles.}
-}}
 \section{Methods}{
 
 \describe{
-  \item{\code{x$new(locusname)}}{Create object of this class.}
-  \item{\code{x$get_allele(allele)}}{Extract an allele.}
-  \item{\code{x$get_closest_complete_neighbor(allele)}}{Get the complete allele that closest at exon 2 to the query allele}
-  \item{\code{x$get_reference_sequence(allele)}}{}
+  \item{\code{x$new(locusname, ncores = parallel::detectCores(), with_dist = FALSE)}}{Create an object of this class.}
+  \item{\code{x$get_db_version()}}{Get the IMGT/HLA database version.}
+  \item{\code{x$get_locusname()}}{Get the name of the locus.}
+  \item{\code{x$get_alleles(allele)}}{Get alleles.}
+  \item{\code{x$get_closest_complete_neighbor(allele)}}{Get the complete allele that is closest at exon 2 to the query allele.}
+  \item{\code{x$get_reference_sequence(allele)}}{Get the (imputed) reference sequence for allele.}
 }
 }
 \keyword{data}

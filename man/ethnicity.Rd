@@ -7,7 +7,7 @@
 ethnicity(x, ...)
 }
 \arguments{
-\item{x}{A \code{\linkS4class{HLAAllele}} object.}
+\item{x}{A \code{\link{HLAGene}} or \code{\linkS4class{HLAAllele}} object.}
 
 \item{...}{Further arguments passed to methods.}
 }
@@ -19,8 +19,8 @@ Access ethnicity status
 }
 \examples{
 \dontrun{
-dpb1 <- parse_hla_alleles(read_hla_xml(), "DPB1")
-etnicity(dpb1[is_complete(dpb1), ])
+x <- HLAGene("DPB1")
+ethnicity(x[is_complete(x)])
 }
 }
 

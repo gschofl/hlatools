@@ -21,7 +21,7 @@ A S4 \code{\linkS4class{git_repository}} object.
 Clone or update the IMGTHLA repo on github
 }
 \note{
-Due to some limitation in the \pkg{git2r} this will not work
+Due to limitations in the \pkg{git2r} this will not work
 behind a proxy.
 }
 \examples{
