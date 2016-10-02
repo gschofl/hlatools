@@ -1,6 +1,6 @@
 #' Clone or update the IMGTHLA repo on github
 #'
-#' @note Due to some limitation in the \pkg{git2r} this will not work
+#' @note Due to limitations in the \pkg{git2r} this will not work
 #' behind a proxy.
 #' @param local_path Local directory to clone to. Defaults to \file{~/local/db/IMGTHLA}.
 #'
@@ -27,8 +27,18 @@ fetch_IMGTHLA <- function(local_path = getOption("hlatools.local_repos")) {
 #' @export
 update_IMGTHLA <- function() {
   stopifnot(requireNamespace("git2r", quietly = TRUE))
-  repo <- git2r::repository(file.path(getOption("hlatools.local_repos"), "IMGTHLA"))
+  path <- file.path(getOption("hlatools.local_repos"), "IMGTHLA")
+  tryCatch({
+    repo <- git2r::repository(path)
+    }, error =  function(e) {
+      if (grepl("Unable to open repository", e$message))
+        ## go and try cloning the IMGT/HLA repo
+        return(fetch_IMGTHLA())
+      else
+        stop(e$message, call. = FALSE)
+    })
   git2r::pull(repo)
+  repo
 }
 
 
