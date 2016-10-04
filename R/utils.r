@@ -20,6 +20,9 @@ expand_hla_allele <- function(x, locus = NULL) {
   }
 }
 
+## for backwards compatibility
+expand_allele <- expand_hla_allele
+
 match_hla_locus <- function(locus) {
   locus <- expand_hla_allele(locus)
   match.arg(locus, valid_hla_loci_())
