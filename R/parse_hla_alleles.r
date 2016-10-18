@@ -17,19 +17,12 @@ utils::globalVariables("node", package = "hlatools")
 #' dpb1 <- parse_hla_alleles(doc, "HLA-DPB1")
 #' }
 parse_hla_alleles <- function(doc, locusname, ncores = parallel::detectCores()) {
-  drb_name  <- NULL
   locusname <- match_hla_locus(locusname)
-  if (startsWith(locusname, "HLA-DRB")) {
-    drb_name  <- locusname
-    locusname <- "HLA-DRB"
-  }
   ns <- xml2::xml_ns(doc)
-  xpath <- paste0("/d1:alleles/d1:allele/d1:locus[@locusname='", locusname, "']/parent::node()")
-  rs <- HLAAllele(nodes = xml2::xml_find_all(doc, xpath, ns), ncores = ncores)
-  ## nasty hack to work around the fact that all DRBs are put together
-  ## in hla.xml
-  if (!is.null(drb_name)) {
-    rs <- rs[which(startsWith(allele_name(rs), drb_name))]
-  }
+  xpath1 <- paste0("/d1:alleles/d1:allele/d1:locus[@locusname='", locusname, "']/parent::node()")
+  nodes1 <- xml2::xml_find_all(doc, xpath1, ns)
+  xpath2 <- paste0(".//d1:releaseversions[not(starts-with(@releasestatus, 'Allele Deleted'))]/parent::node()")
+  nodes2 <- xml2::xml_find_all(nodes1, xpath2, ns)
+  rs <- HLAAllele(nodes = nodes2, ncores = ncores)
   rs
 }
