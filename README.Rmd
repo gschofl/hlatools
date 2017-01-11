@@ -1,7 +1,5 @@
 ---
-output:
-  md_document:
-    variant: markdown_github
+output: github_document
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -16,4 +14,4 @@ knitr::opts_chunk$set(
 
 # hlatools
 
-A collection of tools to work with IMGT/HLA data
+A collection of tools to work with IPD-IMGT/HLA data
