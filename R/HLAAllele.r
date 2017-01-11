@@ -216,7 +216,7 @@ make_hla_allele_parser <- function() {
         allele_id     = xml2::xml_attr(nodes, "id"),
         date_assigned = xml2::xml_attr(nodes, "dateassigned"),
         cwd_status    = xml2::xml_find_chr(nodes, "string(./d1:cwd_catalogue/@cwd_status)", ns),
-        complete      = xml2::xml_find_lgl(nodes, "count(./d1:sequence/d1:feature[@featuretype=\"UTR\"])>0", ns),
+        complete      = xml2::xml_find_lgl(nodes, "count(./d1:sequence/d1:feature[@featuretype=\"UTR\"])=2", ns),
         pmid          = ifelse(cit_idx, vapply(xml2::xml_find_all(nodes[cit_idx], "./d1:citations", ns), function(node) {
           colon(xml2::xml_attr(xml2::xml_children(node), "pubmed"))
         }, FUN.VALUE = character(1)), NA_character_),
