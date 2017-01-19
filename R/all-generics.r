@@ -63,6 +63,34 @@ setGeneric("allele_id", signature = "x", function(x, ...) standardGeneric("allel
 #' }
 setGeneric("allele_name", signature = "x", function(x, ...) standardGeneric("allele_name"))
 
+#' Access G group designations
+#'
+#' @param x A \code{\link{HLAGene}} or \code{\linkS4class{HLAAllele}} object.
+#' @param ... Further arguments passed to methods.
+#'
+#' @return A character vector of allele names.
+#' @export
+#' @examples
+#' \dontrun{
+#' x <- HLAGene("DPB1")
+#' g_group(x[is_complete(x)])
+#' }
+setGeneric("g_group", signature = "x", function(x, ...) standardGeneric("g_group"))
+
+#' Access P group designations
+#'
+#' @param x A \code{\link{HLAGene}} or \code{\linkS4class{HLAAllele}} object.
+#' @param ... Further arguments passed to methods.
+#'
+#' @return A character vector of allele names.
+#' @export
+#' @examples
+#' \dontrun{
+#' x <- HLAGene("DPB1")
+#' p_group(x[is_complete(x)])
+#' }
+setGeneric("p_group", signature = "x", function(x, ...) standardGeneric("p_group"))
+
 #' Access CWD status
 #'
 #' @param x A \code{\link{HLAGene}} or \code{\linkS4class{HLAAllele}} object.
@@ -90,6 +118,20 @@ setGeneric("cwd_status", signature = "x", function(x, ...) standardGeneric("cwd_
 #' ethnicity(x[is_complete(x)])
 #' }
 setGeneric("ethnicity", signature = "x", function(x, ...) standardGeneric("ethnicity"))
+
+#' Access (colon-separated) sample names
+#'
+#' @param x A \code{\link{HLAGene}} or \code{\linkS4class{HLAAllele}} object.
+#' @param ... Further arguments passed to methods.
+#'
+#' @return A character vector of colon-separated sample ethnicities.
+#' @export
+#' @examples
+#' \dontrun{
+#' x <- HLAGene("DPB1")
+#' sample_name(x[is_complete(x)])
+#' }
+setGeneric("sample_name", signature = "x", function(x, ...) standardGeneric("sample_name"))
 
 #' Access completeness status
 #'

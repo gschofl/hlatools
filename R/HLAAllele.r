@@ -145,12 +145,24 @@ setMethod("allele_name", signature(x = "HLAAllele"), function(x, ...) {
   elementMetadata(x)$allele_name
 })
 
+setMethod("g_group", signature(x = "HLAAllele"), function(x, ...) {
+  elementMetadata(x)$g_group
+})
+
+setMethod("p_group", signature(x = "HLAAllele"), function(x, ...) {
+  elementMetadata(x)$p_group
+})
+
 setMethod("cwd_status", signature(x = "HLAAllele"), function(x, ...) {
   elementMetadata(x)$cwd_status
 })
 
 setMethod("ethnicity", signature(x = "HLAAllele"), function(x, ...) {
   elementMetadata(x)$ethnicity
+})
+
+setMethod("sample_name", signature(x = "HLAAllele"), function(x, ...) {
+  elementMetadata(x)$sample
 })
 
 setMethod("is_complete", signature(x = "HLAAllele"), function(x, ...) {
@@ -180,7 +192,7 @@ show_HLAAllele <- function(x) {
   SeqLen <- width(sequences(x))
   FeatureType <- unname(vapply(getType(features(x)), paste0, collapse = ":", FUN.VALUE = "", USE.NAMES = FALSE))
   cat("An object of class ", sQuote(class(x)), "\n", sep = "")
-  show(S4Vectors::DataFrame(elementMetadata(x)[, 1:4], SeqLen, FeatureType))
+  show(S4Vectors::DataFrame(elementMetadata(x)[, c("allele_name", "g_group", "p_group", "cwd_status")], SeqLen, FeatureType))
 }
 
 setMethod("show", "HLAAllele", function(object) {
@@ -211,18 +223,40 @@ make_hla_allele_parser <- function() {
     parse_metadata = function(nodes) {
       ns      <- xml2::xml_ns(nodes)
       cit_idx <- xml2::xml_find_lgl(nodes, "boolean(d1:citations)", ns)
+      smp_idx <- xml2::xml_find_lgl(nodes, "boolean(d1:sourcematerial/d1:samples)", ns)
       S4Vectors::DataFrame(
+        ##
+        ## Allele designation
+        ##
         allele_name   = xml2::xml_attr(nodes, "name"),
         allele_id     = xml2::xml_attr(nodes, "id"),
+        g_group       = xml2::xml_find_chr(nodes, "string(./d1:hla_g_group/@status)", ns),
+        p_group       = xml2::xml_find_chr(nodes, "string(./d1:hla_p_group/@status)", ns),
         date_assigned = xml2::xml_attr(nodes, "dateassigned"),
+        ##
+        ## Release
+        ##
+        first_released = xml2::xml_find_chr(nodes, "string(./d1:releaseversions/@firstreleased)", ns),
+        last_updated   = xml2::xml_find_chr(nodes, "string(./d1:releaseversions/@lastupdated)", ns),
+        release_status = xml2::xml_find_chr(nodes, "string(./d1:releaseversions/@releasestatus)", ns),
+        confirmed      = xml2::xml_find_lgl(nodes, "string(./d1:releaseversions/@confirmed)=\"Confirmed\"", ns),
+        ##
+        ## CWD status and Completeness (we consider as complete alleles for which both UTRs are present)
+        ##
         cwd_status    = xml2::xml_find_chr(nodes, "string(./d1:cwd_catalogue/@cwd_status)", ns),
         complete      = xml2::xml_find_lgl(nodes, "count(./d1:sequence/d1:feature[@featuretype=\"UTR\"])=2", ns),
+        ##
+        ## Source (PubMed ID, Ethnicity, Sample/Cellline)
+        ##
         pmid          = ifelse(cit_idx, vapply(xml2::xml_find_all(nodes[cit_idx], "./d1:citations", ns), function(node) {
           colon(xml2::xml_attr(xml2::xml_children(node), "pubmed"))
         }, FUN.VALUE = character(1)), NA_character_),
         ethnicity     = vapply(xml2::xml_find_all(nodes, "./d1:sourcematerial/d1:ethnicity", ns), function(node) {
           colon(xml2::xml_text(xml2::xml_children(node)))
-        }, FUN.VALUE = character(1))
+        }, FUN.VALUE = character(1)),
+        sample       = ifelse(smp_idx, vapply(xml2::xml_find_all(nodes, "./d1:sourcematerial/d1:samples", ns), function(node) {
+          colon(xml2::xml_attr(xml2::xml_children(node), "name"))
+        }, FUN.VALUE = character(1)), NA_character_)
       )
     },
     # Parse features from an hla.xml allele node
@@ -237,21 +271,21 @@ make_hla_allele_parser <- function() {
       xpath    <- "./d1:feature[not(@featuretype=\"Protein\")]"
       seqnames <- xml2::xml_attr(nodes, "name")
       rs <- HLARangesList(parallel::mcMap(function(seqname, node) {
-          HLARanges(
-            seqnames = seqname,
-            ranges   = IRanges::IRanges(
-              start = as.integer(xml2::xml_text(xml2::xml_find_all(node, paste0(xpath, "/d1:SequenceCoordinates/@start"), ns))),
-              end   = as.integer(xml2::xml_text(xml2::xml_find_all(node, paste0(xpath, "/d1:SequenceCoordinates/@end"), ns))),
-              names = xml2::xml_text(xml2::xml_find_all(node, paste0(xpath, "/@name"), ns))
-            ),
-            id     = xml2::xml_text(xml2::xml_find_all(node, paste0(xpath, "/@id"), ns)),
-            order  = as.integer(xml2::xml_text(xml2::xml_find_all(node, paste0(xpath, "/@order"), ns))),
-            type   = xml2::xml_text(xml2::xml_find_all(node, paste0(xpath, "/@featuretype"), ns)),
-            status = vapply(xml2::xml_find_all(node, xpath, ns), xml2::xml_attr, "status", FUN.VALUE = ""),
-            frame  = vapply(xml2::xml_find_all(node, xpath, ns), function(node) {
-              as.integer(xml2::xml_find_chr(node, "string(./d1:cDNACoordinates/@readingframe)", ns))
-            }, FUN.VALUE = 0L)
-          )
+        HLARanges(
+          seqnames = seqname,
+          ranges   = IRanges::IRanges(
+            start = as.integer(xml2::xml_text(xml2::xml_find_all(node, paste0(xpath, "/d1:SequenceCoordinates/@start"), ns))),
+            end   = as.integer(xml2::xml_text(xml2::xml_find_all(node, paste0(xpath, "/d1:SequenceCoordinates/@end"), ns))),
+            names = xml2::xml_text(xml2::xml_find_all(node, paste0(xpath, "/@name"), ns))
+          ),
+          id     = xml2::xml_text(xml2::xml_find_all(node, paste0(xpath, "/@id"), ns)),
+          order  = as.integer(xml2::xml_text(xml2::xml_find_all(node, paste0(xpath, "/@order"), ns))),
+          type   = xml2::xml_text(xml2::xml_find_all(node, paste0(xpath, "/@featuretype"), ns)),
+          status = vapply(xml2::xml_find_all(node, xpath, ns), xml2::xml_attr, "status", FUN.VALUE = ""),
+          frame  = vapply(xml2::xml_find_all(node, xpath, ns), function(node) {
+            as.integer(xml2::xml_find_chr(node, "string(./d1:cDNACoordinates/@readingframe)", ns))
+          }, FUN.VALUE = 0L)
+        )
       }, seqname = seqnames, node = nodeset, mc.cores = ncores))
       rs
     }
@@ -259,7 +293,4 @@ make_hla_allele_parser <- function() {
 }
 
 HLAAllele_parser <- make_hla_allele_parser()
-
-
-
 
