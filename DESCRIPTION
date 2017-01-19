@@ -38,7 +38,6 @@ Collate:
     'HLARanges.r'
     'HLAAllele.r'
     'HLAGene.r'
-    'NGSSample.r'
     'hlatools-package.r'
     'iterator.r'
     'parse_hla_alleles.r'
