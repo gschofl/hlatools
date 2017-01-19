@@ -32,7 +32,8 @@ Imports:
     assertive.types,
     assertive.base,
     assertive.properties,
-    Rcpp
+    Rcpp,
+    curl
 RoxygenNote: 5.0.1
 Collate:
     'utils.r'
@@ -41,6 +42,7 @@ Collate:
     'HLAAllele.r'
     'HLAGene.r'
     'RcppExports.R'
+    'code_tables.r'
     'hlatools-package.r'
     'iterator.r'
     'parse_hla_alleles.r'
