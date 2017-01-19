@@ -217,11 +217,19 @@ setMethod("elementMetadata", signature(x = "HLAGene"), function(x, use.names = F
 })
 
 setMethod("allele_id", signature(x = "HLAGene"), function(x, ...) {
-  elementMetadata(x$get_alleles())$allele_id
+  elementMetadata(x)$allele_id
 })
 
 setMethod("allele_name", signature(x = "HLAGene"), function(x, ...) {
   elementMetadata(x)$allele_name
+})
+
+setMethod("g_group", signature(x = "HLAGene"), function(x, ...) {
+  elementMetadata(x)$g_group
+})
+
+setMethod("p_group", signature(x = "HLAGene"), function(x, ...) {
+  elementMetadata(x)$p_group
 })
 
 setMethod("cwd_status", signature(x = "HLAGene"), function(x, ...) {
@@ -230,6 +238,10 @@ setMethod("cwd_status", signature(x = "HLAGene"), function(x, ...) {
 
 setMethod("ethnicity", signature(x = "HLAGene"), function(x, ...) {
   elementMetadata(x)$ethnicity
+})
+
+setMethod("sample_name", signature(x = "HLAGene"), function(x, ...) {
+  elementMetadata(x)$sample
 })
 
 setMethod("is_complete", signature(x = "HLAGene"), function(x, ...) {
