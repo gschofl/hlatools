@@ -12,6 +12,7 @@ LazyData: true
 Type: Package
 Maintainer: Gerhard Schöfl <gerhard.schofl@gmail.com>
 Encoding: UTF-8
+SystemRequirements: C++11
 Imports:
     Biostrings,
     IRanges,
@@ -30,7 +31,8 @@ Imports:
     xml2,
     assertive.types,
     assertive.base,
-    assertive.properties
+    assertive.properties,
+    Rcpp
 RoxygenNote: 5.0.1
 Collate:
     'utils.r'
@@ -38,8 +40,10 @@ Collate:
     'HLARanges.r'
     'HLAAllele.r'
     'HLAGene.r'
+    'RcppExports.R'
     'hlatools-package.r'
     'iterator.r'
     'parse_hla_alleles.r'
     'remotes.r'
     'zzz.r'
+LinkingTo: Rcpp
