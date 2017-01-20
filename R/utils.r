@@ -95,5 +95,8 @@ recycle_vector <- function(x, length.out) {
 
 collapse <- function(...) paste0(..., collapse = "|")
 
+colon <- function(...) paste0(..., collapse = ":")
+
+slash <- function(...) paste0(..., collapse = "/")
 
 

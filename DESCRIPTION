@@ -33,7 +33,8 @@ Imports:
     assertive.base,
     assertive.properties,
     Rcpp,
-    curl
+    curl,
+    purrr
 RoxygenNote: 5.0.1
 Collate:
     'utils.r'

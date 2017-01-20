@@ -3,22 +3,46 @@
 
 #' Sort HLA alleles by field
 #'
-#' @param alleles A vector of HLA alleles.
+#' Sort HLA alleles based on the numeric values of each successive field.
+#' NMDP codes are sorted to the front, alphabetically based on their first letter.
+#'
+#' @param alleles A vector of HLA alleles either prefixed (e.g., \emph{"HLA-A*01:01:01:02"})
+#' or without prefix (e.g.: \emph{"01:01:01:02"}).
 #' @return A sorted vector of HLA alleles.
 #' @export
 hla_sort <- function(alleles) {
     .Call('hlatools_hla_sort', PACKAGE = 'hlatools', alleles)
 }
 
+#' Get the HLA allele code prefix
+#'
+#' @param alleles A vector of HLA allele codes (e.g.,  \emph{HLA-A*01:01:01:02}).
+#' @return A vector of HLA allele code prefixes (e.g., \emph{"HLA-A"} or \emph{""} if
+#' the allele code was not prefixed).
+#' @export
+hla_prefix <- function(a) {
+    .Call('hlatools_hla_prefix', PACKAGE = 'hlatools', a)
+}
+
+#' Get the first field from a HLA allele code
+#'
+#' @param alleles A vector of HLA allele codes (e.g.,  \emph{HLA-A*01:01:01:02}).
+#' @return A vector of first fields.
+#' @export
+hla_field1 <- function(a) {
+    .Call('hlatools_hla_field1', PACKAGE = 'hlatools', a)
+}
+
+#' Get the second field from a HLA allele code
+#'
+#' @param alleles A vector of HLA allele codes (e.g.,\emph{HLA-A*01:01:01:02}).
+#' @return A vector of second fields or or \emph{""} if no second field exists).
+#' @export
+hla_field2 <- function(a) {
+    .Call('hlatools_hla_field2', PACKAGE = 'hlatools', a)
+}
+
 hla_allele_to_genotype <- function(a1, a2) {
     .Call('hlatools_hla_allele_to_genotype', PACKAGE = 'hlatools', a1, a2)
-}
-
-field1 <- function(a) {
-    .Call('hlatools_field1', PACKAGE = 'hlatools', a)
-}
-
-field2 <- function(a) {
-    .Call('hlatools_field2', PACKAGE = 'hlatools', a)
 }
 

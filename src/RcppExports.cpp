@@ -16,6 +16,39 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// hla_prefix
+std::vector<std::string> hla_prefix(std::vector<std::string> a);
+RcppExport SEXP hlatools_hla_prefix(SEXP aSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::vector<std::string> >::type a(aSEXP);
+    rcpp_result_gen = Rcpp::wrap(hla_prefix(a));
+    return rcpp_result_gen;
+END_RCPP
+}
+// hla_field1
+std::vector<std::string> hla_field1(std::vector<std::string> a);
+RcppExport SEXP hlatools_hla_field1(SEXP aSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::vector<std::string> >::type a(aSEXP);
+    rcpp_result_gen = Rcpp::wrap(hla_field1(a));
+    return rcpp_result_gen;
+END_RCPP
+}
+// hla_field2
+std::vector<std::string> hla_field2(std::vector<std::string> a);
+RcppExport SEXP hlatools_hla_field2(SEXP aSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::vector<std::string> >::type a(aSEXP);
+    rcpp_result_gen = Rcpp::wrap(hla_field2(a));
+    return rcpp_result_gen;
+END_RCPP
+}
 // hla_allele_to_genotype
 std::vector<std::string> hla_allele_to_genotype(std::vector<std::string> a1, std::vector<std::string> a2);
 RcppExport SEXP hlatools_hla_allele_to_genotype(SEXP a1SEXP, SEXP a2SEXP) {
@@ -25,28 +58,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< std::vector<std::string> >::type a1(a1SEXP);
     Rcpp::traits::input_parameter< std::vector<std::string> >::type a2(a2SEXP);
     rcpp_result_gen = Rcpp::wrap(hla_allele_to_genotype(a1, a2));
-    return rcpp_result_gen;
-END_RCPP
-}
-// field1
-std::vector<std::string> field1(std::vector<std::string> a);
-RcppExport SEXP hlatools_field1(SEXP aSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::vector<std::string> >::type a(aSEXP);
-    rcpp_result_gen = Rcpp::wrap(field1(a));
-    return rcpp_result_gen;
-END_RCPP
-}
-// field2
-std::vector<std::string> field2(std::vector<std::string> a);
-RcppExport SEXP hlatools_field2(SEXP aSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::vector<std::string> >::type a(aSEXP);
-    rcpp_result_gen = Rcpp::wrap(field2(a));
     return rcpp_result_gen;
 END_RCPP
 }

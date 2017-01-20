@@ -92,13 +92,93 @@ bool compare_hla_alleles(const std::string& a1, const std::string& a2) {
 
 //' Sort HLA alleles by field
 //'
-//' @param alleles A vector of HLA alleles.
+//' Sort HLA alleles based on the numeric values of each successive field.
+//' NMDP codes are sorted to the front, alphabetically based on their first letter.
+//'
+//' @param alleles A vector of HLA alleles either prefixed (e.g., \emph{"HLA-A*01:01:01:02"})
+//' or without prefix (e.g.: \emph{"01:01:01:02"}).
 //' @return A sorted vector of HLA alleles.
 //' @export
 // [[Rcpp::export]]
 std::vector<std::string> hla_sort(std::vector<std::string> alleles) {
   std::sort(alleles.begin(), alleles.end(), compare_hla_alleles);
   return alleles;
+}
+
+//' Get the HLA allele code prefix
+//'
+//' @param alleles A vector of HLA allele codes (e.g.,  \emph{HLA-A*01:01:01:02}).
+//' @return A vector of HLA allele code prefixes (e.g., \emph{"HLA-A"} or \emph{""} if
+//' the allele code was not prefixed).
+//' @export
+// [[Rcpp::export]]
+std::vector<std::string> hla_prefix(std::vector<std::string> a) {
+  int i;
+  std::vector<std::string> tmp;
+  std::vector<std::string> out(a.size());
+  for (i = 0; i < a.size(); i++) {
+    tmp = string_split(a[i], "*");
+    if (tmp.size() == 2 /* e.g. HLA-A*01:01:01 */ ) {
+      out[i] = tmp[0];
+    } else /* e.g. 01:01:01 */ {
+      out[i] = "";
+    }
+  }
+
+  return out;
+}
+
+//' Get the first field from a HLA allele code
+//'
+//' @param alleles A vector of HLA allele codes (e.g.,  \emph{HLA-A*01:01:01:02}).
+//' @return A vector of first fields.
+//' @export
+// [[Rcpp::export]]
+std::vector<std::string> hla_field1(std::vector<std::string> a) {
+  int i;
+  std::vector<std::string> tmp;
+  std::vector<std::string> out(a.size());
+  for (i = 0; i < a.size(); i++) {
+    tmp = string_split(a[i], "*"); // Split off prefix if exists
+    if (tmp.size() == 2 /* e.g. HLA-A*01:01:01 */ ) {
+      out[i] = string_split(tmp[1], ":")[0];
+    } else /* e.g. 01:01:01 */ {
+      out[i] = string_split(tmp[0], ":")[0];
+    }
+  }
+
+  return out;
+}
+
+//' Get the second field from a HLA allele code
+//'
+//' @param alleles A vector of HLA allele codes (e.g.,\emph{HLA-A*01:01:01:02}).
+//' @return A vector of second fields or or \emph{""} if no second field exists).
+//' @export
+// [[Rcpp::export]]
+std::vector<std::string> hla_field2(std::vector<std::string> a) {
+  int i;
+  std::vector<std::string> tmp;
+  std::vector<std::string> tmp2;
+  std::vector<std::string> out(a.size());
+  for (i = 0; i < a.size(); i++) {
+    tmp = string_split(a[i], "*");
+    if (tmp.size() == 2 /* e.g. HLA-A*01:01:01 */ ) {
+      tmp2 = string_split(tmp[1], ":");
+      if (tmp2.size() > 1)
+        out[i] = tmp2[1];
+      else
+        out[i] = "";
+    } else /* e.g. 01:01:01 */ {
+      tmp2 = string_split(tmp[0], ":");
+      if (tmp2.size() > 1)
+        out[i] = tmp2[1];
+      else
+        out[i] = "";
+    }
+  }
+
+  return out;
 }
 
 // [[Rcpp::export]]
@@ -116,18 +196,4 @@ std::vector<std::string> hla_allele_to_genotype(std::vector<std::string> a1, std
   return genotype;
 }
 
-// [[Rcpp::export]]
-std::vector<std::string> field1(std::vector<std::string> a) {
-  std::vector<std::string> out(a.size());
-  for (int i = 0; i < a.size(); i++)
-    out[i] = string_split(a[i], ":")[0];
-  return out;
-}
 
-// [[Rcpp::export]]
-std::vector<std::string> field2(std::vector<std::string> a) {
-  std::vector<std::string> out(a.size());
-  for (int i = 0; i < a.size(); i++)
-    out[i] = string_split(a[i], ":")[1];
-  return out;
-}

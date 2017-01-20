@@ -41,6 +41,27 @@ print.nmdp_tbl <- function(x, ..., n = 5) {
   cat("...\n", sep = "")
 }
 
+#' @export
+generate_nmdp_lookup <- function(alleles, nmdp_tbl) {
+  x <- data.table::data.table(f1 = hla_field1(alleles), f2 = hla_field2(alleles))
+  x <- x[grepl("^[A-Z]+$", f2)]
+  if (is.null(data.table::key(nmdp_tbl)) || data.table::key(nmdp_tbl) != "code") {
+    data.table::setkeyv(nmdp_tbl, "code")
+  }
+  data.table::setkeyv(x, "f2")
+  x <- nmdp_tbl[x]
+  x[, `:=`(subtype, unlist(purrr::map2(f1, subtype, function(a, b) {
+    if (!grepl(":", b, fixed = TRUE)) {
+      slash(paste0(a, ":", strsplit(b, split = "/", fixed = TRUE)[[1]]))
+    }
+    else b
+  })))]
+  x[, `:=`(code, paste0(f1, ":", code))]
+  x[, `:=`(f1, NULL)]
+  data.table::setkeyv(x, "code")
+  x
+}
+
 #' Class: g_tbl
 #'
 #' Constructor for a <\code{g_tbl}> object.
