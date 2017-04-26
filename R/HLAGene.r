@@ -285,7 +285,7 @@ calc_exon2_distance <- function(x, verbose = TRUE) {
   df <- df[df$names == name, c("start", "end")]
   exon2 <- subseq(sequences(x), df$start, df$end)
   aln <- DECIPHER::AlignSeqs(exon2, iterations = 0, refinements = 0,
-                             restrict = -500, verbose = verbose)
+                             restrict = c(-500, 2, 10), verbose = verbose)
   DECIPHER::DistanceMatrix(aln, includeTerminalGaps = TRUE, verbose = verbose)
 }
 
