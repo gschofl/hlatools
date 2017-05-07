@@ -23,4 +23,3 @@ x <- HLAGene("DPB1")
 g_group(x[is_complete(x)])
 }
 }
-

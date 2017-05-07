@@ -2,16 +2,24 @@
 % Please edit documentation in R/HLARanges.r
 \docType{import}
 \name{reexports}
-\alias{elementMetadata}
-\alias{elementMetadata<-}
+\alias{reexports}
+\alias{start}
+\alias{reexports}
 \alias{end}
-\alias{ranges}
-\alias{ranges<-}
+\alias{reexports}
+\alias{width}
 \alias{reexports}
 \alias{seqnames}
-\alias{start}
-\alias{width}
+\alias{reexports}
+\alias{ranges}
+\alias{reexports}
+\alias{ranges<-}
+\alias{reexports}
+\alias{elementMetadata}
+\alias{reexports}
+\alias{elementMetadata<-}
 \title{Objects exported from other packages}
+\keyword{internal}
 \description{
 These objects are imported from other packages. Follow the links
 below to see their documentation.
@@ -19,5 +27,4 @@ below to see their documentation.
 \describe{
   \item{GenomicRanges}{\code{\link[GenomicRanges]{start}}, \code{\link[GenomicRanges]{end}}, \code{\link[GenomicRanges]{width}}, \code{\link[GenomicRanges]{seqnames}}, \code{\link[GenomicRanges]{ranges}}, \code{\link[GenomicRanges]{ranges<-}}, \code{\link[GenomicRanges]{elementMetadata}}, \code{\link[GenomicRanges]{elementMetadata<-}}}
 }}
-\keyword{internal}
 

@@ -27,4 +27,3 @@ nmdp_codes <- nmdp_table()
 \seealso{
 \code{\link{g_table}}
 }
-

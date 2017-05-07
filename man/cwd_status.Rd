@@ -23,4 +23,3 @@ x <- HLAGene("DPB1")
 cwd_status(x[is_complete(x)])
 }
 }
-

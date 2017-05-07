@@ -15,4 +15,3 @@ A vector of second fields or or \emph{""} if no second field exists).
 \description{
 Get the second field from a HLA allele code
 }
-

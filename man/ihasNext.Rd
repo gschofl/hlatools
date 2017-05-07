@@ -18,4 +18,3 @@ Create an iterator with a hasNext method
 \examples{
 ###
 }
-

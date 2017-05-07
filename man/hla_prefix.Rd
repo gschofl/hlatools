@@ -16,4 +16,3 @@ the allele code was not prefixed).
 \description{
 Get the HLA allele code prefix
 }
-

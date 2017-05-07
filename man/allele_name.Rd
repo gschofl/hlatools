@@ -23,4 +23,3 @@ x <- HLAGene("DPB1")
 allele_name(x[is_complete(x)])
 }
 }
-

@@ -20,4 +20,3 @@ Does this iterator have a next element
 \examples{
 ##
 }
-

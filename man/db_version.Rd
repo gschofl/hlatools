@@ -23,4 +23,3 @@ x <- HLAGene("DPB1")
 db_version(x)
 }
 }
-

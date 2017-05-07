@@ -30,4 +30,3 @@ repo <- fetch_IMGTHLA()
 update_IMGTHLA()
 }
 }
-

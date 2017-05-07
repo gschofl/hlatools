@@ -28,4 +28,3 @@ x <- HLAGene("DPB1")
 sequences(x[is_complete(x)])
 }
 }
-

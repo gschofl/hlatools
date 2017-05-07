@@ -25,6 +25,6 @@ Class \code{"HLAGene"}
   \item{\code{x$get_reference_sequence(allele)}}{Get the (imputed) reference sequence for allele.}
 }
 }
+
 \keyword{data}
 \keyword{internal}
-
