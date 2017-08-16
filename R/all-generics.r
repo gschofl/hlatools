@@ -147,6 +147,20 @@ setGeneric("sample_name", signature = "x", function(x, ...) standardGeneric("sam
 #' }
 setGeneric("is_complete", signature = "x", function(x, ...) standardGeneric("is_complete"))
 
+#' Has a sequence been submitted by DKMS Life Science Lab
+#'
+#' @param x A \code{\link{HLAGene}} or \code{\linkS4class{HLAAllele}} object.
+#' @param ... Further arguments passed to methods.
+#'
+#' @return A logical vector.
+#' @export
+#' @examples
+#' \dontrun{
+#' x <- HLAGene("DPB1")
+#' x[is_lsl(x) & is_complete(x)]
+#' }
+setGeneric("is_lsl", signature = "x", function(x, ...) standardGeneric("is_lsl"))
+
 #' Access locus name
 #'
 #' @param x A \code{\link{HLAGene}} object.

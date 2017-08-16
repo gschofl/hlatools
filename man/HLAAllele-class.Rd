@@ -3,12 +3,12 @@
 \docType{class}
 \name{HLAAllele-class}
 \alias{HLAAllele-class}
-\alias{[,HLAAllele,character,missing-method}
-\alias{[,HLAAllele,logical,missing-method}
-\alias{[,HLAAllele,numeric,missing-method}
-\alias{c,HLAAllele-method}
-\alias{length,HLAAllele-method}
 \alias{names,HLAAllele-method}
+\alias{length,HLAAllele-method}
+\alias{c,HLAAllele-method}
+\alias{[,HLAAllele,numeric,missing-method}
+\alias{[,HLAAllele,logical,missing-method}
+\alias{[,HLAAllele,character,missing-method}
 \title{Class \code{"HLAAllele"}}
 \usage{
 \S4method{names}{HLAAllele}(x)
@@ -41,6 +41,7 @@ Part of a \code{\link{HLAGene}} object.
 
 \item \code{[}: Subset \code{HLAAllele} objects.
 }}
+
 \section{Slots}{
 
 \describe{
@@ -50,6 +51,7 @@ Part of a \code{\link{HLAGene}} object.
 
 \item{\code{features}}{A \code{\linkS4class{HLARangesList}} object.}
 }}
+
 \examples{
 showClass("HLAAllele")
 }
@@ -58,4 +60,3 @@ showClass("HLAAllele")
 }
 \keyword{classes}
 \keyword{internal}
-

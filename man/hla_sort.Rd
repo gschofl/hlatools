@@ -17,4 +17,3 @@ A sorted vector of HLA alleles.
 Sort HLA alleles based on the numeric values of each successive field.
 NMDP codes are sorted to the front, alphabetically based on their first letter.
 }
-

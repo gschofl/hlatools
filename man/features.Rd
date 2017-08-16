@@ -28,4 +28,3 @@ x <- HLAGene("DPB1")
 features(x[is_complete(x)])
 }
 }
-

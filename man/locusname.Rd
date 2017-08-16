@@ -23,4 +23,3 @@ x <- HLAGene("DPB1")
 locusname(x)
 }
 }
-

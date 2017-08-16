@@ -15,4 +15,3 @@ showClass("HLARangesList")
 \code{\link{HLARanges}}
 }
 \keyword{classes}
-

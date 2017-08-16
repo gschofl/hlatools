@@ -26,4 +26,3 @@ doc <- read_hla_xml()
 dpb1 <- parse_hla_alleles(doc, "HLA-DPB1")
 }
 }
-

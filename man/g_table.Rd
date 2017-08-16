@@ -28,4 +28,3 @@ g_codes <- g_table()
 \seealso{
 \code{\link{nmdp_table}}
 }
-

@@ -20,6 +20,7 @@ Class \code{"HLARanges"}
 
 \item{\code{frame}}{integer.}
 }}
+
 \examples{
 showClass("HLARanges")
 }
@@ -28,4 +29,3 @@ showClass("HLARanges")
 }
 \keyword{classes}
 \keyword{internal}
-

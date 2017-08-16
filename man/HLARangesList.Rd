@@ -22,4 +22,3 @@ showClass("HLARangesList")
 \code{\link{parse_hla_alleles}}, \code{\link{HLAAllele}},
 \code{\link{HLARanges}}
 }
-

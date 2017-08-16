@@ -23,4 +23,3 @@ x <- HLAGene("DPB1")
 ethnicity(x[is_complete(x)])
 }
 }
-

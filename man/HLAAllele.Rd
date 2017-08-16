@@ -26,4 +26,3 @@ showClass("HLAAllele")
 \seealso{
 \code{\link{parse_hla_alleles}}
 }
-

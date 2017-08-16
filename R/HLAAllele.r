@@ -169,6 +169,11 @@ setMethod("is_complete", signature(x = "HLAAllele"), function(x, ...) {
   elementMetadata(x)$complete
 })
 
+setMethod("is_lsl", signature(x = "HLAAllele"), function(x, ...) {
+  pttrn <- ".*DKMS-LSL.*$"
+  grepl(pttrn, elementMetadata(x)$sample)
+})
+
 setAs(from = "HLAAllele", to = "data.table", function(from) {
   alleles <- strsplit(allele_name(from), "*", fixed = TRUE)
   fts <- features(from)

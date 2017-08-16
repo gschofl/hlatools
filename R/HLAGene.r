@@ -248,6 +248,11 @@ setMethod("is_complete", signature(x = "HLAGene"), function(x, ...) {
   elementMetadata(x)$complete
 })
 
+setMethod("is_lsl", signature(x = "HLAGene"), function(x, ...) {
+  pttrn <- ".*DKMS-LSL.*$"
+  grepl(pttrn, elementMetadata(x)$sample)
+})
+
 
 # S3 methods ----------------------------------------------------------------------------------
 

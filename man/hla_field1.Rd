@@ -15,4 +15,3 @@ A vector of first fields.
 \description{
 Get the first field from a HLA allele code
 }
-

@@ -27,4 +27,3 @@ doc <- read_hla_xml(remote = TRUE)
 update_hla_xml()
 }
 }
-

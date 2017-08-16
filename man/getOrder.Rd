@@ -20,4 +20,3 @@ Get feature order
 \examples{
 ##
 }
-
