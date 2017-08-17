@@ -227,8 +227,19 @@ make_hla_allele_parser <- function() {
     # @keywords internal
     parse_metadata = function(nodes) {
       ns      <- xml2::xml_ns(nodes)
+      ##
       cit_idx <- xml2::xml_find_lgl(nodes, "boolean(d1:citations)", ns)
+      pmids   <- rep(NA_character_, length(cit_idx))
+      pmids[cit_idx] <- vapply(xml2::xml_find_all(nodes[cit_idx], "./d1:citations", ns), function(node) {
+        colon(xml2::xml_attr(xml2::xml_children(node), "pubmed"))
+      }, FUN.VALUE = character(1))
+      ##
       smp_idx <- xml2::xml_find_lgl(nodes, "boolean(d1:sourcematerial/d1:samples)", ns)
+      samples <- rep(NA_character_, length(smp_idx))
+      samples[smp_idx] <- vapply(xml2::xml_find_all(nodes[smp_idx], "./d1:sourcematerial/d1:samples", ns), function(node) {
+        colon(xml2::xml_attr(xml2::xml_children(node), "name"))
+      }, FUN.VALUE = character(1))
+      ##
       S4Vectors::DataFrame(
         ##
         ## Allele designation
@@ -253,15 +264,11 @@ make_hla_allele_parser <- function() {
         ##
         ## Source (PubMed ID, Ethnicity, Sample/Cellline)
         ##
-        pmid          = ifelse(cit_idx, vapply(xml2::xml_find_all(nodes[cit_idx], "./d1:citations", ns), function(node) {
-          colon(xml2::xml_attr(xml2::xml_children(node), "pubmed"))
-        }, FUN.VALUE = character(1)), NA_character_),
+        pmid          = pmids,
         ethnicity     = vapply(xml2::xml_find_all(nodes, "./d1:sourcematerial/d1:ethnicity", ns), function(node) {
           colon(xml2::xml_text(xml2::xml_children(node)))
         }, FUN.VALUE = character(1)),
-        sample       = ifelse(smp_idx, vapply(xml2::xml_find_all(nodes, "./d1:sourcematerial/d1:samples", ns), function(node) {
-          colon(xml2::xml_attr(xml2::xml_children(node), "name"))
-        }, FUN.VALUE = character(1)), NA_character_)
+        sample       = samples
       )
     },
     # Parse features from an hla.xml allele node
