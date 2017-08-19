@@ -4,10 +4,12 @@
 \alias{HLAGene}
 \title{Constructor for \code{\link[=HLAGene_]{HLAGene}} objects.}
 \usage{
-HLAGene(locusname, ...)
+HLAGene(locusname, db_version = "Latest", ...)
 }
 \arguments{
 \item{locusname}{A valid HLA gene name.}
+
+\item{db_version}{IMGT/HLA version (e.g.: 3.28.0, 3.18.0, ...)}
 
 \item{...}{Passed on.}
 }

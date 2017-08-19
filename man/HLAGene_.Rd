@@ -6,7 +6,7 @@
 \title{Class \code{"HLAGene"}}
 \format{An object of class \code{R6ClassGenerator} of length 24.}
 \usage{
-HLAgene(locusname, ncores = parallel::detectCores(), with_dist = FALSE)
+HLAgene(locusname, db_version = "Latest", ncores = parallel::detectCores(), with_dist = FALSE)
 }
 \value{
 Object of \code{\link{R6Class}} representing an HLA gene.
@@ -17,7 +17,7 @@ Class \code{"HLAGene"}
 \section{Methods}{
 
 \describe{
-  \item{\code{x$new(locusname, ncores = parallel::detectCores(), with_dist = FALSE)}}{Create an object of this class.}
+  \item{\code{x$new(locusname, db_version, ncores = parallel::detectCores(), with_dist = FALSE)}}{Create an object of this class.}
   \item{\code{x$get_db_version()}}{Get the IMGT/HLA database version.}
   \item{\code{x$get_locusname()}}{Get the name of the locus.}
   \item{\code{x$get_alleles(allele)}}{Get alleles.}
