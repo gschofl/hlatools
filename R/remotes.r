@@ -86,7 +86,41 @@ update_hla_xml <- function() {
 }
 
 
+#' @keywords internal
+checkout_db_version <- function(version = "Latest") {
+  versions <- c("Latest", "3.29.0", "3.28.0", "3.27.0", "3.26.0", "3.25.0", "3.24.0", "3.23.0",
+                "3.22.0", "3.21.0", "3.20.0", "3.19.0", "3.18.0", "3.17.0", "3.16.0", "3.15.0",
+                "3.14.0", "3.13.0", "3.12.0", "3.11.0", "3.10.0", "3.9.0",  "3.8.0",   "3.7.0",
+                "3.6.0",  "3.5.0",  "3.4.0",  "3.3.0",  "3.2.0",  "3.1.0",  "3.0.0")
+  version <- match.arg(version, versions)
+  assertive.base::assert_all_are_true(
+    requireNamespace("git2r", quietly = TRUE)
+  )
+  if (version != "Latest") {
+    version <- gsub("\\.", "", version)
+  }
+  path <- file.path(getOption("hlatools.local_repos"), "IMGTHLA")
+  tryCatch({
+    repo <- git2r::repository(path)
+  }, error =  function(e) {
+    if (grepl("Unable to open repository", e$message))
+      ## go and try cloning the IMGT/HLA repo
+      return(fetch_IMGTHLA())
+    else
+      stop(e$message, call. = FALSE)
+  })
 
+  refs <- git2r::references(repo)
+
+  ## Check if "version" matches a single reference
+  if (sum(na.omit(vapply(refs, function(r) strsplit(r@shorthand, "/")[[1]][2], FUN.VALUE = "") == version)) != 1) {
+    stop("Version ", version, " not found")
+  }
+
+  git2r::checkout(repo, version)
+
+  invisible(repo)
+}
 
 
 

@@ -8,6 +8,7 @@ NULL
 #' Constructor for \code{\link[=HLAGene_]{HLAGene}} objects.
 #'
 #' @param locusname A valid HLA gene name.
+#' @param db_version IMGT/HLA version (e.g.: 3.28.0, 3.18.0, ...)
 #' @param ... Passed on.
 #'
 #' @return A \code{\link[=HLAGene_]{HLAGene}} object
@@ -25,21 +26,21 @@ NULL
 #' ## extract all Common alleles
 #' x[cwd_status(x) == "Common"]
 #' }
-HLAGene <- function(locusname, ...) {
-  HLAGene_$new(locusname, ...)
+HLAGene <- function(locusname, db_version = "Latest", ...) {
+  HLAGene_$new(locusname, db_version, ...)
 }
 
 #' Class \code{"HLAGene"}
 #'
 #' @docType class
-#' @usage HLAgene(locusname, ncores = parallel::detectCores(), with_dist = FALSE)
+#' @usage HLAgene(locusname, db_version = "Latest", ncores = parallel::detectCores(), with_dist = FALSE)
 #' @keywords data internal
 #' @importFrom XVector subseq subseq<-
 #' @import foreach
 #' @return Object of \code{\link{R6Class}} representing an HLA gene.
 #' @section Methods:
 #' \describe{
-#'   \item{\code{x$new(locusname, ncores = parallel::detectCores(), with_dist = FALSE)}}{Create an object of this class.}
+#'   \item{\code{x$new(locusname, db_version, ncores = parallel::detectCores(), with_dist = FALSE)}}{Create an object of this class.}
 #'   \item{\code{x$get_db_version()}}{Get the IMGT/HLA database version.}
 #'   \item{\code{x$get_locusname()}}{Get the name of the locus.}
 #'   \item{\code{x$get_alleles(allele)}}{Get alleles.}
@@ -49,7 +50,11 @@ HLAGene <- function(locusname, ...) {
 HLAGene_ <- R6::R6Class(
   classname = "HLAGene",
   public = list(
-    initialize = function(locusname, ncores = parallel::detectCores(), with_dist = FALSE) {
+    initialize = function(locusname, db_version, ncores = parallel::detectCores(), with_dist = FALSE) {
+      if (db_version != "Latest") {
+        checkout_db_version(db_version)
+        on.exit(checkout_db_version("Latest"))
+      }
       doc <- read_hla_xml()
       private$dbv <- xml2::xml_attr(xml2::xml_find_all(doc, "//d1:alleles/d1:allele[1]/d1:releaseversions"), "currentrelease")
       private$lcn <- match_hla_locus(locusname)
