@@ -51,7 +51,7 @@ hlatools::sequences(dpb1_cmpl)
 At a slightly higher level a `HLAAllele` can be encapsulated in an `R6`-based `HLAGene` object:
 
 ```{r}
-x <- hlatools::HLAGene("DPB1")
+x <- hlatools::HLAGene("DPB1", db_version = "3.28.0")
 x
 
 hlatools::db_version(x)
