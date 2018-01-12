@@ -1,5 +1,21 @@
 valid_hla_loci_ <- function() {
-  c('HLA-A', 'HLA-B', 'HLA-C', 'HLA-DPB1', 'HLA-DQB1', 'HLA-DRB1')
+  c(
+    'HLA-A',    'HLA-B',    'HLA-C',
+    'HLA-DPA1', 'HLA-DPB1',
+    'HLA-DQA1', 'HLA-DQB1',
+    # HLA-DRB2'
+    'HLA-DRB1', 'HLA-DRB3', 'HLA-DRB4', 'HLA-DRB5',
+    'HLA-E',    'HLA-F',    'HLA-G',
+    'HLA-DMA',  'HLA-DMB',
+    'HLA-DOA',  'HLA-DOB',
+    'HLA-DRA',
+    # 'HLA-H',    'HLA-HFE',
+    # 'HLA-J',    'HLA-K',    'HLA-L',
+    # 'MICA',     'MICB',
+    # 'HLA-P',    'HLA-T',
+    # 'TAP1',     'TAP2',
+    # 'HLA-V',    'HLA-W',    'HLA-Y'
+  )
 }
 
 expand_hla_allele <- function(x, locus = NULL) {
