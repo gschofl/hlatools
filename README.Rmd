@@ -23,11 +23,11 @@ A collection of tools to work with IPD-IMGT/HLA data
 
 A number of functions exist that grab HLA-related data from the internet
 
-* `fetch_IMGTHLA`: Clone the _ANHIG/IMGTHLA_ repo on GitHub to a location specified by the option `hlatools.local_repos`. Defaults to _~/local/db/_.
+* `fetch_IMGTHLA`: Clone the _ANHIG/IMGTHLA_ repo on [GitHub](https://github.com/ANHIG/IMGTHLA) to a location specified by the option `hlatools.local_repos`. Defaults to _~/local/db/_.
 
-* `update_IMGTHLS`: Send a pull request to _ANHIG/IMGTHLA_.
+* `update_IMGTHLA`: Send a pull request to _ANHIG/IMGTHLA_.
 
-* `read_hla_xml(remote = FALSE)`: Read the _hla.xml_ file either fetching it from the IMGT/HLA ftp server or the local _ANHIG/IMGTHLA_ clone.
+* `read_hla_xml(remote = FALSE)`: Read the _hla.xml_ file either fetching it from the IPD-IMGT/HLA ftp server or the local _ANHIG/IMGTHLA_ clone.
 
 ### Parse HLA data
 
@@ -64,4 +64,11 @@ These obects come with the same set of getter functions as `HLAAllele`s plus an 
 * `x$get_closest_complete_neighbor(allele)`: Find the closest full-length allele based on the genetic distance between exon 2 sequences.
 
 * `x$get_reference_sequence(allele)`: Return a `BStringSet` object of a full-length reference sequence for `allele`. If `allele` is not fully known the missing stretches are taken from the allele returned by a call to `get_closest_complete_neighbor()`.
+
+### Session Info
+
+```{r, echo=FALSE}
+devtools::session_info()
+```
+
 

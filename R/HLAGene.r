@@ -8,7 +8,7 @@ NULL
 #' Constructor for \code{\link[=HLAGene_]{HLAGene}} objects.
 #'
 #' @param locusname A valid HLA gene name.
-#' @param db_version IMGT/HLA version (e.g.: 3.28.0, 3.18.0, ...)
+#' @param db_version IPD-IMGT/HLA version (e.g.: 3.28.0, 3.18.0, ...)
 #' @param ... Passed on.
 #'
 #' @return A \code{\link[=HLAGene_]{HLAGene}} object
@@ -41,7 +41,7 @@ HLAGene <- function(locusname, db_version = "Latest", ...) {
 #' @section Methods:
 #' \describe{
 #'   \item{\code{x$new(locusname, db_version, ncores = parallel::detectCores(), with_dist = FALSE)}}{Create an object of this class.}
-#'   \item{\code{x$get_db_version()}}{Get the IMGT/HLA database version.}
+#'   \item{\code{x$get_db_version()}}{Get the IPD-IMGT/HLA database version.}
 #'   \item{\code{x$get_locusname()}}{Get the name of the locus.}
 #'   \item{\code{x$get_alleles(allele)}}{Get alleles.}
 #'   \item{\code{x$get_closest_complete_neighbor(allele)}}{Get the complete allele that is closest at exon 2 to the query allele.}
@@ -65,7 +65,7 @@ HLAGene_ <- R6::R6Class(
       }
     },
     print = function() {
-      fmt0 <- "IMGT/HLA database <%s>; Locus <%s>\n"
+      fmt0 <- "IPD-IMGT/HLA database <%s>; Locus <%s>\n"
       cat(sprintf(fmt0, self$get_db_version(), self$get_locusname()))
       print(self$get_alleles())
       invisible(self)
@@ -91,7 +91,7 @@ HLAGene_ <- R6::R6Class(
     }
   ),
   private = list(
-    dbv = NULL, # [character]; IMGT/HLA database version
+    dbv = NULL, # [character]; IPD-IMGT/HLA database version
     lcn = NULL, # [character]; locus name
     all = NULL, # [HLAAllele]; alleles
     dmt = NULL, # [matrix]; distance matrix based on exon 2 (it's the only one that is always present)

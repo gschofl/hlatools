@@ -175,7 +175,7 @@ setGeneric("is_lsl", signature = "x", function(x, ...) standardGeneric("is_lsl")
 #' }
 locusname <- function(x, ...) UseMethod("locusname")
 
-#' Get IMGT/HLA database version
+#' Get IPD-IMGT/HLA database version
 #'
 #' @param x A \code{\link{HLAGene}} object.
 #' @param ... Further arguments passed to methods.

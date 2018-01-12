@@ -36,7 +36,7 @@ update_IMGTHLA <- function() {
     repo <- git2r::repository(path)
     }, error =  function(e) {
       if (grepl("Unable to open repository", e$message))
-        ## go and try cloning the IMGT/HLA repo
+        ## go and try cloning the IPD-IMGT/HLA repo
         return(fetch_IMGTHLA())
       else
         stop(e$message, call. = FALSE)
@@ -46,9 +46,9 @@ update_IMGTHLA <- function() {
 }
 
 
-#' Fetch and parse or update the IMGT/HLA hla.xml file
+#' Fetch and parse or update the IPD-IMGT/HLA hla.xml file
 #'
-#' @param remote [logical] Pull data from the IMGT/HLA ftp server or
+#' @param remote [logical] Pull data from the IPD-IMGT/HLA ftp server or
 #' \code{getOption("hlatools.local_repos")}
 #'
 #' @return An object of class (S3) \code{XMLInternalDocument}.
@@ -104,7 +104,7 @@ checkout_db_version <- function(version = "Latest") {
     repo <- git2r::repository(path)
   }, error =  function(e) {
     if (grepl("Unable to open repository", e$message))
-      ## go and try cloning the IMGT/HLA repo
+      ## go and try cloning the IPD-IMGT/HLA repo
       return(fetch_IMGTHLA())
     else
       stop(e$message, call. = FALSE)

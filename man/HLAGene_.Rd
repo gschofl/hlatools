@@ -18,7 +18,7 @@ Class \code{"HLAGene"}
 
 \describe{
   \item{\code{x$new(locusname, db_version, ncores = parallel::detectCores(), with_dist = FALSE)}}{Create an object of this class.}
-  \item{\code{x$get_db_version()}}{Get the IMGT/HLA database version.}
+  \item{\code{x$get_db_version()}}{Get the IPD-IMGT/HLA database version.}
   \item{\code{x$get_locusname()}}{Get the name of the locus.}
   \item{\code{x$get_alleles(allele)}}{Get alleles.}
   \item{\code{x$get_closest_complete_neighbor(allele)}}{Get the complete allele that is closest at exon 2 to the query allele.}

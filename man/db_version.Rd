@@ -2,7 +2,7 @@
 % Please edit documentation in R/all-generics.r
 \name{db_version}
 \alias{db_version}
-\title{Get IMGT/HLA database version}
+\title{Get IPD-IMGT/HLA database version}
 \usage{
 db_version(x, ...)
 }
@@ -15,7 +15,7 @@ db_version(x, ...)
 A character vector.
 }
 \description{
-Get IMGT/HLA database version
+Get IPD-IMGT/HLA database version
 }
 \examples{
 \dontrun{

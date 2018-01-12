@@ -3,7 +3,7 @@ NULL
 
 #' Class \code{"HLAAllele"}
 #'
-#' A container for data parsed from the IMGT/HLA hla.xml file.
+#' A container for data parsed from the IPD-IMGT/HLA hla.xml file.
 #' Part of a \code{\link{HLAGene}} object.
 #'
 #' @slot sequence A \code{\linkS4class{DNAStringSet}} object.
@@ -127,10 +127,22 @@ setMethod("[", signature(x = "HLAAllele", i = "logical", j = "missing"), functio
 #' @describeIn HLAAllele Subset \code{HLAAllele} objects.
 setMethod("[", signature(x = "HLAAllele", i = "character", j = "missing"), function(x, i, j, ..., drop = TRUE) {
   ans <- HLAAllele()
-  i <- match(expand_hla_allele(i), names(x))
+  all <- expand_hla_allele(i)
+  i   <- match(all, names(x))
+
+  ## if there is no exact match try prefix matching
+  if (length(i <- i[!is.na(i)]) == 0) {
+    for (a in all) {
+      a <- all
+      i <- c(i, which(startsWith(names(x), a)))
+    }
+  }
+
+  ## if there is still no match return empty object
   if (length(i <- i[!is.na(i)]) == 0) {
     return(ans)
   }
+
   sequences(ans) <- sequences(x)[i]
   features(ans) <- features(x)[i]
   elementMetadata(ans) <- elementMetadata(x)[i, ]

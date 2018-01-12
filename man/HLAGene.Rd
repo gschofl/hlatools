@@ -9,7 +9,7 @@ HLAGene(locusname, db_version = "Latest", ...)
 \arguments{
 \item{locusname}{A valid HLA gene name.}
 
-\item{db_version}{IMGT/HLA version (e.g.: 3.28.0, 3.18.0, ...)}
+\item{db_version}{IPD-IMGT/HLA version (e.g.: 3.28.0, 3.18.0, ...)}
 
 \item{...}{Passed on.}
 }

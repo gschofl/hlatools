@@ -24,7 +24,7 @@
 \S4method{[}{HLAAllele,character,missing}(x, i, j, ..., drop = TRUE)
 }
 \description{
-A container for data parsed from the IMGT/HLA hla.xml file.
+A container for data parsed from the IPD-IMGT/HLA hla.xml file.
 Part of a \code{\link{HLAGene}} object.
 }
 \section{Methods (by generic)}{
