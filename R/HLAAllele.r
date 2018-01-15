@@ -6,6 +6,7 @@ NULL
 #' A container for data parsed from the IPD-IMGT/HLA hla.xml file.
 #' Part of a \code{\link{HLAGene}} object.
 #'
+#' @slot locus    A \code{character}string.
 #' @slot sequence A \code{\linkS4class{DNAStringSet}} object.
 #' @slot metadata A \code{\linkS4class{DataFrame}} object.
 #' @slot features A \code{\linkS4class{HLARangesList}} object.
@@ -20,9 +21,10 @@ NULL
 setClass(
   Class = "HLAAllele",
   slots = list(
-    sequence = "DNAStringSet",
-    features = "HLARangesList",
-    metadata = "DataFrame"
+    locusname = "character",
+    sequence  = "DNAStringSet",
+    features  = "HLARangesList",
+    metadata  = "DataFrame"
   )
 )
 
@@ -30,6 +32,7 @@ setClass(
 #'
 #' @note Don't run directly. This function is called by \code{\link{parse_hla_alleles}}.
 #' @param nodes Allele nodes from a hla.xml object.
+#' @param locusname A valid HLA locus name.
 #' @param ncores The number of compute cores to use.
 #'
 #' @return A \code{\linkS4class{HLAAllele}} object
@@ -37,24 +40,34 @@ setClass(
 #' @export
 #' @examples
 #' showClass("HLAAllele")
-HLAAllele <- function(nodes, ncores = parallel::detectCores()) {
+HLAAllele <- function(nodes, locusname, ncores = parallel::detectCores()) {
   if (missing(nodes)) {
     return(new("HLAAllele"))
   }
-  new("HLAAllele", nodes, ncores)
+  new("HLAAllele", nodes, locusname, ncores)
 }
 
-setMethod("initialize", signature(.Object = "HLAAllele"), function(.Object, nodes, ncores) {
+setMethod("initialize", signature(.Object = "HLAAllele"), function(.Object, nodes, locusname, ncores) {
   if (missing(nodes)) {
-    .Object@sequence = Biostrings::DNAStringSet()
-    .Object@features = HLARangesList()
-    .Object@metadata = S4Vectors::DataFrame()
+    .Object@locusname = NA_character_
+    .Object@sequence  = Biostrings::DNAStringSet()
+    .Object@features  = HLARangesList()
+    .Object@metadata  = S4Vectors::DataFrame()
   } else {
-    .Object@sequence = HLAAllele_parser$parse_sequence(nodes)
-    .Object@features = HLAAllele_parser$parse_features(nodes, ncores)
-    .Object@metadata = HLAAllele_parser$parse_metadata(nodes)
+    .Object@locusname = match_hla_locus(locusname)
+    .Object@sequence  = HLAAllele_parser$parse_sequence(nodes)
+    .Object@features  = HLAAllele_parser$parse_features(nodes, ncores)
+    .Object@metadata  = HLAAllele_parser$parse_metadata(nodes)
   }
   .Object
+})
+
+setMethod("locusname", "HLAAllele", function(x, ...) x@locusname)
+
+setMethod("locusname<-", "HLAAllele", function(x, ..., value) {
+  value <- match_hla_locus(value)
+  x@locusname <- value
+  x
 })
 
 setMethod("sequences", "HLAAllele", function(x, ...) x@sequence)
@@ -91,12 +104,16 @@ setMethod("c", signature(x = "HLAAllele"), function (x, ..., recursive = FALSE) 
   if (length(args) == 2) {
     x <- args[[1]]
     y <- args[[2]]
+    stopifnot(locusname(x) == locusname(y))
+    locusname(ans) <- locusname(x)
     sequences(ans) <- c(sequences(x), sequences(y))
-    features(ans) <- suppressWarnings(c(features(x), features(y)))
+    features(ans)  <- suppressWarnings(c(features(x), features(y)))
     elementMetadata(ans) <- rbind(elementMetadata(x), elementMetadata(y))
   } else {
+    stopifnot(unique(sapply(args, locusname)) == 1)
+    locusname(ans) <- unique(sapply(args, locusname))
     sequences(ans) <- do.call("c", lapply(args, sequences))
-    features(ans) <- suppressWarnings(do.call("c", lapply(args, features)))
+    features(ans)  <- suppressWarnings(do.call("c", lapply(args, features)))
     elementMetadata(ans) <- do.call("rbind", lapply(args, elementMetadata))
   }
   ans
@@ -105,8 +122,9 @@ setMethod("c", signature(x = "HLAAllele"), function (x, ..., recursive = FALSE) 
 #' @describeIn HLAAllele Subset \code{HLAAllele} objects.
 setMethod("[", signature(x = "HLAAllele", i = "numeric", j = "missing"), function(x, i, j, ..., drop = TRUE) {
   ans <- HLAAllele()
+  locusname(ans) <- locusname(x)
   sequences(ans) <- sequences(x)[i]
-  features(ans) <- features(x)[i]
+  features(ans)  <- features(x)[i]
   elementMetadata(ans) <- elementMetadata(x)[i, ]
   ans
 })
@@ -118,8 +136,9 @@ setMethod("[", signature(x = "HLAAllele", i = "logical", j = "missing"), functio
   if (length(i) == 0) {
     return(ans)
   }
+  locusname(ans) <- locusname(x)
   sequences(ans) <- sequences(x)[i]
-  features(ans) <- features(x)[i]
+  features(ans)  <- features(x)[i]
   elementMetadata(ans) <- elementMetadata(x)[i, ]
   ans
 })
@@ -127,13 +146,12 @@ setMethod("[", signature(x = "HLAAllele", i = "logical", j = "missing"), functio
 #' @describeIn HLAAllele Subset \code{HLAAllele} objects.
 setMethod("[", signature(x = "HLAAllele", i = "character", j = "missing"), function(x, i, j, ..., drop = TRUE) {
   ans <- HLAAllele()
-  all <- expand_hla_allele(i)
+  all <- expand_hla_allele(x = i, locus = locusname(x))
   i   <- match(all, names(x))
 
   ## if there is no exact match try prefix matching
   if (length(i <- i[!is.na(i)]) == 0) {
     for (a in all) {
-      a <- all
       i <- c(i, which(startsWith(names(x), a)))
     }
   }
@@ -143,8 +161,9 @@ setMethod("[", signature(x = "HLAAllele", i = "character", j = "missing"), funct
     return(ans)
   }
 
+  locusname(ans) <- locusname(x)
   sequences(ans) <- sequences(x)[i]
-  features(ans) <- features(x)[i]
+  features(ans)  <- features(x)[i]
   elementMetadata(ans) <- elementMetadata(x)[i, ]
   ans
 })
@@ -206,10 +225,14 @@ setMethod("as.data.table", signature(x = "HLAAllele"), function(x, ...) {
 })
 
 show_HLAAllele <- function(x) {
-  SeqLen <- width(sequences(x))
-  FeatureType <- unname(vapply(getType(features(x)), paste0, collapse = ":", FUN.VALUE = "", USE.NAMES = FALSE))
-  cat("An object of class ", sQuote(class(x)), "\n", sep = "")
-  show(S4Vectors::DataFrame(elementMetadata(x)[, c("allele_name", "g_group", "p_group", "cwd_status")], SeqLen, FeatureType))
+  if (length(x) == 0) {
+    cat("An empty object of class ", sQuote(class(x)), " for ", sQuote(locusname(x)), "\n", sep = "")
+  } else {
+    SeqLen <- width(sequences(x))
+    FeatureType <- unname(vapply(getType(features(x)), paste0, collapse = ":", FUN.VALUE = "", USE.NAMES = FALSE))
+    cat("An object of class ", sQuote(class(x)), " for ", sQuote(locusname(x)), "\n", sep = "")
+    show(S4Vectors::DataFrame(elementMetadata(x)[, c("allele_name", "g_group", "p_group", "cwd_status")], SeqLen, FeatureType))
+  }
 }
 
 setMethod("show", "HLAAllele", function(object) {

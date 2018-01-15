@@ -174,6 +174,9 @@ setGeneric("is_lsl", signature = "x", function(x, ...) standardGeneric("is_lsl")
 #' locusname(x)
 #' }
 locusname <- function(x, ...) UseMethod("locusname")
+#' @param value A valid HLA locus name or \code{NA}.
+#' @rdname locusname
+setGeneric("locusname<-", signature = "x", function(x, ..., value) standardGeneric("locusname<-"))
 
 #' Get IPD-IMGT/HLA database version
 #'

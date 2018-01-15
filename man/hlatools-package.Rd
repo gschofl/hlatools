@@ -12,6 +12,6 @@ A collection of tools to work with IPD-IMGT/HLA data
 Details
 }
 \author{
-\strong{Maintainer}: Gerhard Schöfl \email{gerhard.schofl@gmail.com}
+\strong{Maintainer}: Gerhard Schöfl \email{schoefl@dkms-lab.de}
 
 }

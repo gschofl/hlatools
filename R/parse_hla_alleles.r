@@ -23,6 +23,7 @@ parse_hla_alleles <- function(doc, locusname, ncores = parallel::detectCores()) 
   nodes1 <- xml2::xml_find_all(doc, xpath1, ns)
   xpath2 <- paste0(".//d1:releaseversions[not(starts-with(@releasestatus, 'Allele Deleted'))]/parent::node()")
   nodes2 <- xml2::xml_find_all(nodes1, xpath2, ns)
-  rs <- HLAAllele(nodes = nodes2, ncores = ncores)
+  #slen_nodeset <- length(nodes2)
+  rs <- HLAAllele(nodes = nodes2, locusname = locusname, ncores = ncores)
   rs
 }

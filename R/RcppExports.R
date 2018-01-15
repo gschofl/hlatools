@@ -11,7 +11,7 @@
 #' @return A sorted vector of HLA alleles.
 #' @export
 hla_sort <- function(alleles) {
-    .Call('hlatools_hla_sort', PACKAGE = 'hlatools', alleles)
+    .Call('_hlatools_hla_sort', PACKAGE = 'hlatools', alleles)
 }
 
 #' Get the HLA allele code prefix
@@ -21,7 +21,7 @@ hla_sort <- function(alleles) {
 #' the allele code was not prefixed).
 #' @export
 hla_prefix <- function(a) {
-    .Call('hlatools_hla_prefix', PACKAGE = 'hlatools', a)
+    .Call('_hlatools_hla_prefix', PACKAGE = 'hlatools', a)
 }
 
 #' Get the first field from a HLA allele code
@@ -30,7 +30,7 @@ hla_prefix <- function(a) {
 #' @return A vector of first fields.
 #' @export
 hla_field1 <- function(a) {
-    .Call('hlatools_hla_field1', PACKAGE = 'hlatools', a)
+    .Call('_hlatools_hla_field1', PACKAGE = 'hlatools', a)
 }
 
 #' Get the second field from a HLA allele code
@@ -39,10 +39,10 @@ hla_field1 <- function(a) {
 #' @return A vector of second fields or or \emph{""} if no second field exists).
 #' @export
 hla_field2 <- function(a) {
-    .Call('hlatools_hla_field2', PACKAGE = 'hlatools', a)
+    .Call('_hlatools_hla_field2', PACKAGE = 'hlatools', a)
 }
 
 hla_allele_to_genotype <- function(a1, a2) {
-    .Call('hlatools_hla_allele_to_genotype', PACKAGE = 'hlatools', a1, a2)
+    .Call('_hlatools_hla_allele_to_genotype', PACKAGE = 'hlatools', a1, a2)
 }
 

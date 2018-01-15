@@ -45,6 +45,8 @@ Part of a \code{\link{HLAGene}} object.
 \section{Slots}{
 
 \describe{
+\item{\code{locus}}{A \code{character}string.}
+
 \item{\code{sequence}}{A \code{\linkS4class{DNAStringSet}} object.}
 
 \item{\code{metadata}}{A \code{\linkS4class{DataFrame}} object.}

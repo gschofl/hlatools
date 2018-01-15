@@ -2,14 +2,19 @@
 % Please edit documentation in R/all-generics.r
 \name{locusname}
 \alias{locusname}
+\alias{locusname<-}
 \title{Access locus name}
 \usage{
 locusname(x, ...)
+
+locusname(x, ...) <- value
 }
 \arguments{
 \item{x}{A \code{\link{HLAGene}} object.}
 
 \item{...}{Further arguments passed to methods.}
+
+\item{value}{A valid HLA locus name or \code{NA}.}
 }
 \value{
 A character vector.

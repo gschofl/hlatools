@@ -1,7 +1,7 @@
 Package: hlatools
 Title: A collection of tools to work with IPD-IMGT/HLA data
 Version: 0.0.6.9000
-Authors@R: person("Gerhard", "Schöfl", email = "gerhard.schofl@gmail.com", role = c("aut", "cre"))
+Authors@R: person("Gerhard", "Schöfl", email = "schoefl@dkms-lab.de", role = c("aut", "cre"))
 Description: A collection of tools to work with IPD-IMGT/HLA data.
 Depends:
     R (>= 3.3.0)
@@ -10,7 +10,7 @@ Suggests:
     git2r
 LazyData: true
 Type: Package
-Maintainer: Gerhard Schöfl <gerhard.schofl@gmail.com>
+Maintainer: Gerhard Schöfl <schoefl@dkms-lab.de>
 Encoding: UTF-8
 SystemRequirements: C++11
 Imports:
