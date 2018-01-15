@@ -173,10 +173,55 @@ setGeneric("is_lsl", signature = "x", function(x, ...) standardGeneric("is_lsl")
 #' x <- HLAGene("DPB1")
 #' locusname(x)
 #' }
-locusname <- function(x, ...) UseMethod("locusname")
+setGeneric("locusname", signature = "x", function(x, ...) standardGeneric("locusname"))
 #' @param value A valid HLA locus name or \code{NA}.
 #' @rdname locusname
 setGeneric("locusname<-", signature = "x", function(x, ..., value) standardGeneric("locusname<-"))
+
+#' Retrieve exon sequences
+#'
+#' @param x A \code{\link{HLAGene}} object.
+#' @param exon The feature number or \code{NULL} (Retrieves all exons).
+#' @param ... Further arguments passed to methods.
+#'
+#' @return A \code{\linkS4class{DNAStringSet}}.
+#' @export
+#' @examples
+#' \dontrun{
+#' x <- HLAGene("DPB1")
+#' exon(x, 2)
+#' }
+setGeneric("exon", signature = "x", function(x, exon = NULL, ...) standardGeneric("exon"))
+
+#' Retrieve intron sequences
+#'
+#' @param x A \code{\link{HLAGene}} object.
+#' @param intron The feature number or \code{NULL} (Retrieves all introns).
+#' @param ... Further arguments passed to methods.
+#'
+#' @return A \code{\linkS4class{DNAStringSet}}.
+#' @export
+#' @examples
+#' \dontrun{
+#' x <- HLAGene("DPB1")
+#' intron(x, 1:2)
+#' }
+setGeneric("intron", signature = "x", function(x, intron = NULL, ...) standardGeneric("intron"))
+
+#' Retrieve UTR sequences
+#'
+#' @param x A \code{\link{HLAGene}} object.
+#' @param utr The feature number or \code{NULL} (Retrieves all UTRs).
+#' @param ... Further arguments passed to methods.
+#'
+#' @return A \code{\linkS4class{DNAStringSet}}.
+#' @export
+#' @examples
+#' \dontrun{
+#' x <- HLAGene("DPB1")
+#' utr(x, 1)
+#' }
+setGeneric("utr", signature = "x", function(x, utr = NULL, ...) standardGeneric("utr"))
 
 #' Get IPD-IMGT/HLA database version
 #'

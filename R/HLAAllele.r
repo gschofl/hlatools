@@ -97,6 +97,60 @@ setMethod("names", "HLAAllele", function(x) names(sequences(x)))
 #' @describeIn HLAAllele Get number of \code{HLAAllele}s.
 setMethod("length", "HLAAllele", function(x) length(sequences(x)))
 
+setMethod("exon", "HLAAllele", function(x, exon = NULL, ...) {
+  ftr <- features(x)
+  if (!is.null(exon)) {
+    ## convert exon number to feature order
+    fod <- exon * 2
+    rng <- ranges(ftr)[IRanges::`%in%`(getOrder(ftr), fod)]
+  } else {
+    rng <- ranges(ftr)[getType(ftr) == "Exon"]
+  }
+  exon_seq <- sequences(x)[rng]
+  ftr_name <- vapply(rng, colon %.% names, FUN.VALUE = "", USE.NAMES = FALSE)
+  names(exon_seq) <- paste0(names(exon_seq), "|", ftr_name)
+  exon_seq
+})
+
+setMethod("intron", "HLAAllele", function(x, intron = NULL, ...) {
+  ftr <- features(x)
+  if (!is.null(intron)) {
+    ## convert intron number to feature order
+    fod <- intron * 2 + 1
+    rng <- ranges(ftr)[IRanges::`%in%`(getOrder(ftr), fod)]
+  } else {
+    rng <- ranges(ftr)[getType(ftr) == "Intron"]
+  }
+  ## exclude UTRs
+  rng <- rng[IRanges::LogicalList(lapply(rng, function(x) !grepl("UTR", names(x))))]
+  intron_seq <- sequences(x)[rng]
+  ftr_name <- vapply(rng, colon %.% names, FUN.VALUE = "", USE.NAMES = FALSE)
+  names(intron_seq) <- paste0(names(intron_seq), "|", ftr_name)
+  intron_seq
+})
+
+setMethod("utr", "HLAAllele", function(x, utr = NULL, ...) {
+  ftr <- features(x)
+  if (!is.null(utr)) {
+    stopifnot(all(utr %in% 1:2))
+    fod <- unique(unlist(IRanges::which(getType(ftr) == "UTR")))
+    if (all(fod == 1) && all(utr == 2)) {
+      stop("No 3' UTR available")
+    }
+    if (all(fod > 1) && all(utr == 1)) {
+      stop("No 5' UTR available")
+    }
+    fod <- fod[utr]
+    rng <- ranges(ftr)[IRanges::`%in%`(getOrder(ftr), fod)]
+  } else {
+    rng <- ranges(ftr)[getType(ftr) == "UTR"]
+  }
+  utr_seq <- sequences(x)[rng]
+  ftr_name <- vapply(rng, colon %.% names, FUN.VALUE = "", USE.NAMES = FALSE)
+  names(utr_seq) <- paste0(names(utr_seq), "|", ftr_name)
+  utr_seq
+})
+
 #' @describeIn HLAAllele Combine \code{HLAAllele} objects.
 setMethod("c", signature(x = "HLAAllele"), function (x, ..., recursive = FALSE) {
   args <- unname(list(x, ...))

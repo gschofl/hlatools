@@ -258,6 +258,17 @@ setMethod("is_lsl", signature(x = "HLAGene"), function(x, ...) {
   grepl(pttrn, elementMetadata(x)$sample)
 })
 
+setMethod("exon", signature(x = "HLAGene"), function(x, exon = NULL, ...) {
+  exon(x$get_alleles(), exon = exon, ...)
+})
+
+setMethod("intron", signature(x = "HLAGene"), function(x, intron = NULL, ...) {
+  intron(x$get_alleles(), intron = intron, ...)
+})
+
+setMethod("utr", signature(x = "HLAGene"), function(x, utr = NULL, ...) {
+  utr(x$get_alleles(), utr = utr, ...)
+})
 
 # S3 methods ----------------------------------------------------------------------------------
 
