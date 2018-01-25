@@ -58,7 +58,7 @@ HLAGene_ <- R6::R6Class(
       }
       doc <- read_hla_xml()
       private$htv <- utils::packageVersion("hlatools")
-      private$dbv <- xml2::xml_attr(xml2::xml_find_all(doc, "//d1:alleles/d1:allele[1]/d1:releaseversions"), "currentrelease")
+      private$dbv <- numeric_version(xml2::xml_attr(xml2::xml_find_all(doc, "//d1:alleles/d1:allele[1]/d1:releaseversions"), "currentrelease"))
       private$lcn <- match_hla_locus(locusname)
       private$all <- parse_hla_alleles(doc, private$lcn, ncores)
       if (with_dist) {
@@ -97,7 +97,7 @@ HLAGene_ <- R6::R6Class(
   ),
   private = list(
     htv = NULL, # [package_version]; hlatools package version
-    dbv = NULL, # [character]; IPD-IMGT/HLA database version
+    dbv = NULL, # [numeric_version]; IPD-IMGT/HLA database version
     lcn = NULL, # [character]; locus name
     all = NULL, # [HLAAllele]; alleles
     dmt = NULL, # [matrix]; distance matrix based on exon 2 (it's the only one that is always present)
@@ -284,12 +284,13 @@ setMethod("hlatools_version", signature(x = "HLAGene"), function(x, ...) {
   x$get_hlatools_version()
 })
 
+setMethod("db_version", signature(x = "HLAGene"), function(x, ...) {
+  x$get_db_version()
+})
+
+
 # S3 methods ----------------------------------------------------------------------------------
 
-#' @export
-db_version.HLAGene <- function(x) {
-  x$get_db_version()
-}
 
 #' @export
 `[.HLAGene` <- function(x, i, j, ..., drop = TRUE) {

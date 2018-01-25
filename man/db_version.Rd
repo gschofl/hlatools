@@ -7,15 +7,16 @@
 db_version(x, ...)
 }
 \arguments{
-\item{x}{A \code{\link{HLAGene}} object.}
+\item{x}{A \link{HLAGene} object.}
 
 \item{...}{Further arguments passed to methods.}
 }
 \value{
-A character vector.
+A \link{numeric_version} object.
 }
 \description{
-Get IPD-IMGT/HLA database version
+Retrieve the \href{https://www.ebi.ac.uk/ipd/imgt/hla/}{IPD-IMGT/HLA} from which
+a HLAgene object has been created.
 }
 \examples{
 \dontrun{

@@ -225,7 +225,7 @@ setGeneric("utr", signature = "x", function(x, utr = NULL, ...) standardGeneric(
 
 #' Get hlatools package version
 #'
-#' Retrieve the package version under which an HLAgene object has been created.
+#' Retrieve the package version under which a HLAgene object has been created.
 #'
 #' @param x A [HLAGene] object.
 #' @param ... Further arguments passed to methods.
@@ -241,17 +241,21 @@ setGeneric("hlatools_version", signature = "x", function(x, ...) standardGeneric
 
 #' Get IPD-IMGT/HLA database version
 #'
-#' @param x A \code{\link{HLAGene}} object.
+#' Retrieve the [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) from which
+#' a HLAgene object has been created.
+#'
+#' @param x A [HLAGene] object.
 #' @param ... Further arguments passed to methods.
 #'
-#' @return A character vector.
+#' @return A [numeric_version] object.
 #' @export
 #' @examples
 #' \dontrun{
 #' x <- HLAGene("DPB1")
 #' db_version(x)
 #' }
-db_version <- function(x, ...) UseMethod("db_version")
+setGeneric("db_version", signature = "x", function(x, ...) standardGeneric("db_version"))
+
 
 ### -------------------------------------------------------------------------
 ### HLARanges class
