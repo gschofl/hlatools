@@ -1,4 +1,4 @@
-# hlatools 0.0.6.9000
+# hlatools 0.0.7
 
 * [feature] `db_version()` returns a `numeric_version` object instead of a `character` string (#3).
 * [feature] new `hlatools_version()` method for HLAGene objects (#2).

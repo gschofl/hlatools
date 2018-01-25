@@ -15,7 +15,7 @@ library(hlatools)
 
 # hlatools
 
-A collection of tools to work with IPD-IMGT/HLA data
+A collection of tools to work with [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) data
 
 ## Main functionality
 
@@ -42,7 +42,7 @@ dpb1
 A number of accessor functions can be used to work with these objects:
 
 ```{r}
-dpb1_cmpl <- dpb1[hlatools::is_complete(dpb1)]
+dpb1_cmpl <- dpb1[hlatools::is_complete(dpb1)][1:10]
 hlatools::allele_name(dpb1_cmpl)
 hlatools::cwd_status(dpb1_cmpl)
 hlatools::sequences(dpb1_cmpl)
@@ -51,12 +51,12 @@ hlatools::sequences(dpb1_cmpl)
 At a slightly higher level a `HLAAllele` can be encapsulated in an `R6`-based `HLAGene` object:
 
 ```{r}
-x <- hlatools::HLAGene("DPB1", db_version = "3.28.0")
+x <- hlatools::HLAGene("DPB1", db_version = "3.30.0")
 x
 
 hlatools::db_version(x)
 hlatools::locusname(x)
-x[hlatools::cwd_status(x) == "Common"]
+x[hlatools::cwd_status(x) == "Common"][1:10]
 ```
 
 These obects come with the same set of getter functions as `HLAAllele`s plus an additional set of `R6`-methods that implement an API used mostly in conjunction with the `DR2S` package:
