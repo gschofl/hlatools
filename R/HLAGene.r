@@ -56,6 +56,7 @@ HLAGene_ <- R6::R6Class(
         on.exit(checkout_db_version("Latest"))
       }
       doc <- read_hla_xml()
+      #private$htv <- x <- utils::packageVersion("hlatools")
       private$dbv <- xml2::xml_attr(xml2::xml_find_all(doc, "//d1:alleles/d1:allele[1]/d1:releaseversions"), "currentrelease")
       private$lcn <- match_hla_locus(locusname)
       private$all <- parse_hla_alleles(doc, private$lcn, ncores)
@@ -71,8 +72,11 @@ HLAGene_ <- R6::R6Class(
       invisible(self)
     },
     ## getters and setters
+    # get_pkg_version = function() {
+    #   private$htv
+    # },
     get_db_version = function() {
-    private$dbv
+      private$dbv
     },
     get_locusname = function() {
       private$lcn
@@ -91,6 +95,7 @@ HLAGene_ <- R6::R6Class(
     }
   ),
   private = list(
+    #htv = NULL, # [package_version]; hlatools package version
     dbv = NULL, # [character]; IPD-IMGT/HLA database version
     lcn = NULL, # [character]; locus name
     all = NULL, # [HLAAllele]; alleles
@@ -270,12 +275,12 @@ setMethod("utr", signature(x = "HLAGene"), function(x, utr = NULL, ...) {
   utr(x$get_alleles(), utr = utr, ...)
 })
 
-# S3 methods ----------------------------------------------------------------------------------
-
-#' @export
-locusname.HLAGene <- function(x) {
+setMethod("locusname", signature(x = "HLAGene"), function(x, ...) {
   x$get_locusname()
-}
+})
+
+
+# S3 methods ----------------------------------------------------------------------------------
 
 #' @export
 db_version.HLAGene <- function(x) {
