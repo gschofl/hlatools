@@ -223,6 +223,22 @@ setGeneric("intron", signature = "x", function(x, intron = NULL, ...) standardGe
 #' }
 setGeneric("utr", signature = "x", function(x, utr = NULL, ...) standardGeneric("utr"))
 
+#' Get hlatools package version
+#'
+#' Retrieve the package version under which an HLAgene object has been created.
+#'
+#' @param x A [HLAGene] object.
+#' @param ... Further arguments passed to methods.
+#'
+#' @return A [package_version] object.
+#' @export
+#' @examples
+#' \dontrun{
+#' x <- HLAGene("DPB1")
+#' hlatools_version(x)
+#' }
+setGeneric("hlatools_version", signature = "x", function(x, ...) standardGeneric("hlatools_version"))
+
 #' Get IPD-IMGT/HLA database version
 #'
 #' @param x A \code{\link{HLAGene}} object.

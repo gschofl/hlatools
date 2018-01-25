@@ -50,3 +50,4 @@ Collate:
     'remotes.r'
     'zzz.r'
 LinkingTo: Rcpp
+Roxygen: list(markdown = TRUE)

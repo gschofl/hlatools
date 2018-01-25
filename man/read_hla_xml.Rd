@@ -10,7 +10,7 @@ read_hla_xml(remote = FALSE)
 update_hla_xml()
 }
 \arguments{
-\item{remote}{[logical] Pull data from the IPD-IMGT/HLA ftp server or
+\item{remote}{\link{logical} Pull data from the IPD-IMGT/HLA ftp server or
 \code{getOption("hlatools.local_repos")}}
 }
 \value{

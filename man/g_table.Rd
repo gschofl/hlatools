@@ -12,9 +12,9 @@ g_table()
 \value{
 A table with the fields:
 \itemize{
- \item "gene": A HLA gene.
- \item "code": The G Code.
- \item "subtype": The '/'-separated subtypes into which a G Code expands.
+\item "gene": A HLA gene.
+\item "code": The G Code.
+\item "subtype": The '/'-separated subtypes into which a G Code expands.
 }
 }
 \description{

@@ -9,8 +9,8 @@ parse_hla_alleles(doc, locusname, ncores = parallel::detectCores())
 \arguments{
 \item{doc}{\file{hla.xml} as an \code{xml_document} object.}
 
-\item{locusname}{One of [\code{HLA-A, HLA-B, HLA-C, HLA-DPA1, HLA-DPB1,
-HLA-DQA1, HLA-DQB1, HLA-DRB}]}
+\item{locusname}{One of \link{\code{HLA-A, HLA-B, HLA-C, HLA-DPA1, HLA-DPB1,
+HLA-DQA1, HLA-DQB1, HLA-DRB}}}
 
 \item{ncores}{he number of compute cores to use.}
 }

@@ -30,18 +30,19 @@ HLAGene <- function(locusname, db_version = "Latest", ...) {
   HLAGene_$new(locusname, db_version, ...)
 }
 
-#' Class \code{"HLAGene"}
+#' Class `"HLAGene"`
 #'
 #' @docType class
 #' @usage HLAgene(locusname, db_version = "Latest", ncores = parallel::detectCores(), with_dist = FALSE)
 #' @keywords data internal
 #' @importFrom XVector subseq subseq<-
 #' @import foreach
-#' @return Object of \code{\link{R6Class}} representing an HLA gene.
+#' @return Object of [R6Class] representing an HLA gene.
 #' @section Methods:
 #' \describe{
 #'   \item{\code{x$new(locusname, db_version, ncores = parallel::detectCores(), with_dist = FALSE)}}{Create an object of this class.}
 #'   \item{\code{x$get_db_version()}}{Get the IPD-IMGT/HLA database version.}
+#'   \item{\code{x$get_hlatools_version()}}{Get the package version under which an object was created.}
 #'   \item{\code{x$get_locusname()}}{Get the name of the locus.}
 #'   \item{\code{x$get_alleles(allele)}}{Get alleles.}
 #'   \item{\code{x$get_closest_complete_neighbor(allele)}}{Get the complete allele that is closest at exon 2 to the query allele.}
@@ -56,7 +57,7 @@ HLAGene_ <- R6::R6Class(
         on.exit(checkout_db_version("Latest"))
       }
       doc <- read_hla_xml()
-      #private$htv <- x <- utils::packageVersion("hlatools")
+      private$htv <- utils::packageVersion("hlatools")
       private$dbv <- xml2::xml_attr(xml2::xml_find_all(doc, "//d1:alleles/d1:allele[1]/d1:releaseversions"), "currentrelease")
       private$lcn <- match_hla_locus(locusname)
       private$all <- parse_hla_alleles(doc, private$lcn, ncores)
@@ -72,9 +73,9 @@ HLAGene_ <- R6::R6Class(
       invisible(self)
     },
     ## getters and setters
-    # get_pkg_version = function() {
-    #   private$htv
-    # },
+    get_hlatools_version = function() {
+      private$htv
+    },
     get_db_version = function() {
       private$dbv
     },
@@ -95,7 +96,7 @@ HLAGene_ <- R6::R6Class(
     }
   ),
   private = list(
-    #htv = NULL, # [package_version]; hlatools package version
+    htv = NULL, # [package_version]; hlatools package version
     dbv = NULL, # [character]; IPD-IMGT/HLA database version
     lcn = NULL, # [character]; locus name
     all = NULL, # [HLAAllele]; alleles
@@ -279,6 +280,9 @@ setMethod("locusname", signature(x = "HLAGene"), function(x, ...) {
   x$get_locusname()
 })
 
+setMethod("hlatools_version", signature(x = "HLAGene"), function(x, ...) {
+  x$get_hlatools_version()
+})
 
 # S3 methods ----------------------------------------------------------------------------------
 

@@ -9,7 +9,7 @@
 HLAgene(locusname, db_version = "Latest", ncores = parallel::detectCores(), with_dist = FALSE)
 }
 \value{
-Object of \code{\link{R6Class}} representing an HLA gene.
+Object of \link{R6Class} representing an HLA gene.
 }
 \description{
 Class \code{"HLAGene"}
@@ -17,12 +17,13 @@ Class \code{"HLAGene"}
 \section{Methods}{
 
 \describe{
-  \item{\code{x$new(locusname, db_version, ncores = parallel::detectCores(), with_dist = FALSE)}}{Create an object of this class.}
-  \item{\code{x$get_db_version()}}{Get the IPD-IMGT/HLA database version.}
-  \item{\code{x$get_locusname()}}{Get the name of the locus.}
-  \item{\code{x$get_alleles(allele)}}{Get alleles.}
-  \item{\code{x$get_closest_complete_neighbor(allele)}}{Get the complete allele that is closest at exon 2 to the query allele.}
-  \item{\code{x$get_reference_sequence(allele)}}{Get the (imputed) reference sequence for allele.}
+\item{\code{x$new(locusname, db_version, ncores = parallel::detectCores(), with_dist = FALSE)}}{Create an object of this class.}
+\item{\code{x$get_db_version()}}{Get the IPD-IMGT/HLA database version.}
+\item{\code{x$get_hlatools_version()}}{Get the package version under which an object was created.}
+\item{\code{x$get_locusname()}}{Get the name of the locus.}
+\item{\code{x$get_alleles(allele)}}{Get alleles.}
+\item{\code{x$get_closest_complete_neighbor(allele)}}{Get the complete allele that is closest at exon 2 to the query allele.}
+\item{\code{x$get_reference_sequence(allele)}}{Get the (imputed) reference sequence for allele.}
 }
 }
 
