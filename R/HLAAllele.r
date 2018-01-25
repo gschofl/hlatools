@@ -1,20 +1,20 @@
 #' @include HLARanges.r
 NULL
 
-#' Class \code{"HLAAllele"}
+#' Class `"HLAAllele"``
 #'
 #' A container for data parsed from the IPD-IMGT/HLA hla.xml file.
-#' Part of a \code{\link{HLAGene}} object.
+#' Part of a [HLAGene][HLAGene_] object.
 #'
-#' @slot locus    A \code{character}string.
-#' @slot sequence A \code{\linkS4class{DNAStringSet}} object.
-#' @slot metadata A \code{\linkS4class{DataFrame}} object.
-#' @slot features A \code{\linkS4class{HLARangesList}} object.
+#' @slot locus    A `character` string.
+#' @slot sequence A [DNAStringSet-class] object.
+#' @slot metadata A [DataFrame-class] object.
+#' @slot features A [HLARangesList-class] object.
 #'
 #' @importClassesFrom Biostrings DNAStringSet
 #' @importClassesFrom S4Vectors DataFrame
 #' @keywords classes internal
-#' @seealso \code{\link{HLAGene}}.
+#' @seealso [HLAGene][HLAGene_]
 #' @export
 #' @examples
 #' showClass("HLAAllele")
@@ -28,15 +28,15 @@ setClass(
   )
 )
 
-#' Constructor for \code{\linkS4class{HLAAllele}} objects
+#' Constructor for [HLAAllele-class] objects
 #'
-#' @note Don't run directly. This function is called by \code{\link{parse_hla_alleles}}.
-#' @param nodes Allele nodes from a hla.xml object.
+#' @note Don't run directly. This function is called by [parse_hla_alleles()].
+#' @param nodes Allele nodes from a `hla.xml` object.
 #' @param locusname A valid HLA locus name.
 #' @param ncores The number of compute cores to use.
 #'
-#' @return A \code{\linkS4class{HLAAllele}} object
-#' @seealso \code{\link{parse_hla_alleles}}
+#' @return A [HLAAllele-class] object
+#' @seealso [parse_hla_alleles()]
 #' @export
 #' @examples
 #' showClass("HLAAllele")
@@ -91,10 +91,10 @@ setMethod("elementMetadata<-", "HLAAllele", function(x, ..., value) {
   x
 })
 
-#' @describeIn HLAAllele Get sequence names from \code{HLAAllele}s.
+#' @describeIn HLAAllele Get sequence names from [HLAAllele-class]s.
 setMethod("names", "HLAAllele", function(x) names(sequences(x)))
 
-#' @describeIn HLAAllele Get number of \code{HLAAllele}s.
+#' @describeIn HLAAllele Get number of [HLAAllele-class]s.
 setMethod("length", "HLAAllele", function(x) length(sequences(x)))
 
 setMethod("exon", "HLAAllele", function(x, exon = NULL, ...) {
@@ -151,8 +151,8 @@ setMethod("utr", "HLAAllele", function(x, utr = NULL, ...) {
   utr_seq
 })
 
-#' @describeIn HLAAllele Combine \code{HLAAllele} objects.
-setMethod("c", signature(x = "HLAAllele"), function (x, ..., recursive = FALSE) {
+#' @describeIn HLAAllele Combine [HLAAllele-class] objects.
+setMethod("c", signature(x = "HLAAllele"), function(x, ..., recursive = FALSE) {
   args <- unname(list(x, ...))
   ans <- HLAAllele()
   if (length(args) == 2) {
@@ -173,7 +173,7 @@ setMethod("c", signature(x = "HLAAllele"), function (x, ..., recursive = FALSE) 
   ans
 })
 
-#' @describeIn HLAAllele Subset \code{HLAAllele} objects.
+#' @describeIn HLAAllele Subset [HLAAllele-class] objects.
 setMethod("[", signature(x = "HLAAllele", i = "numeric", j = "missing"), function(x, i, j, ..., drop = TRUE) {
   ans <- HLAAllele()
   locusname(ans) <- locusname(x)
@@ -183,7 +183,7 @@ setMethod("[", signature(x = "HLAAllele", i = "numeric", j = "missing"), functio
   ans
 })
 
-#' @describeIn HLAAllele Subset \code{HLAAllele} objects.
+#' @describeIn HLAAllele Subset [HLAAllele-class] objects.
 setMethod("[", signature(x = "HLAAllele", i = "logical", j = "missing"), function(x, i, j, ..., drop = TRUE) {
   ans <- HLAAllele()
   i <- which(i)
@@ -197,7 +197,7 @@ setMethod("[", signature(x = "HLAAllele", i = "logical", j = "missing"), functio
   ans
 })
 
-#' @describeIn HLAAllele Subset \code{HLAAllele} objects.
+#' @describeIn HLAAllele Subset [HLAAllele-class] objects.
 setMethod("[", signature(x = "HLAAllele", i = "character", j = "missing"), function(x, i, j, ..., drop = TRUE) {
   ans <- HLAAllele()
   all <- expand_hla_allele(x = i, locus = locusname(x))

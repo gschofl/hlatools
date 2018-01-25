@@ -7,14 +7,14 @@
 intron(x, intron = NULL, ...)
 }
 \arguments{
-\item{x}{A \code{\link{HLAGene}} object.}
+\item{x}{A \link[=HLAGene_]{HLAGene} object.}
 
 \item{intron}{The feature number or \code{NULL} (Retrieves all introns).}
 
 \item{...}{Further arguments passed to methods.}
 }
 \value{
-A \code{\linkS4class{DNAStringSet}}.
+A \linkS4class{DNAStringSet}.
 }
 \description{
 Retrieve intron sequences

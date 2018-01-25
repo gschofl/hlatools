@@ -1,8 +1,8 @@
 #' Class: nmdp_tbl
 #'
-#' Constructor for an <\code{nmdp_tbl}> object.
+#' Constructor for an <`nmdp_tbl`> object.
 #'
-#' @source \url{https://bioinformatics.bethematchclinical.org/HLA-Resources/Allele-Codes/Allele-Code-Lists/Allele-Code-List-in-Numerical-Order/}.
+#' @source [NMDP](https://bioinformatics.bethematchclinical.org/HLA-Resources/Allele-Codes/Allele-Code-Lists/Allele-Code-List-in-Numerical-Order/)
 #'
 #' @return
 #' A table of mappings between NMDP codes and allelic subtypes with the fields:
@@ -10,7 +10,7 @@
 #'  \item "code": An NMDP code.
 #'  \item "subtype": The '/'-separated subtypes into which an NMDP code expands.
 #' }
-#' @seealso \code{\link{g_table}}
+#' @seealso [g_table]
 #' @export
 #' @examples
 #' \dontrun{
@@ -64,9 +64,9 @@ generate_nmdp_lookup <- function(alleles, nmdp_tbl) {
 
 #' Class: g_tbl
 #'
-#' Constructor for a <\code{g_tbl}> object.
+#' Constructor for a <`g_tbl`> object.
 #'
-#' @source \url{http://hla.alleles.org/nomenclature/g_groups.html}.
+#' @source [hla.alleles.org](http://hla.alleles.org/nomenclature/g_groups.html).
 #'
 #' @return
 #' A table with the fields:
@@ -75,7 +75,7 @@ generate_nmdp_lookup <- function(alleles, nmdp_tbl) {
 #'  \item "code": The G Code.
 #'  \item "subtype": The '/'-separated subtypes into which a G Code expands.
 #' }
-#' @seealso \code{\link{nmdp_table}}
+#' @seealso [nmdp_table]
 #' @export
 #' @examples
 #' \dontrun{

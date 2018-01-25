@@ -7,12 +7,12 @@
 getOrder(x, ...)
 }
 \arguments{
-\item{x}{A \code{\linkS4class{HLARanges}} object.}
+\item{x}{A \linkS4class{HLARanges} object.}
 
 \item{...}{Further arguments passed to methods.}
 }
 \value{
-An integer vector.
+An \link{integer} vector.
 }
 \description{
 Get feature order

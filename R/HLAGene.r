@@ -5,13 +5,13 @@ NULL
 # Class: HLAGene ----------------------------------------------------------
 
 
-#' Constructor for \code{\link[=HLAGene_]{HLAGene}} objects.
+#' Constructor for [HLAGene][HLAGene_] objects.
 #'
 #' @param locusname A valid HLA gene name.
 #' @param db_version IPD-IMGT/HLA version (e.g.: 3.28.0, 3.18.0, ...)
 #' @param ... Passed on.
 #'
-#' @return A \code{\link[=HLAGene_]{HLAGene}} object
+#' @return A [HLAGene][HLAGene_] object.
 #' @export
 #' @examples
 #' \dontrun{

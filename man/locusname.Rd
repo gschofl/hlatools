@@ -10,7 +10,7 @@ locusname(x, ...)
 locusname(x, ...) <- value
 }
 \arguments{
-\item{x}{A \code{\link{HLAGene}} object.}
+\item{x}{A \link[=HLAGene_]{HLAGene} object.}
 
 \item{...}{Further arguments passed to methods.}
 

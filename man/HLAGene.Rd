@@ -2,7 +2,7 @@
 % Please edit documentation in R/HLAGene.r
 \name{HLAGene}
 \alias{HLAGene}
-\title{Constructor for \code{\link[=HLAGene_]{HLAGene}} objects.}
+\title{Constructor for \link[=HLAGene_]{HLAGene} objects.}
 \usage{
 HLAGene(locusname, db_version = "Latest", ...)
 }
@@ -14,10 +14,10 @@ HLAGene(locusname, db_version = "Latest", ...)
 \item{...}{Passed on.}
 }
 \value{
-A \code{\link[=HLAGene_]{HLAGene}} object
+A \link[=HLAGene_]{HLAGene} object.
 }
 \description{
-Constructor for \code{\link[=HLAGene_]{HLAGene}} objects.
+Constructor for \link[=HLAGene_]{HLAGene} objects.
 }
 \examples{
 \dontrun{

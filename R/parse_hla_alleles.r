@@ -4,12 +4,11 @@ utils::globalVariables("node", package = "hlatools")
 
 #' Parse all HLA alleles for a locus from hla.xml
 #'
-#' @param doc \file{hla.xml} as an \code{xml_document} object.
-#' @param locusname One of [\code{HLA-A, HLA-B, HLA-C, HLA-DPA1, HLA-DPB1,
-#' HLA-DQA1, HLA-DQB1, HLA-DRB}]
-#' @param ncores he number of compute cores to use.
+#' @param doc \file{hla.xml} as an [xml2::xml_document] object.
+#' @param locusname One of <`HLA-A, HLA-B, HLA-C, HLA-DQB1, HLA-DRB1, HLA-DPB1`>
+#' @param ncores The number of compute cores to use.
 #'
-#' @return A \code{\linkS4class{HLAAllele}} object.
+#' @return A [HLAAllele-class] object.
 #' @export
 #' @examples
 #' \dontrun{

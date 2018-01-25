@@ -7,14 +7,14 @@
 exon(x, exon = NULL, ...)
 }
 \arguments{
-\item{x}{A \code{\link{HLAGene}} object.}
+\item{x}{A \link[=HLAGene_]{HLAGene} object.}
 
 \item{exon}{The feature number or \code{NULL} (Retrieves all exons).}
 
 \item{...}{Further arguments passed to methods.}
 }
 \value{
-A \code{\linkS4class{DNAStringSet}}.
+A \linkS4class{DNAStringSet}.
 }
 \description{
 Retrieve exon sequences

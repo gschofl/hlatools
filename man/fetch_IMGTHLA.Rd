@@ -3,7 +3,7 @@
 \name{fetch_IMGTHLA}
 \alias{fetch_IMGTHLA}
 \alias{update_IMGTHLA}
-\title{Clone or update the IMGTHLA repo on github}
+\title{Clone or pull from the \href{https://github.com/ANHIG/IMGTHLA}{ANHIG/IMGTHLA} repo}
 \usage{
 fetch_IMGTHLA(local_path = getOption("hlatools.local_repos"))
 
@@ -13,12 +13,12 @@ update_IMGTHLA()
 \item{local_path}{Local directory to clone to. Defaults to \file{~/local/db/IMGTHLA}.}
 }
 \value{
-A S4 \code{\linkS4class{git_repository}} object.
+A \linkS4class{git_repository} object.
 
 \code{invisible(NULL)}
 }
 \description{
-Clone or update the IMGTHLA repo on github
+Clone or pull from the \href{https://github.com/ANHIG/IMGTHLA}{ANHIG/IMGTHLA} repo
 }
 \note{
 Due to limitations in the \pkg{git2r} this will not work

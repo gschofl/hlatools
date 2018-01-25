@@ -7,14 +7,14 @@
 utr(x, utr = NULL, ...)
 }
 \arguments{
-\item{x}{A \code{\link{HLAGene}} object.}
+\item{x}{A \link[=HLAGene_]{HLAGene} object.}
 
 \item{utr}{The feature number or \code{NULL} (Retrieves all UTRs).}
 
 \item{...}{Further arguments passed to methods.}
 }
 \value{
-A \code{\linkS4class{DNAStringSet}}.
+A \linkS4class{DNAStringSet}.
 }
 \description{
 Retrieve UTR sequences

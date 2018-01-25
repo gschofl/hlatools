@@ -2,7 +2,9 @@
 #' @include all-generics.r
 NULL
 
-#' Class \code{"HLARanges"}
+#' Class `"HLARanges"`
+#'
+#' Extends [GRanges-class].
 #'
 #' @slot id character.
 #' @slot order integer.
@@ -12,7 +14,7 @@ NULL
 #'
 #' @importClassesFrom GenomicRanges GRanges GRangesList
 #' @keywords classes internal
-#' @seealso \code{\link{parse_hla_alleles}}, \code{\link{HLAAllele}}
+#' @seealso [parse_hla_alleles()], [HLAAllele-class]
 #' @export
 #' @examples
 #' showClass("HLARanges")
@@ -28,19 +30,19 @@ setClass(
   )
 )
 
-#' Constructor for \code{\linkS4class{HLARanges}} objects
+#' Constructor for [HLARanges-class] objects
 #'
-#' @param seqnames character vector of the sequence name.
-#' @param ranges IRanges object containing the ranges.
-#' @param id character vector of feature IDs.
-#' @param order integer vector of feature order.
-#' @param type character vector of feature type.
-#' @param status character vector of completeness status
-#' @param frame integer vector of reading order.
-#' @param ... Arguments passed to \code{\link[GenomicRanges]{Granges}}.
+#' @param seqnames `character` vector of the sequence name.
+#' @param ranges [IRanges-class] object containing the ranges.
+#' @param id `character` vector of feature IDs.
+#' @param order `integer` vector of feature order.
+#' @param type `character` vector of feature type.
+#' @param status `character` vector of completeness status
+#' @param frame `integer` vector of reading order.
+#' @param ... Arguments passed to [GenomicRanges::Granges()].
 #'
-#' @return A \code{\linkS4class{HLARanges}} object.
-#' @seealso \code{\link{parse_hla_alleles}}, \code{\link{HLAAllele}}
+#' @return A [HLARanges-class] object.
+#' @seealso [parse_hla_alleles()], [HLAAllele-class]
 #' @export
 #' @examples
 #' showClass("HLARanges")
@@ -126,13 +128,14 @@ setMethod(GenomicRanges:::extraColumnSlotNames, "HLARanges", function(x) {
   c("id", "order", "type", "status", "frame")
 })
 
-#' Class \code{"HLARangesList"}
+#' Class `"HLARangesList"`
+#'
+#' List container for [HLARanges-class] objects.
 #'
 #' @importClassesFrom S4Vectors DataFrame List
 #' @keywords classes
 #' @export
-#' @seealso \code{\link{parse_hla_alleles}}, \code{\link{HLAAllele}},
-#' \code{\link{HLARanges}}
+#' @seealso [parse_hla_alleles()], [HLAAllele-class], [HLARanges-class]
 #' @examples
 #' showClass("HLARangesList")
 setClass(
@@ -149,13 +152,12 @@ setClass(
   contains = c("HLARangesList", "GRangesList")
 )
 
-#' Constructor for \code{\linkS4class{HLARangesList}} objects
+#' Constructor for [HLARangesList-class] objects
 #'
-#' @param ... HLARanges objects.
+#' @param ... [HLARanges-class] objects.
 #'
-#' @return A \code{\linkS4class{HLARangesList}} object
-#' @seealso \code{\link{parse_hla_alleles}}, \code{\link{HLAAllele}},
-#' \code{\link{HLARanges}}
+#' @return A [HLARangesList-class] object
+#' @seealso [parse_hla_alleles()], [HLAAllele-class], [HLARanges-class]
 #' @importFrom GenomicRanges merge
 #' @export
 #' @examples
@@ -163,8 +165,6 @@ setClass(
 HLARangesList <- function(...) {
   new("CompressedHLARangesList", GenomicRanges::GRangesList(...))
 }
-
-#gr_unlist <- GenomicRanges::unlist
 
 setMethod("getId", "HLARangesList", function(x, ...) {
   unlisted_x <- unlist(x)

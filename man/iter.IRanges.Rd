@@ -7,7 +7,7 @@
 \method{iter}{IRanges}(obj, ...)
 }
 \arguments{
-\item{obj}{A \code{\linkS4class{IRanges}} object.}
+\item{obj}{A \linkS4class{IRanges} object.}
 
 \item{...}{Additional arguments affecting the iterator.}
 }

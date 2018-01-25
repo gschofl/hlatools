@@ -4,9 +4,9 @@
 \name{hlatools-package}
 \alias{hlatools}
 \alias{hlatools-package}
-\title{A collection of tools to work with IPD-IMGT/HLA data}
+\title{A collection of tools to work with \href{https://www.ebi.ac.uk/ipd/imgt/hla/}{IPD-IMGT/HLA} data}
 \description{
-A collection of tools to work with IPD-IMGT/HLA data
+A collection of tools to work with \href{https://www.ebi.ac.uk/ipd/imgt/hla/}{IPD-IMGT/HLA} data
 }
 \details{
 Details

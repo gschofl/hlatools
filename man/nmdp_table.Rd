@@ -4,7 +4,7 @@
 \alias{nmdp_table}
 \title{Class: nmdp_tbl}
 \source{
-\url{https://bioinformatics.bethematchclinical.org/HLA-Resources/Allele-Codes/Allele-Code-Lists/Allele-Code-List-in-Numerical-Order/}.
+\href{https://bioinformatics.bethematchclinical.org/HLA-Resources/Allele-Codes/Allele-Code-Lists/Allele-Code-List-in-Numerical-Order/}{NMDP}
 }
 \usage{
 nmdp_table()
@@ -25,5 +25,5 @@ nmdp_codes <- nmdp_table()
 }
 }
 \seealso{
-\code{\link{g_table}}
+\link{g_table}
 }

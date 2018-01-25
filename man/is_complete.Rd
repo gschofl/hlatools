@@ -7,7 +7,7 @@
 is_complete(x, ...)
 }
 \arguments{
-\item{x}{A \code{\link{HLAGene}} or \code{\linkS4class{HLAAllele}} object.}
+\item{x}{A \link[=HLAGene_]{HLAGene} or \linkS4class{HLAAllele} object.}
 
 \item{...}{Further arguments passed to methods.}
 }

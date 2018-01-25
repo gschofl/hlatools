@@ -1,10 +1,10 @@
-#' Clone or update the IMGTHLA repo on github
+#' Clone or pull from the [ANHIG/IMGTHLA](https://github.com/ANHIG/IMGTHLA) repo
 #'
 #' @note Due to limitations in the \pkg{git2r} this will not work
 #' behind a proxy.
 #' @param local_path Local directory to clone to. Defaults to \file{~/local/db/IMGTHLA}.
 #'
-#' @return A S4 \code{\linkS4class{git_repository}} object.
+#' @return A [git_repository-class] object.
 #' @export
 #' @examples
 #' \dontrun{
@@ -25,7 +25,7 @@ fetch_IMGTHLA <- function(local_path = getOption("hlatools.local_repos")) {
 }
 
 #' @rdname fetch_IMGTHLA
-#' @return \code{invisible(NULL)}
+#' @return `invisible(NULL)`
 #' @export
 update_IMGTHLA <- function() {
   assertive.base::assert_all_are_true(
@@ -45,13 +45,12 @@ update_IMGTHLA <- function() {
   repo
 }
 
-
 #' Fetch and parse or update the IPD-IMGT/HLA hla.xml file
 #'
-#' @param remote [logical] Pull data from the IPD-IMGT/HLA ftp server or
-#' \code{getOption("hlatools.local_repos")}
+#' @param remote <[logical]>; if `TRUE` pull data from the IPD-IMGT/HLA ftp server,
+#' if `FALSE` retrieve data from \code{getOption("hlatools.local_repos")}
 #'
-#' @return An object of class (S3) \code{XMLInternalDocument}.
+#' @return An [xml_document][xml2::read_xml()].
 #' @export
 #' @examples \dontrun{
 #' doc <- read_hla_xml(remote = TRUE)
@@ -75,7 +74,7 @@ read_hla_xml <- function(remote = FALSE) {
 }
 
 #' @rdname read_hla_xml
-#' @return \code{invisible(NULL)}
+#' @return `invisible(NULL)`
 #' @export
 update_hla_xml <- function() {
   assertive.properties::assert_is_not_null(getOption("hlatools.local_repos"))
@@ -88,10 +87,12 @@ update_hla_xml <- function() {
 
 #' @keywords internal
 checkout_db_version <- function(version = "Latest") {
-  versions <- c("Latest", "3.29.0", "3.28.0", "3.27.0", "3.26.0", "3.25.0", "3.24.0", "3.23.0",
-                "3.22.0", "3.21.0", "3.20.0", "3.19.0", "3.18.0", "3.17.0", "3.16.0", "3.15.0",
-                "3.14.0", "3.13.0", "3.12.0", "3.11.0", "3.10.0", "3.9.0",  "3.8.0",   "3.7.0",
-                "3.6.0",  "3.5.0",  "3.4.0",  "3.3.0",  "3.2.0",  "3.1.0",  "3.0.0")
+  versions <- c("Latest", "3.31.0", "3.30.0", "3.29.0", "3.28.0", "3.27.0",
+                "3.26.0", "3.25.0", "3.24.0", "3.23.0", "3.22.0", "3.21.0",
+                "3.20.0", "3.19.0", "3.18.0", "3.17.0", "3.16.0", "3.15.0",
+                "3.14.0", "3.13.0", "3.12.0", "3.11.0", "3.10.0", "3.9.0",
+                "3.8.0",  "3.7.0",  "3.6.0",  "3.5.0",  "3.4.0",  "3.3.0",
+                "3.2.0",  "3.1.0",  "3.0.0")
   version <- match.arg(version, versions)
   assertive.base::assert_all_are_true(
     requireNamespace("git2r", quietly = TRUE)

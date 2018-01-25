@@ -2,38 +2,38 @@
 % Please edit documentation in R/HLARanges.r
 \name{HLARanges}
 \alias{HLARanges}
-\title{Constructor for \code{\linkS4class{HLARanges}} objects}
+\title{Constructor for \linkS4class{HLARanges} objects}
 \usage{
 HLARanges(seqnames = S4Vectors::Rle(), ranges = IRanges::IRanges(),
   id = NA_character_, order = NA_integer_, type = NA_character_,
   status = NA_character_, frame = NA_integer_, ...)
 }
 \arguments{
-\item{seqnames}{character vector of the sequence name.}
+\item{seqnames}{\code{character} vector of the sequence name.}
 
-\item{ranges}{IRanges object containing the ranges.}
+\item{ranges}{\linkS4class{IRanges} object containing the ranges.}
 
-\item{id}{character vector of feature IDs.}
+\item{id}{\code{character} vector of feature IDs.}
 
-\item{order}{integer vector of feature order.}
+\item{order}{\code{integer} vector of feature order.}
 
-\item{type}{character vector of feature type.}
+\item{type}{\code{character} vector of feature type.}
 
-\item{status}{character vector of completeness status}
+\item{status}{\code{character} vector of completeness status}
 
-\item{frame}{integer vector of reading order.}
+\item{frame}{\code{integer} vector of reading order.}
 
-\item{...}{Arguments passed to \code{\link[GenomicRanges]{Granges}}.}
+\item{...}{Arguments passed to \code{\link[GenomicRanges:Granges]{GenomicRanges::Granges()}}.}
 }
 \value{
-A \code{\linkS4class{HLARanges}} object.
+A \linkS4class{HLARanges} object.
 }
 \description{
-Constructor for \code{\linkS4class{HLARanges}} objects
+Constructor for \linkS4class{HLARanges} objects
 }
 \examples{
 showClass("HLARanges")
 }
 \seealso{
-\code{\link{parse_hla_alleles}}, \code{\link{HLAAllele}}
+\code{\link[=parse_hla_alleles]{parse_hla_alleles()}}, \linkS4class{HLAAllele}
 }

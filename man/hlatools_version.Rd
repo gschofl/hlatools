@@ -7,7 +7,7 @@
 hlatools_version(x, ...)
 }
 \arguments{
-\item{x}{A \link{HLAGene} object.}
+\item{x}{A \link[=HLAGene_]{HLAGene} object.}
 
 \item{...}{Further arguments passed to methods.}
 }

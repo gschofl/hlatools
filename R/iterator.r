@@ -1,6 +1,6 @@
 #' An IRanges iterator
 #'
-#' @param obj A \code{\linkS4class{IRanges}} object.
+#' @param obj A [IRanges-class] object.
 #' @param ... Additional arguments affecting the iterator.
 #'
 #' @return The iterator
@@ -64,7 +64,7 @@ hasNext.iRanges <- function(obj, ...) {
 #'
 #' @param it An iterable object.
 #'
-#' @return An \code{ihasNext} iterator
+#' @return An `ihasNext` iterator
 #' @export
 #' @examples
 #' ###

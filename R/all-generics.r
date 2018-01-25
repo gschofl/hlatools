@@ -3,10 +3,10 @@ NULL
 
 #' Get or set sequence data
 #'
-#' @param x A \code{\link{HLAGene}} or \code{\linkS4class{HLAAllele}} object.
+#' @param x A [HLAGene][HLAGene_] or [HLAAllele-class] object.
 #' @param ... Further arguments passed to methods.
 #'
-#' @return A DNAStringSet object.
+#' @return A [DNAStringSet-class] object.
 #' @export
 #' @examples
 #' \dontrun{
@@ -14,16 +14,16 @@ NULL
 #' sequences(x[is_complete(x)])
 #' }
 setGeneric("sequences", signature = "x", function(x, ...) standardGeneric("sequences"))
-#' @param value A \code{DNAStringSet} object.
+#' @param value A [DNAStringSet-class] object.
 #' @rdname sequences
 setGeneric("sequences<-", signature = "x", function(x, ..., value) standardGeneric("sequences<-"))
 
 #' Get or set feature data
 #'
-#' @param x A \code{\link{HLAGene}} or \code{\linkS4class{HLAAllele}} object.
+#' @param x A [HLAGene][HLAGene_] or [HLAAllele-class] object.
 #' @param ... Further arguments passed to methods.
 #'
-#' @return A HLAFeatureList object.
+#' @return A [HLAFeatureList-class] object.
 #' @export
 #' @examples
 #' \dontrun{
@@ -37,7 +37,7 @@ setGeneric("features<-", signature = "x", function(x, ..., value) standardGeneri
 
 #' Access allele IDs
 #'
-#' @param x A \code{\link{HLAGene}} or \code{\linkS4class{HLAAllele}} object.
+#' @param x A [HLAGene][HLAGene_] or [HLAAllele-class] object.
 #' @param ... Further arguments passed to methods.
 #'
 #' @return A character vector of allele IDs.
@@ -51,7 +51,7 @@ setGeneric("allele_id", signature = "x", function(x, ...) standardGeneric("allel
 
 #' Access allele names
 #'
-#' @param x A \code{\link{HLAGene}} or \code{\linkS4class{HLAAllele}} object.
+#' @param x A [HLAGene][HLAGene_] or [HLAAllele-class] object.
 #' @param ... Further arguments passed to methods.
 #'
 #' @return A character vector of allele names.
@@ -63,9 +63,9 @@ setGeneric("allele_id", signature = "x", function(x, ...) standardGeneric("allel
 #' }
 setGeneric("allele_name", signature = "x", function(x, ...) standardGeneric("allele_name"))
 
-#' Access G group designations
+#' Access G-group designations
 #'
-#' @param x A \code{\link{HLAGene}} or \code{\linkS4class{HLAAllele}} object.
+#' @param x A [HLAGene][HLAGene_] or [HLAAllele-class] object.
 #' @param ... Further arguments passed to methods.
 #'
 #' @return A character vector of allele names.
@@ -77,9 +77,9 @@ setGeneric("allele_name", signature = "x", function(x, ...) standardGeneric("all
 #' }
 setGeneric("g_group", signature = "x", function(x, ...) standardGeneric("g_group"))
 
-#' Access P group designations
+#' Access P-group designations
 #'
-#' @param x A \code{\link{HLAGene}} or \code{\linkS4class{HLAAllele}} object.
+#' @param x A [HLAGene][HLAGene_] or [HLAAllele-class] object.
 #' @param ... Further arguments passed to methods.
 #'
 #' @return A character vector of allele names.
@@ -93,7 +93,7 @@ setGeneric("p_group", signature = "x", function(x, ...) standardGeneric("p_group
 
 #' Access CWD status
 #'
-#' @param x A \code{\link{HLAGene}} or \code{\linkS4class{HLAAllele}} object.
+#' @param x A [HLAGene][HLAGene_] or [HLAAllele-class] object.
 #' @param ... Further arguments passed to methods.
 #'
 #' @return A character vector of CWD status codes.
@@ -107,7 +107,7 @@ setGeneric("cwd_status", signature = "x", function(x, ...) standardGeneric("cwd_
 
 #' Access ethnicity status
 #'
-#' @param x A \code{\link{HLAGene}} or \code{\linkS4class{HLAAllele}} object.
+#' @param x A [HLAGene][HLAGene_] or [HLAAllele-class] object.
 #' @param ... Further arguments passed to methods.
 #'
 #' @return A character vector of colon-separated sample ethnicities.
@@ -121,7 +121,7 @@ setGeneric("ethnicity", signature = "x", function(x, ...) standardGeneric("ethni
 
 #' Access (colon-separated) sample names
 #'
-#' @param x A \code{\link{HLAGene}} or \code{\linkS4class{HLAAllele}} object.
+#' @param x A [HLAGene][HLAGene_] or [HLAAllele-class] object.
 #' @param ... Further arguments passed to methods.
 #'
 #' @return A character vector of colon-separated sample ethnicities.
@@ -135,7 +135,7 @@ setGeneric("sample_name", signature = "x", function(x, ...) standardGeneric("sam
 
 #' Access completeness status
 #'
-#' @param x A \code{\link{HLAGene}} or \code{\linkS4class{HLAAllele}} object.
+#' @param x A [HLAGene][HLAGene_] or [HLAAllele-class] object.
 #' @param ... Further arguments passed to methods.
 #'
 #' @return A logical vector.
@@ -149,7 +149,7 @@ setGeneric("is_complete", signature = "x", function(x, ...) standardGeneric("is_
 
 #' Has a sequence been submitted by DKMS Life Science Lab
 #'
-#' @param x A \code{\link{HLAGene}} or \code{\linkS4class{HLAAllele}} object.
+#' @param x A [HLAGene][HLAGene_] or [HLAAllele-class] object.
 #' @param ... Further arguments passed to methods.
 #'
 #' @return A logical vector.
@@ -163,7 +163,7 @@ setGeneric("is_lsl", signature = "x", function(x, ...) standardGeneric("is_lsl")
 
 #' Access locus name
 #'
-#' @param x A \code{\link{HLAGene}} object.
+#' @param x A [HLAGene][HLAGene_] object.
 #' @param ... Further arguments passed to methods.
 #'
 #' @return A character vector.
@@ -180,11 +180,11 @@ setGeneric("locusname<-", signature = "x", function(x, ..., value) standardGener
 
 #' Retrieve exon sequences
 #'
-#' @param x A \code{\link{HLAGene}} object.
-#' @param exon The feature number or \code{NULL} (Retrieves all exons).
+#' @param x A [HLAGene][HLAGene_] object.
+#' @param exon The feature number or `NULL` (Retrieves all exons).
 #' @param ... Further arguments passed to methods.
 #'
-#' @return A \code{\linkS4class{DNAStringSet}}.
+#' @return A [DNAStringSet-class].
 #' @export
 #' @examples
 #' \dontrun{
@@ -195,11 +195,11 @@ setGeneric("exon", signature = "x", function(x, exon = NULL, ...) standardGeneri
 
 #' Retrieve intron sequences
 #'
-#' @param x A \code{\link{HLAGene}} object.
-#' @param intron The feature number or \code{NULL} (Retrieves all introns).
+#' @param x A [HLAGene][HLAGene_] object.
+#' @param intron The feature number or `NULL` (Retrieves all introns).
 #' @param ... Further arguments passed to methods.
 #'
-#' @return A \code{\linkS4class{DNAStringSet}}.
+#' @return A [DNAStringSet-class].
 #' @export
 #' @examples
 #' \dontrun{
@@ -210,11 +210,11 @@ setGeneric("intron", signature = "x", function(x, intron = NULL, ...) standardGe
 
 #' Retrieve UTR sequences
 #'
-#' @param x A \code{\link{HLAGene}} object.
-#' @param utr The feature number or \code{NULL} (Retrieves all UTRs).
+#' @param x A [HLAGene][HLAGene_] object.
+#' @param utr The feature number or `NULL` (Retrieves all UTRs).
 #' @param ... Further arguments passed to methods.
 #'
-#' @return A \code{\linkS4class{DNAStringSet}}.
+#' @return A [DNAStringSet-class].
 #' @export
 #' @examples
 #' \dontrun{
@@ -227,7 +227,7 @@ setGeneric("utr", signature = "x", function(x, utr = NULL, ...) standardGeneric(
 #'
 #' Retrieve the package version under which a HLAgene object has been created.
 #'
-#' @param x A [HLAGene] object.
+#' @param x A [HLAGene][HLAGene_] object.
 #' @param ... Further arguments passed to methods.
 #'
 #' @return A [package_version] object.
@@ -244,7 +244,7 @@ setGeneric("hlatools_version", signature = "x", function(x, ...) standardGeneric
 #' Retrieve the [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) from which
 #' a HLAgene object has been created.
 #'
-#' @param x A [HLAGene] object.
+#' @param x A [HLAGene][HLAGene_] object.
 #' @param ... Further arguments passed to methods.
 #'
 #' @return A [numeric_version] object.
@@ -263,10 +263,10 @@ setGeneric("db_version", signature = "x", function(x, ...) standardGeneric("db_v
 
 #' Get feature id
 #'
-#' @param x A \code{\linkS4class{HLARanges}} object.
+#' @param x A [HLARanges-class] object.
 #' @param ... Further arguments passed to methods.
 #'
-#' @return A character vector.
+#' @return A [character] vector.
 #' @export
 #' @examples
 #' ##
@@ -274,10 +274,10 @@ setGeneric("getId", signature = "x", function(x, ...) standardGeneric("getId"))
 
 #' Get feature order
 #'
-#' @param x A \code{\linkS4class{HLARanges}} object.
+#' @param x A [HLARanges-class] object.
 #' @param ... Further arguments passed to methods.
 #'
-#' @return An integer vector.
+#' @return An [integer] vector.
 #' @export
 #' @examples
 #' ##
@@ -285,10 +285,10 @@ setGeneric("getOrder", signature = "x", function(x, ...) standardGeneric("getOrd
 
 #' Get feature type
 #'
-#' @param x A \code{\linkS4class{HLARanges}} object.
+#' @param x A [HLARanges-class] object.
 #' @param ... Further arguments passed to methods.
 #'
-#' @return A character vector.
+#' @return A [character] vector.
 #' @export
 #' @examples
 #' ##
@@ -296,10 +296,10 @@ setGeneric("getType", signature = "x", function(x, ...) standardGeneric("getType
 
 #' Get feature status
 #'
-#' @param x A \code{\linkS4class{HLARanges}} object.
+#' @param x A [HLARanges-class] object.
 #' @param ... Further arguments passed to methods.
 #'
-#' @return A character vector.
+#' @return A [character] vector.
 #' @export
 #' @examples
 #' ##
@@ -307,10 +307,10 @@ setGeneric("getStatus", signature = "x", function(x, ...) standardGeneric("getSt
 
 #' Get feature reading frame
 #'
-#' @param x A \code{\linkS4class{HLARanges}} object.
+#' @param x A [HLARanges-class] object.
 #' @param ... Further arguments passed to methods.
 #'
-#' @return An integer vector.
+#' @return An [integer] vector.
 #' @export
 #' @examples
 #' ##
