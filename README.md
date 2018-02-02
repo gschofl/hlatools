@@ -3,29 +3,37 @@
 hlatools
 ========
 
-A collection of tools to work with [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) data
+Overview
+--------
 
-Main functionality
-------------------
+`hlatools` provides a collection of tools to work with [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) data
 
-### Fetch HLA data
+Installation
+------------
 
-A number of functions exist that grab HLA-related data from the internet
-
--   `fetch_IMGTHLA`: Clone the *ANHIG/IMGTHLA* repo on [GitHub](https://github.com/ANHIG/IMGTHLA) to a location specified by the option `hlatools.local_repos`. Defaults to *~/local/db/*.
-
--   `update_IMGTHLA`: Send a pull request to *ANHIG/IMGTHLA*.
-
--   `read_hla_xml(remote = FALSE)`: Read the *hla.xml* file either fetching it from the IPD-IMGT/HLA ftp server or the local *ANHIG/IMGTHLA* clone.
-
-### Parse HLA data
-
-A HLA locus can be read into a `HLAAllele` object:
+Install from GitHub using `devtools`:
 
 ``` r
-doc  <- hlatools::read_hla_xml()
-dpb1 <- hlatools::parse_hla_alleles(doc, "DPB1")
-dpb1
+devtools::install_github("gscholf/hlatools")
+```
+
+Usage
+-----
+
+### Get HLA data
+
+-   `fetch_IMGTHLA()`: Clone the *ANHIG/IMGTHLA* repo on [GitHub](https://github.com/ANHIG/IMGTHLA) to a location specified by the option `hlatools.local_repos`. Defaults to *~/local/db/*.
+
+-   `update_IMGTHLA()`: Send a pull request to *ANHIG/IMGTHLA*.
+
+### Read HLA data
+
+A HLA gene can be read into a `HLAGene` object:
+
+``` r
+x <- hlatools::HLAGene("DPB1")
+x
+#> IPD-IMGT/HLA database <3.31.0>; Locus <HLA-DPB1>
 #> An object of class 'HLAAllele' for 'HLA-DPB1'
 #> DataFrame with 962 rows and 6 columns
 #>              allele_name        g_group     p_group      cwd_status
@@ -59,101 +67,130 @@ dpb1
 A number of accessor functions can be used to work with these objects:
 
 ``` r
-dpb1_cmpl <- dpb1[hlatools::is_complete(dpb1)][1:10]
-hlatools::allele_name(dpb1_cmpl)
-#>  [1] "HLA-DPB1*01:01:01:01" "HLA-DPB1*01:01:01:02" "HLA-DPB1*01:01:01:03"
-#>  [4] "HLA-DPB1*01:01:01:04" "HLA-DPB1*01:01:02:01" "HLA-DPB1*01:01:02:02"
-#>  [7] "HLA-DPB1*02:01:02:01" "HLA-DPB1*02:01:02:02" "HLA-DPB1*02:01:02:03"
-#> [10] "HLA-DPB1*02:01:02:04"
-hlatools::cwd_status(dpb1_cmpl)
+x <- hlatools::HLAGene("DPA1")
+hlatools::db_version(x)
+#> [1] '3.31.0'
+hlatools::locusname(x)
+#> [1] "HLA-DPA1"
+x1 <- x[hlatools::is_complete(x)][1:10]
+hlatools::allele_name(x1)
+#>  [1] "HLA-DPA1*01:03:01:01" "HLA-DPA1*01:03:01:02" "HLA-DPA1*01:03:01:03"
+#>  [4] "HLA-DPA1*01:03:01:04" "HLA-DPA1*01:03:01:05" "HLA-DPA1*01:03:01:06"
+#>  [7] "HLA-DPA1*01:03:01:07" "HLA-DPA1*01:03:01:08" "HLA-DPA1*01:03:01:09"
+#> [10] "HLA-DPA1*01:03:01:10"
+hlatools::cwd_status(x1)
 #>  [1] "Common"          "Not CWD defined" "Not CWD defined"
-#>  [4] "Not CWD defined" "Common"          "Not CWD defined"
-#>  [7] "Common"          "Not CWD defined" "Not CWD defined"
+#>  [4] "Not CWD defined" "Not CWD defined" "Not CWD defined"
+#>  [7] "Not CWD defined" "Not CWD defined" "Not CWD defined"
 #> [10] "Not CWD defined"
-hlatools::sequences(dpb1_cmpl)
+hlatools::ethnicity(x1)
+#>  [1] "Caucasoid:Oriental" "Caucasoid"          "Unknown"           
+#>  [4] "Unknown"            "Caucasoid"          "Oriental"          
+#>  [7] "Oriental"           "Oriental"           "Caucasoid"         
+#> [10] "Caucasoid"
+hlatools::g_group(x1)
+#>  [1] "DPA1*01:03:01G" "DPA1*01:03:01G" "DPA1*01:03:01G" "DPA1*01:03:01G"
+#>  [5] "DPA1*01:03:01G" "DPA1*01:03:01G" "DPA1*01:03:01G" "DPA1*01:03:01G"
+#>  [9] "DPA1*01:03:01G" "DPA1*01:03:01G"
+hlatools::p_group(x1)
+#>  [1] "DPA1*01:03P" "DPA1*01:03P" "DPA1*01:03P" "DPA1*01:03P" "DPA1*01:03P"
+#>  [6] "DPA1*01:03P" "DPA1*01:03P" "DPA1*01:03P" "DPA1*01:03P" "DPA1*01:03P"
+hlatools::sequences(x1)
 #>   A DNAStringSet instance of length 10
 #>      width seq                                         names               
-#>  [1] 11468 TAATCCCTGTAGATGGGCCA...TATAATCTAATACACTTTAA HLA-DPB1*01:01:01:01
-#>  [2] 11468 TAATCCCTGTAGATGGGCCA...TATAATCTAATACACTTTAA HLA-DPB1*01:01:01:02
-#>  [3] 11468 TAATCCCTGTAGATGGGCCA...TATAATCTAATACACTTTAA HLA-DPB1*01:01:01:03
-#>  [4] 11468 TAATCCCTGTAGATGGGCCA...TATAATCTAATACACTTTAA HLA-DPB1*01:01:01:04
-#>  [5] 11469 TAATCCCTGTAGATGGGCCA...TATAATCTAATACACTTTAA HLA-DPB1*01:01:02:01
-#>  [6] 11469 TAATCCCTGTAGATGGGCCA...TATAATCTAATACACTTTAA HLA-DPB1*01:01:02:02
-#>  [7] 11532 TAATCCCTGTAGATGGGCCA...TATAATCTAATACACTTTAA HLA-DPB1*02:01:02:01
-#>  [8] 11525 TAATCCCTGTAGATGGGCCA...TATAATCTAATACACTTTAA HLA-DPB1*02:01:02:02
-#>  [9] 11516 TAATCCCTGTAGATGGGCCA...TATAATCTAATACACTTTAA HLA-DPB1*02:01:02:03
-#> [10] 11528 TAATCCCTGTAGATGGGCCA...TATAATCTAATACACTTTAA HLA-DPB1*02:01:02:04
+#>  [1]  9775 GGTGGACCTGAAAGAAAGAT...AAAAGGAATTGTTTAAAGTA HLA-DPA1*01:03:01:01
+#>  [2]  9775 GGTGGACCTGAAAGAAAGAT...AAAAGGAATTGTTTAAAGTA HLA-DPA1*01:03:01:02
+#>  [3]  9775 GGTGGACCTGAAAGAAAGAT...AAAAGGAATTGTTTAAAGTA HLA-DPA1*01:03:01:03
+#>  [4]  9775 GGTGGACCTGAAAGAAAGAT...AAAAGGAATTGTTTAAAGTA HLA-DPA1*01:03:01:04
+#>  [5]  9757 GGTGGACCTGAAAGAAAGAT...AAAAGGAATTGTTTAAAGTA HLA-DPA1*01:03:01:05
+#>  [6]  9479 AAATTCTCCCATCTCTTCCC...AAAAGGAATTGTTTAAAGTA HLA-DPA1*01:03:01:06
+#>  [7]  9477 AAATTCTCCCATCTCTTCCC...AAAAGGAATTGTTTAAAGTA HLA-DPA1*01:03:01:07
+#>  [8]  9478 AAATTCTCCCATCTCTTCCC...AAAAGGAATTGTTTAAAGTA HLA-DPA1*01:03:01:08
+#>  [9]  5265 TTACCCAGCAACAGAGAATG...GATAACTAACTGAGTAGTTA HLA-DPA1*01:03:01:09
+#> [10]  5266 TTACCCAGCAACAGAGAATG...GATAACTAACTGAGTAGTTA HLA-DPA1*01:03:01:10
+hlatools::exon(x1, exon = 2)
+#>   A DNAStringSet instance of length 10
+#>      width seq                                         names               
+#>  [1]   246 CGGACCATGTGTCAACTTAT...CCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
+#>  [2]   246 CGGACCATGTGTCAACTTAT...CCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
+#>  [3]   246 CGGACCATGTGTCAACTTAT...CCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
+#>  [4]   246 CGGACCATGTGTCAACTTAT...CCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
+#>  [5]   246 CGGACCATGTGTCAACTTAT...CCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
+#>  [6]   246 CGGACCATGTGTCAACTTAT...CCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
+#>  [7]   246 CGGACCATGTGTCAACTTAT...CCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
+#>  [8]   246 CGGACCATGTGTCAACTTAT...CCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
+#>  [9]   246 CGGACCATGTGTCAACTTAT...CCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
+#> [10]   246 CGGACCATGTGTCAACTTAT...CCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
 ```
 
-At a slightly higher level a `HLAAllele` can be encapsulated in an `R6`-based `HLAGene` object:
+We can access previous releases of the IPD-IMGT/HLA database:
 
 ``` r
-x <- hlatools::HLAGene("DPB1", db_version = "3.30.0")
+x <- hlatools::HLAGene("DPB1", db_version = "3.25.0")
 x
-#> IPD-IMGT/HLA database <3.30.0>; Locus <HLA-DPB1>
+#> IPD-IMGT/HLA database <3.25.0>; Locus <HLA-DPB1>
 #> An object of class 'HLAAllele' for 'HLA-DPB1'
-#> DataFrame with 942 rows and 6 columns
-#>              allele_name        g_group     p_group      cwd_status
-#>              <character>    <character> <character>     <character>
-#> 1   HLA-DPB1*01:01:01:01 DPB1*01:01:01G DPB1*01:01P          Common
-#> 2   HLA-DPB1*01:01:01:02 DPB1*01:01:01G DPB1*01:01P Not CWD defined
-#> 3   HLA-DPB1*01:01:01:03 DPB1*01:01:01G DPB1*01:01P Not CWD defined
-#> 4   HLA-DPB1*01:01:01:04 DPB1*01:01:01G DPB1*01:01P Not CWD defined
-#> 5   HLA-DPB1*01:01:02:01 DPB1*01:01:02G DPB1*01:01P          Common
-#> ...                  ...            ...         ...             ...
-#> 938      HLA-DPB1*674:01           None DPB1*04:02P Not CWD defined
-#> 939      HLA-DPB1*675:01 DPB1*03:01:01G DPB1*03:01P Not CWD defined
-#> 940      HLA-DPB1*676:01 DPB1*03:01:01G DPB1*03:01P Not CWD defined
-#> 941      HLA-DPB1*677:01           None DPB1*04:01P Not CWD defined
-#> 942      HLA-DPB1*678:01 DPB1*02:01:02G DPB1*02:01P Not CWD defined
-#>        SeqLen                                                  FeatureType
-#>     <integer>                                                  <character>
-#> 1       11468 UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
-#> 2       11468 UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
-#> 3       11468 UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
-#> 4       11468 UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
-#> 5       11469 UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
-#> ...       ...                                                          ...
-#> 938     11516 UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
-#> 939     11461 UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
-#> 940     11461 UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
-#> 941     11526 UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
-#> 942     11532 UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
-
+#> DataFrame with 671 rows and 6 columns
+#>           allele_name     g_group     p_group      cwd_status    SeqLen
+#>           <character> <character> <character>     <character> <integer>
+#> 1   HLA-DPB1*01:01:01                                  Common       777
+#> 2   HLA-DPB1*01:01:02                                  Common       777
+#> 3   HLA-DPB1*01:01:03                         Not CWD defined       264
+#> 4   HLA-DPB1*01:01:04                         Not CWD defined       264
+#> 5   HLA-DPB1*01:01:05                         Not CWD defined       264
+#> ...               ...         ...         ...             ...       ...
+#> 667   HLA-DPB1*568:01                         Not CWD defined       264
+#> 668   HLA-DPB1*569:01                         Not CWD defined       264
+#> 669  HLA-DPB1*570:01N                         Not CWD defined       264
+#> 670   HLA-DPB1*571:01                         Not CWD defined       657
+#> 671   HLA-DPB1*572:01                         Not CWD defined       546
+#>                  FeatureType
+#>                  <character>
+#> 1   Exon:Exon:Exon:Exon:Exon
+#> 2   Exon:Exon:Exon:Exon:Exon
+#> 3                       Exon
+#> 4                       Exon
+#> 5                       Exon
+#> ...                      ...
+#> 667                     Exon
+#> 668                     Exon
+#> 669                     Exon
+#> 670           Exon:Exon:Exon
+#> 671                Exon:Exon
 hlatools::db_version(x)
-#> [1] '3.30.0'
+#> [1] '3.25.0'
 hlatools::locusname(x)
 #> [1] "HLA-DPB1"
 x[hlatools::cwd_status(x) == "Common"][1:10]
 #> An object of class 'HLAAllele' for 'HLA-DPB1'
 #> DataFrame with 10 rows and 6 columns
-#>             allele_name        g_group     p_group  cwd_status    SeqLen
-#>             <character>    <character> <character> <character> <integer>
-#> 1  HLA-DPB1*01:01:01:01 DPB1*01:01:01G DPB1*01:01P      Common     11468
-#> 2  HLA-DPB1*01:01:02:01 DPB1*01:01:02G DPB1*01:01P      Common     11469
-#> 3  HLA-DPB1*02:01:02:01 DPB1*02:01:02G DPB1*02:01P      Common     11532
-#> 4  HLA-DPB1*02:02:01:01 DPB1*02:02:01G DPB1*02:02P      Common     11528
-#> 5  HLA-DPB1*03:01:01:01 DPB1*03:01:01G DPB1*03:01P      Common     11461
-#> 6  HLA-DPB1*04:01:01:01 DPB1*04:01:01G DPB1*04:01P      Common     11526
-#> 7  HLA-DPB1*04:02:01:01 DPB1*04:02:01G DPB1*04:02P      Common     11516
-#> 8  HLA-DPB1*05:01:01:01 DPB1*05:01:01G DPB1*05:01P      Common     11466
-#> 9  HLA-DPB1*06:01:01:01 DPB1*06:01:01G DPB1*06:01P      Common     11461
-#> 10    HLA-DPB1*09:01:01           None DPB1*09:01P      Common     11466
+#>             allele_name     g_group     p_group  cwd_status    SeqLen
+#>             <character> <character> <character> <character> <integer>
+#> 1     HLA-DPB1*01:01:01                              Common       777
+#> 2     HLA-DPB1*01:01:02                              Common       777
+#> 3     HLA-DPB1*02:01:02                              Common     11532
+#> 4        HLA-DPB1*02:02                              Common     11528
+#> 5     HLA-DPB1*03:01:01                              Common     11461
+#> 6  HLA-DPB1*04:01:01:01                              Common     11526
+#> 7  HLA-DPB1*04:02:01:01                              Common     11516
+#> 8     HLA-DPB1*05:01:01                              Common       777
+#> 9     HLA-DPB1*06:01:01                              Common       777
+#> 10    HLA-DPB1*09:01:01                              Common       777
 #>                                                     FeatureType
 #>                                                     <character>
-#> 1  UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
-#> 2  UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
+#> 1                                      Exon:Exon:Exon:Exon:Exon
+#> 2                                      Exon:Exon:Exon:Exon:Exon
 #> 3  UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
 #> 4  UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
 #> 5  UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
 #> 6  UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
 #> 7  UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
-#> 8  UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
-#> 9  UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
-#> 10 UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
+#> 8                                      Exon:Exon:Exon:Exon:Exon
+#> 9                                      Exon:Exon:Exon:Exon:Exon
+#> 10                                     Exon:Exon:Exon:Exon:Exon
 ```
 
-These obects come with the same set of getter functions as `HLAAllele`s plus an additional set of `R6`-methods that implement an API used mostly in conjunction with the `DR2S` package:
+These obects come with an additional set of `R6`-methods that implement an API used mostly in conjunction with the `DR2S` package:
 
 -   `x$get_closest_complete_neighbor(allele)`: Find the closest full-length allele based on the genetic distance between exon 2 sequences.
 
@@ -169,7 +206,7 @@ These obects come with the same set of getter functions as `HLAAllele`s plus an 
     #>  language en_GB:en                    
     #>  collate  en_GB.UTF-8                 
     #>  tz       Europe/Berlin               
-    #>  date     2018-01-25
+    #>  date     2018-02-02
     #> Packages -----------------------------------------------------------------
     #>  package          * version   date       source                     
     #>  assertive.base     0.0-7     2016-12-30 CRAN (R 3.4.2)             
