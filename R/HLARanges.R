@@ -1,5 +1,5 @@
 #' @import methods
-#' @include all-generics.r
+#' @include all-generics.R
 NULL
 
 #' Class `"HLARanges"`

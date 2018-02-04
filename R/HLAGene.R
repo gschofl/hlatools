@@ -1,4 +1,4 @@
-#' @include HLAAllele.r
+#' @include HLAAllele.R
 NULL
 
 

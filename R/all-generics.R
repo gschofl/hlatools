@@ -1,4 +1,4 @@
-#' @include utils.r
+#' @include utils.R
 NULL
 
 #' Get or set sequence data

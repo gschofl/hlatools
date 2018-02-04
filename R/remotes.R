@@ -87,46 +87,6 @@ check_IMGTHLA <- function(local_path = getOption("hlatools.local_repos")) {
   packageStartupMessage(msg)
 }
 
-#' Fetch and parse or update the IPD-IMGT/HLA hla.xml file
-#'
-#' @param remote <[logical]>; if `TRUE` pull data from the IPD-IMGT/HLA ftp server,
-#' if `FALSE` retrieve data from \code{getOption("hlatools.local_repos")}
-#'
-#' @return An [xml_document][xml2::read_xml()].
-#' @export
-#' @examples \dontrun{
-#' doc <- read_hla_xml(remote = TRUE)
-#' update_hla_xml()
-#' }
-read_hla_xml <- function(remote = FALSE) {
-  tdir <- tempdir()
-  if (remote) {
-    ftpfile <- "ftp://ftp.ebi.ac.uk/pub/databases/ipd/imgt/hla/xml/hla.xml.zip"
-    dlfile <- tempfile(tmpdir = tdir)
-    download.file(url = ftpfile, destfile = dlfile, method = "libcurl")
-    tfile <- unzip(zipfile = dlfile, exdir = tdir)
-  } else {
-    dbpath <- getOption("hlatools.local_repos")
-    dbfile <- normalizePath(file.path(dbpath, "IMGTHLA", "xml", "hla.xml.zip"), mustWork = TRUE)
-    tfile <- unzip(zipfile = dbfile, exdir = tdir)[1]
-  }
-  doc <- xml2::read_xml(tfile)
-  unlink(tfile, force = TRUE)
-  doc
-}
-
-#' @rdname read_hla_xml
-#' @return `invisible(NULL)`
-#' @export
-update_hla_xml <- function() {
-  assertive.properties::assert_is_not_null(getOption("hlatools.local_repos"))
-  dbpath <- getOption("hlatools.local_repos")
-  dlfile <- normalizePath(file.path(dbpath, "IMGTHLA", "xml", "hla.xml.zip"), mustWork = FALSE)
-  ftpfile <- "ftp://ftp.ebi.ac.uk/pub/databases/ipd/imgt/hla/xml/hla.xml.zip"
-  download.file(url = ftpfile, destfile = dlfile, method = "libcurl")
-}
-
-
 #' @keywords internal
 checkout_db_version <- function(version = "Latest") {
   versions <- c("Latest", "3.31.0", "3.30.0", "3.29.0", "3.28.0", "3.27.0",

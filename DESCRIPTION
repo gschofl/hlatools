@@ -36,18 +36,18 @@ Imports:
     curl,
     purrr
 RoxygenNote: 6.0.1
-Collate:
-    'utils.r'
-    'all-generics.r'
-    'HLARanges.r'
-    'HLAAllele.r'
-    'HLAGene.r'
+Collate: 
+    'utils.R'
+    'all-generics.R'
+    'HLARanges.R'
+    'HLAAllele.R'
+    'HLAGene.R'
     'RcppExports.R'
-    'code_tables.r'
-    'hlatools-package.r'
-    'iterator.r'
-    'parse_hla_alleles.r'
-    'remotes.r'
-    'zzz.r'
+    'code_tables.R'
+    'hlatools-package.R'
+    'iterator.R'
+    'parse.R'
+    'remotes.R'
+    'zzz.R'
 LinkingTo: Rcpp
 Roxygen: list(markdown = TRUE)

@@ -115,4 +115,28 @@ colon <- function(...) paste0(..., collapse = ":")
 
 slash <- function(...) paste0(..., collapse = "/")
 
+#' Set remote data checking on of off
+#' @param what `TRUE` or `FALSE`
+#' @export
+#' @keywords internal
+check_remotes <- function(what) {
+  if (missing(what)) {
+    if (identical(getOption("hlatools.check_remotes"), TRUE)) {
+      message("Checking remote data access is turned ON")
+    } else if (identical(getOption("hlatools.check_remotes"), FALSE)) {
+      message("Checking remote data access is turned OFF")
+    } else {
+      warning("Checking remote data access is not set")
+    }
+  } else {
+    stopifnot(is.logical(what))
+    options("hlatools.check_remotes" = what)
+    if (identical(getOption("hlatools.check_remotes"), TRUE)) {
+      message("Checking remote data access is turned ON")
+    } else if (identical(getOption("hlatools.check_remotes"), FALSE)) {
+      message("Checking remote data access is turned OFF")
+    }
+  }
+  invisible(NULL)
+}
 
