@@ -59,23 +59,29 @@ check_IMGTHLA <- function(local_path = getOption("hlatools.local_repos")) {
     git2r::repository(repo_path)
   }, error =  function(e) {
     if (grepl("No such file or directory", e$message))
-      "Use fetch_IMGTHLA() to create a local IMGT/HLA repository"
+      structure("Use fetch_IMGTHLA() to create a local IPD-IMGT/HLA repository", class = "msg")
     else
-      e$message
+      structure(e$message, class = "msg")
   })
   ##
-  if (is(repo, "git_repository")) {
-    url <- "https://github.com/ANHIG/IMGTHLA"
-    remote_shas <- git2r::remote_ls(url)
+  remote_shas <- tryCatch({
+    git2r::remote_ls("https://github.com/ANHIG/IMGTHLA")
+  }, error = function(e) {
+    structure("Remote ANHIG/IMGTHLA repository not reachable", class = "msg")
+  })
+  ##
+  if (is(repo, "git_repository") && is(remote_shas, "character")) {
     rl          <- git2r::reflog(repo)
     ##
     msg <- if (rl[[1]]@sha == remote_shas[["HEAD"]]) {
-      "Your local IMGT/HLA repository is up-to-date"
+      "Your local IPD-IMGT/HLA repository is up-to-date"
     } else {
-      "Run update_IMGTHLA() to bring your local IMGT/HLA repository up-to-date"
+      "Run update_IMGTHLA() to bring your local IPD-IMGT/HLA repository up-to-date"
     }
-  } else if (is(repo, "character")) {
+  } else if (is(repo, "msg")) {
     msg <- repo
+  } else if (is(remote_shas, "msg")) {
+    msg <- remote_shas
   }
 
   packageStartupMessage(msg)
