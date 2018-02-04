@@ -10,14 +10,14 @@ sequences(x, ...)
 sequences(x, ...) <- value
 }
 \arguments{
-\item{x}{A \code{\link{HLAGene}} or \code{\linkS4class{HLAAllele}} object.}
+\item{x}{A \link[=HLAGene_]{HLAGene} or \linkS4class{HLAAllele} object.}
 
 \item{...}{Further arguments passed to methods.}
 
-\item{value}{A \code{DNAStringSet} object.}
+\item{value}{A \linkS4class{DNAStringSet} object.}
 }
 \value{
-A DNAStringSet object.
+A \linkS4class{DNAStringSet} object.
 }
 \description{
 Get or set sequence data

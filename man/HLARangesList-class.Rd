@@ -5,13 +5,12 @@
 \alias{HLARangesList-class}
 \title{Class \code{"HLARangesList"}}
 \description{
-Class \code{"HLARangesList"}
+List container for \linkS4class{HLARanges} objects.
 }
 \examples{
 showClass("HLARangesList")
 }
 \seealso{
-\code{\link{parse_hla_alleles}}, \code{\link{HLAAllele}},
-\code{\link{HLARanges}}
+\code{\link[=parse_hla_alleles]{parse_hla_alleles()}}, \linkS4class{HLAAllele}, \linkS4class{HLARanges}
 }
 \keyword{classes}

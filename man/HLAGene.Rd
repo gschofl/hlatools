@@ -2,22 +2,22 @@
 % Please edit documentation in R/HLAGene.r
 \name{HLAGene}
 \alias{HLAGene}
-\title{Constructor for \code{\link[=HLAGene_]{HLAGene}} objects.}
+\title{Constructor for \link[=HLAGene_]{HLAGene} objects.}
 \usage{
 HLAGene(locusname, db_version = "Latest", ...)
 }
 \arguments{
 \item{locusname}{A valid HLA gene name.}
 
-\item{db_version}{IMGT/HLA version (e.g.: 3.28.0, 3.18.0, ...)}
+\item{db_version}{IPD-IMGT/HLA version (e.g.: 3.28.0, 3.18.0, ...)}
 
 \item{...}{Passed on.}
 }
 \value{
-A \code{\link[=HLAGene_]{HLAGene}} object
+A \link[=HLAGene_]{HLAGene} object.
 }
 \description{
-Constructor for \code{\link[=HLAGene_]{HLAGene}} objects.
+Constructor for \link[=HLAGene_]{HLAGene} objects.
 }
 \examples{
 \dontrun{

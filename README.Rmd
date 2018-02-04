@@ -15,53 +15,70 @@ library(hlatools)
 
 # hlatools
 
-A collection of tools to work with IPD-IMGT/HLA data
+## Overview 
 
-## Main functionality
+`hlatools` provides a collection of tools to work with [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) data
 
-### Fetch HLA data
+## Installation
 
-A number of functions exist that grab HLA-related data from the internet
+Install from GitHub using `devtools`:
+```{r, eval=FALSE}
+devtools::install_github("gscholf/hlatools")
+```
 
-* `fetch_IMGTHLA`: Clone the _ANHIG/IMGTHLA_ repo on GitHub to a location specified by the option `hlatools.local_repos`. Defaults to _~/local/db/_.
+## Usage
 
-* `update_IMGTHLS`: Send a pull request to _ANHIG/IMGTHLA_.
+### Get HLA data
 
-* `read_hla_xml(remote = FALSE)`: Read the _hla.xml_ file either fetching it from the IMGT/HLA ftp server or the local _ANHIG/IMGTHLA_ clone.
+* `fetch_IMGTHLA()`: Clone the _ANHIG/IMGTHLA_ repo on [GitHub](https://github.com/ANHIG/IMGTHLA) to a location specified by the option `hlatools.local_repos`. Defaults to _~/local/db/_.
 
-### Parse HLA data
+* `update_IMGTHLA()`: Send a pull request to _ANHIG/IMGTHLA_.
 
-A HLA locus can be read into a `HLAAllele` object:
+### Read HLA data
+
+A HLA gene can be read into a `HLAGene` object:
 
 ```{r}
-doc  <- hlatools::read_hla_xml()
-dpb1 <- hlatools::parse_hla_alleles(doc, "DPB1")
-dpb1
+x <- hlatools::HLAGene("DPB1")
+x
 ```
 
 A number of accessor functions can be used to work with these objects:
 
 ```{r}
-dpb1_cmpl <- dpb1[hlatools::is_complete(dpb1)]
-hlatools::allele_name(dpb1_cmpl)
-hlatools::cwd_status(dpb1_cmpl)
-hlatools::sequences(dpb1_cmpl)
-```
-
-At a slightly higher level a `HLAAllele` can be encapsulated in an `R6`-based `HLAGene` object:
-
-```{r}
-x <- hlatools::HLAGene("DPB1")
-x
-
+x <- hlatools::HLAGene("DPA1")
 hlatools::db_version(x)
 hlatools::locusname(x)
-x[hlatools::cwd_status(x) == "Common"]
+x1 <- x[hlatools::is_complete(x)][1:10]
+hlatools::allele_name(x1)
+hlatools::cwd_status(x1)
+hlatools::ethnicity(x1)
+hlatools::g_group(x1)
+hlatools::p_group(x1)
+hlatools::sequences(x1)
+hlatools::exon(x1, exon = 2)
 ```
 
-These obects come with the same set of getter functions as `HLAAllele`s plus an additional set of `R6`-methods that implement an API used mostly in conjunction with the `DR2S` package:
+We can access previous releases of the IPD-IMGT/HLA database:
+
+```{r}
+x <- hlatools::HLAGene("DPB1", db_version = "3.25.0")
+x
+hlatools::db_version(x)
+hlatools::locusname(x)
+x[hlatools::cwd_status(x) == "Common"][1:10]
+```
+
+These obects come with an additional set of `R6`-methods that implement an API used mostly in conjunction with the `DR2S` package:
 
 * `x$get_closest_complete_neighbor(allele)`: Find the closest full-length allele based on the genetic distance between exon 2 sequences.
 
 * `x$get_reference_sequence(allele)`: Return a `BStringSet` object of a full-length reference sequence for `allele`. If `allele` is not fully known the missing stretches are taken from the allele returned by a call to `get_closest_complete_neighbor()`.
+
+### Session Info
+
+```{r, echo=FALSE}
+devtools::session_info()
+```
+
 

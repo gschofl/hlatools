@@ -4,7 +4,7 @@
 \alias{g_table}
 \title{Class: g_tbl}
 \source{
-\url{http://hla.alleles.org/nomenclature/g_groups.html}.
+\href{http://hla.alleles.org/nomenclature/g_groups.html}{hla.alleles.org}.
 }
 \usage{
 g_table()
@@ -12,9 +12,9 @@ g_table()
 \value{
 A table with the fields:
 \itemize{
- \item "gene": A HLA gene.
- \item "code": The G Code.
- \item "subtype": The '/'-separated subtypes into which a G Code expands.
+\item "gene": A HLA gene.
+\item "code": The G Code.
+\item "subtype": The '/'-separated subtypes into which a G Code expands.
 }
 }
 \description{
@@ -26,5 +26,5 @@ g_codes <- g_table()
 }
 }
 \seealso{
-\code{\link{nmdp_table}}
+\link{nmdp_table}
 }

@@ -2,12 +2,12 @@
 % Please edit documentation in R/all-generics.r
 \name{p_group}
 \alias{p_group}
-\title{Access P group designations}
+\title{Access P-group designations}
 \usage{
 p_group(x, ...)
 }
 \arguments{
-\item{x}{A \code{\link{HLAGene}} or \code{\linkS4class{HLAAllele}} object.}
+\item{x}{A \link[=HLAGene_]{HLAGene} or \linkS4class{HLAAllele} object.}
 
 \item{...}{Further arguments passed to methods.}
 }
@@ -15,7 +15,7 @@ p_group(x, ...)
 A character vector of allele names.
 }
 \description{
-Access P group designations
+Access P-group designations
 }
 \examples{
 \dontrun{

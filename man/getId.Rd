@@ -7,12 +7,12 @@
 getId(x, ...)
 }
 \arguments{
-\item{x}{A \code{\linkS4class{HLARanges}} object.}
+\item{x}{A \linkS4class{HLARanges} object.}
 
 \item{...}{Further arguments passed to methods.}
 }
 \value{
-A character vector.
+A \link{character} vector.
 }
 \description{
 Get feature id

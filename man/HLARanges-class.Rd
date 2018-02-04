@@ -5,7 +5,7 @@
 \alias{HLARanges-class}
 \title{Class \code{"HLARanges"}}
 \description{
-Class \code{"HLARanges"}
+Extends \linkS4class{GRanges}.
 }
 \section{Slots}{
 
@@ -25,7 +25,7 @@ Class \code{"HLARanges"}
 showClass("HLARanges")
 }
 \seealso{
-\code{\link{parse_hla_alleles}}, \code{\link{HLAAllele}}
+\code{\link[=parse_hla_alleles]{parse_hla_alleles()}}, \linkS4class{HLAAllele}
 }
 \keyword{classes}
 \keyword{internal}

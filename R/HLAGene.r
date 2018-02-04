@@ -5,13 +5,13 @@ NULL
 # Class: HLAGene ----------------------------------------------------------
 
 
-#' Constructor for \code{\link[=HLAGene_]{HLAGene}} objects.
+#' Constructor for [HLAGene][HLAGene_] objects.
 #'
 #' @param locusname A valid HLA gene name.
-#' @param db_version IMGT/HLA version (e.g.: 3.28.0, 3.18.0, ...)
+#' @param db_version IPD-IMGT/HLA version (e.g.: 3.28.0, 3.18.0, ...)
 #' @param ... Passed on.
 #'
-#' @return A \code{\link[=HLAGene_]{HLAGene}} object
+#' @return A [HLAGene][HLAGene_] object.
 #' @export
 #' @examples
 #' \dontrun{
@@ -30,18 +30,19 @@ HLAGene <- function(locusname, db_version = "Latest", ...) {
   HLAGene_$new(locusname, db_version, ...)
 }
 
-#' Class \code{"HLAGene"}
+#' Class `"HLAGene"`
 #'
 #' @docType class
 #' @usage HLAgene(locusname, db_version = "Latest", ncores = parallel::detectCores(), with_dist = FALSE)
 #' @keywords data internal
 #' @importFrom XVector subseq subseq<-
 #' @import foreach
-#' @return Object of \code{\link{R6Class}} representing an HLA gene.
+#' @return Object of [R6Class] representing an HLA gene.
 #' @section Methods:
 #' \describe{
 #'   \item{\code{x$new(locusname, db_version, ncores = parallel::detectCores(), with_dist = FALSE)}}{Create an object of this class.}
-#'   \item{\code{x$get_db_version()}}{Get the IMGT/HLA database version.}
+#'   \item{\code{x$get_db_version()}}{Get the IPD-IMGT/HLA database version.}
+#'   \item{\code{x$get_hlatools_version()}}{Get the package version under which an object was created.}
 #'   \item{\code{x$get_locusname()}}{Get the name of the locus.}
 #'   \item{\code{x$get_alleles(allele)}}{Get alleles.}
 #'   \item{\code{x$get_closest_complete_neighbor(allele)}}{Get the complete allele that is closest at exon 2 to the query allele.}
@@ -56,7 +57,8 @@ HLAGene_ <- R6::R6Class(
         on.exit(checkout_db_version("Latest"))
       }
       doc <- read_hla_xml()
-      private$dbv <- xml2::xml_attr(xml2::xml_find_all(doc, "//d1:alleles/d1:allele[1]/d1:releaseversions"), "currentrelease")
+      private$htv <- utils::packageVersion("hlatools")
+      private$dbv <- numeric_version(xml2::xml_attr(xml2::xml_find_all(doc, "//d1:alleles/d1:allele[1]/d1:releaseversions"), "currentrelease"))
       private$lcn <- match_hla_locus(locusname)
       private$all <- parse_hla_alleles(doc, private$lcn, ncores)
       if (with_dist) {
@@ -65,14 +67,17 @@ HLAGene_ <- R6::R6Class(
       }
     },
     print = function() {
-      fmt0 <- "IMGT/HLA database <%s>; Locus <%s>\n"
+      fmt0 <- "IPD-IMGT/HLA database <%s>; Locus <%s>\n"
       cat(sprintf(fmt0, self$get_db_version(), self$get_locusname()))
       print(self$get_alleles())
       invisible(self)
     },
     ## getters and setters
+    get_hlatools_version = function() {
+      private$htv
+    },
     get_db_version = function() {
-    private$dbv
+      private$dbv
     },
     get_locusname = function() {
       private$lcn
@@ -91,7 +96,8 @@ HLAGene_ <- R6::R6Class(
     }
   ),
   private = list(
-    dbv = NULL, # [character]; IMGT/HLA database version
+    htv = NULL, # [package_version]; hlatools package version
+    dbv = NULL, # [numeric_version]; IPD-IMGT/HLA database version
     lcn = NULL, # [character]; locus name
     all = NULL, # [HLAAllele]; alleles
     dmt = NULL, # [matrix]; distance matrix based on exon 2 (it's the only one that is always present)
@@ -253,18 +259,38 @@ setMethod("is_complete", signature(x = "HLAGene"), function(x, ...) {
   elementMetadata(x)$complete
 })
 
+setMethod("is_lsl", signature(x = "HLAGene"), function(x, ...) {
+  pttrn <- ".*DKMS-LSL.*$"
+  grepl(pttrn, elementMetadata(x)$sample)
+})
+
+setMethod("exon", signature(x = "HLAGene"), function(x, exon = NULL, ...) {
+  exon(x$get_alleles(), exon = exon, ...)
+})
+
+setMethod("intron", signature(x = "HLAGene"), function(x, intron = NULL, ...) {
+  intron(x$get_alleles(), intron = intron, ...)
+})
+
+setMethod("utr", signature(x = "HLAGene"), function(x, utr = NULL, ...) {
+  utr(x$get_alleles(), utr = utr, ...)
+})
+
+setMethod("locusname", signature(x = "HLAGene"), function(x, ...) {
+  x$get_locusname()
+})
+
+setMethod("hlatools_version", signature(x = "HLAGene"), function(x, ...) {
+  x$get_hlatools_version()
+})
+
+setMethod("db_version", signature(x = "HLAGene"), function(x, ...) {
+  x$get_db_version()
+})
+
 
 # S3 methods ----------------------------------------------------------------------------------
 
-#' @export
-locusname.HLAGene <- function(x) {
-  x$get_locusname()
-}
-
-#' @export
-db_version.HLAGene <- function(x) {
-  x$get_db_version()
-}
 
 #' @export
 `[.HLAGene` <- function(x, i, j, ..., drop = TRUE) {
@@ -290,7 +316,7 @@ calc_exon2_distance <- function(x, verbose = TRUE) {
   df <- df[df$names == name, c("start", "end")]
   exon2 <- subseq(sequences(x), df$start, df$end)
   aln <- DECIPHER::AlignSeqs(exon2, iterations = 0, refinements = 0,
-                             restrict = -500, verbose = verbose)
+                             restrict = c(-500, 2, 10), verbose = verbose)
   DECIPHER::DistanceMatrix(aln, includeTerminalGaps = TRUE, verbose = verbose)
 }
 

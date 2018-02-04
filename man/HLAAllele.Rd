@@ -2,27 +2,29 @@
 % Please edit documentation in R/HLAAllele.r
 \name{HLAAllele}
 \alias{HLAAllele}
-\title{Constructor for \code{\linkS4class{HLAAllele}} objects}
+\title{Constructor for \linkS4class{HLAAllele} objects}
 \usage{
-HLAAllele(nodes, ncores = parallel::detectCores())
+HLAAllele(nodes, locusname, ncores = parallel::detectCores())
 }
 \arguments{
-\item{nodes}{Allele nodes from a hla.xml object.}
+\item{nodes}{Allele nodes from a \code{hla.xml} object.}
+
+\item{locusname}{A valid HLA locus name.}
 
 \item{ncores}{The number of compute cores to use.}
 }
 \value{
-A \code{\linkS4class{HLAAllele}} object
+A \linkS4class{HLAAllele} object
 }
 \description{
-Constructor for \code{\linkS4class{HLAAllele}} objects
+Constructor for \linkS4class{HLAAllele} objects
 }
 \note{
-Don't run directly. This function is called by \code{\link{parse_hla_alleles}}.
+Don't run directly. This function is called by \code{\link[=parse_hla_alleles]{parse_hla_alleles()}}.
 }
 \examples{
 showClass("HLAAllele")
 }
 \seealso{
-\code{\link{parse_hla_alleles}}
+\code{\link[=parse_hla_alleles]{parse_hla_alleles()}}
 }

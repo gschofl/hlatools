@@ -1,5 +1,21 @@
 valid_hla_loci_ <- function() {
-  c('HLA-A', 'HLA-B', 'HLA-C', 'HLA-DPB1', 'HLA-DQB1', 'HLA-DRB1')
+  c(
+    'HLA-A',    'HLA-B',    'HLA-C',
+    'HLA-DPA1', 'HLA-DPB1',
+    'HLA-DQA1', 'HLA-DQB1',
+    'HLA-DRB1', 'HLA-DRB3', 'HLA-DRB4', 'HLA-DRB5',
+    'HLA-E',    'HLA-F',    'HLA-G',
+    'HLA-DMA',  'HLA-DMB',
+    'HLA-DOA',  'HLA-DOB',
+    'HLA-DRA'
+    # 'HLA-DRB2'
+    # 'HLA-H',    'HLA-HFE',
+    # 'HLA-J',    'HLA-K',    'HLA-L',
+    # 'MICA',     'MICB',
+    # 'HLA-P',    'HLA-T',
+    # 'TAP1',     'TAP2',
+    # 'HLA-V',    'HLA-W',    'HLA-Y'
+  )
 }
 
 expand_hla_allele <- function(x, locus = NULL) {
@@ -7,9 +23,9 @@ expand_hla_allele <- function(x, locus = NULL) {
     ifelse(!grepl("^HLA-\\S+", x), paste0("HLA-", x), x)
   } else {
     locus <- sub("HLA-", "", toupper(locus))
-    pattern1 <- paste0("^HLA-", locus, "[*]\\d\\d\\d?:.+$")
-    pattern2 <- paste0("^", locus, "[*]\\d\\d\\d?:.+$")
-    pattern3 <- "^\\d\\d\\d?:.+$"
+    pattern1 <- paste0("^HLA-", locus, "[*]\\d\\d\\d?:?.*$")
+    pattern2 <- paste0("^", locus, "[*]\\d\\d\\d?:?.*$")
+    pattern3 <- "^\\d\\d\\d?:?.*$"
     ifelse(grepl(pattern1, x),
            x,
            ifelse(grepl(pattern2, x),
@@ -23,8 +39,8 @@ expand_hla_allele <- function(x, locus = NULL) {
 ## for backwards compatibility
 expand_allele <- expand_hla_allele
 
-match_hla_locus <- function(locus) {
-  locus <- expand_hla_allele(locus)
+match_hla_locus <- function(locusname) {
+  locus <- expand_hla_allele(locusname)
   match.arg(locus, valid_hla_loci_())
 }
 

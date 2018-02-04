@@ -10,14 +10,14 @@ features(x, ...)
 features(x, ...) <- value
 }
 \arguments{
-\item{x}{A \code{\link{HLAGene}} or \code{\linkS4class{HLAAllele}} object.}
+\item{x}{A \link[=HLAGene_]{HLAGene} or \linkS4class{HLAAllele} object.}
 
 \item{...}{Further arguments passed to methods.}
 
 \item{value}{A \code{HLAFeatureList} object.}
 }
 \value{
-A HLAFeatureList object.
+A \linkS4class{HLAFeatureList} object.
 }
 \description{
 Get or set feature data

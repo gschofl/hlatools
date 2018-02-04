@@ -9,7 +9,7 @@
 \alias{[,HLAAllele,numeric,missing-method}
 \alias{[,HLAAllele,logical,missing-method}
 \alias{[,HLAAllele,character,missing-method}
-\title{Class \code{"HLAAllele"}}
+\title{Class `"HLAAllele"``}
 \usage{
 \S4method{names}{HLAAllele}(x)
 
@@ -24,39 +24,41 @@
 \S4method{[}{HLAAllele,character,missing}(x, i, j, ..., drop = TRUE)
 }
 \description{
-A container for data parsed from the IMGT/HLA hla.xml file.
-Part of a \code{\link{HLAGene}} object.
+A container for data parsed from the IPD-IMGT/HLA hla.xml file.
+Part of a \link[=HLAGene_]{HLAGene} object.
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{names}: Get sequence names from \code{HLAAllele}s.
+\item \code{names}: Get sequence names from \linkS4class{HLAAllele}s.
 
-\item \code{length}: Get number of \code{HLAAllele}s.
+\item \code{length}: Get number of \linkS4class{HLAAllele}s.
 
-\item \code{c}: Combine \code{HLAAllele} objects.
+\item \code{c}: Combine \linkS4class{HLAAllele} objects.
 
-\item \code{[}: Subset \code{HLAAllele} objects.
+\item \code{[}: Subset \linkS4class{HLAAllele} objects.
 
-\item \code{[}: Subset \code{HLAAllele} objects.
+\item \code{[}: Subset \linkS4class{HLAAllele} objects.
 
-\item \code{[}: Subset \code{HLAAllele} objects.
+\item \code{[}: Subset \linkS4class{HLAAllele} objects.
 }}
 
 \section{Slots}{
 
 \describe{
-\item{\code{sequence}}{A \code{\linkS4class{DNAStringSet}} object.}
+\item{\code{locus}}{A \code{character} string.}
 
-\item{\code{metadata}}{A \code{\linkS4class{DataFrame}} object.}
+\item{\code{sequence}}{A \linkS4class{DNAStringSet} object.}
 
-\item{\code{features}}{A \code{\linkS4class{HLARangesList}} object.}
+\item{\code{metadata}}{A \linkS4class{DataFrame} object.}
+
+\item{\code{features}}{A \linkS4class{HLARangesList} object.}
 }}
 
 \examples{
 showClass("HLAAllele")
 }
 \seealso{
-\code{\link{HLAGene}}.
+\link[=HLAGene_]{HLAGene}
 }
 \keyword{classes}
 \keyword{internal}

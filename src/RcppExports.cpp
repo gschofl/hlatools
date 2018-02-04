@@ -62,23 +62,12 @@ BEGIN_RCPP
 END_RCPP
 }
 
-RcppExport SEXP hlatools_hla_allele_to_genotype(SEXP, SEXP);
-RcppExport SEXP hlatools_hla_field1(SEXP);
-RcppExport SEXP hlatools_hla_field2(SEXP);
-RcppExport SEXP hlatools_hla_prefix(SEXP);
-RcppExport SEXP hlatools_hla_sort(SEXP);
-
 static const R_CallMethodDef CallEntries[] = {
     {"_hlatools_hla_sort", (DL_FUNC) &_hlatools_hla_sort, 1},
     {"_hlatools_hla_prefix", (DL_FUNC) &_hlatools_hla_prefix, 1},
     {"_hlatools_hla_field1", (DL_FUNC) &_hlatools_hla_field1, 1},
     {"_hlatools_hla_field2", (DL_FUNC) &_hlatools_hla_field2, 1},
     {"_hlatools_hla_allele_to_genotype", (DL_FUNC) &_hlatools_hla_allele_to_genotype, 2},
-    {"hlatools_hla_allele_to_genotype", (DL_FUNC) &hlatools_hla_allele_to_genotype, 2},
-    {"hlatools_hla_field1",             (DL_FUNC) &hlatools_hla_field1,             1},
-    {"hlatools_hla_field2",             (DL_FUNC) &hlatools_hla_field2,             1},
-    {"hlatools_hla_prefix",             (DL_FUNC) &hlatools_hla_prefix,             1},
-    {"hlatools_hla_sort",               (DL_FUNC) &hlatools_hla_sort,               1},
     {NULL, NULL, 0}
 };
 

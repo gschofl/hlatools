@@ -3,23 +3,23 @@
 \name{read_hla_xml}
 \alias{read_hla_xml}
 \alias{update_hla_xml}
-\title{Fetch and parse or update the IMGT/HLA hla.xml file}
+\title{Fetch and parse or update the IPD-IMGT/HLA hla.xml file}
 \usage{
 read_hla_xml(remote = FALSE)
 
 update_hla_xml()
 }
 \arguments{
-\item{remote}{[logical] Pull data from the IMGT/HLA ftp server or
-\code{getOption("hlatools.local_repos")}}
+\item{remote}{<\link{logical}>; if \code{TRUE} pull data from the IPD-IMGT/HLA ftp server,
+if \code{FALSE} retrieve data from \code{getOption("hlatools.local_repos")}}
 }
 \value{
-An object of class (S3) \code{XMLInternalDocument}.
+An \link[xml2:read_xml]{xml_document}.
 
 \code{invisible(NULL)}
 }
 \description{
-Fetch and parse or update the IMGT/HLA hla.xml file
+Fetch and parse or update the IPD-IMGT/HLA hla.xml file
 }
 \examples{
 \dontrun{
