@@ -8,6 +8,7 @@
 #' @export
 #' @examples
 #' \dontrun{
+#' check_IMGTHLA()
 #' repo <- fetch_IMGTHLA()
 #' update_IMGTHLA()
 #' }
@@ -27,13 +28,13 @@ fetch_IMGTHLA <- function(local_path = getOption("hlatools.local_repos")) {
 #' @rdname fetch_IMGTHLA
 #' @return \code{invisible(NULL)}
 #' @export
-update_IMGTHLA <- function() {
+update_IMGTHLA <- function(local_path = getOption("hlatools.local_repos")) {
   assertive.base::assert_all_are_true(
     requireNamespace("git2r", quietly = TRUE)
   )
-  path <- file.path(getOption("hlatools.local_repos"), "IMGTHLA")
+  repo_path <- file.path(local_path, "IMGTHLA")
   tryCatch({
-    repo <- git2r::repository(path)
+    repo <- git2r::repository(repo_path)
     }, error =  function(e) {
       if (grepl("Unable to open repository", e$message))
         ## go and try cloning the IMGT/HLA repo
@@ -45,8 +46,42 @@ update_IMGTHLA <- function() {
   repo
 }
 
+#' @rdname fetch_IMGTHLA
+#' @return A diagnostic message.
+#' @export
+check_IMGTHLA <- function(local_path = getOption("hlatools.local_repos")) {
+  assertive.base::assert_all_are_true(
+    requireNamespace("git2r", quietly = TRUE)
+  )
+  ##
+  repo_path <- file.path(local_path, "IMGTHLA")
+  repo <- tryCatch({
+    git2r::repository(repo_path)
+  }, error =  function(e) {
+    if (grepl("No such file or directory", e$message))
+      "Use fetch_IMGTHLA() to create a local IMGT/HLA repository"
+    else
+      e$message
+  })
+  ##
+  if (is(repo, "git_repository")) {
+    url <- "https://github.com/ANHIG/IMGTHLA"
+    remote_shas <- git2r::remote_ls(url)
+    rl          <- git2r::reflog(repo)
+    ##
+    msg <- if (rl[[1]]@sha == remote_shas[["HEAD"]]) {
+      "Your local IMGT/HLA repository is up-to-date"
+    } else {
+      "Run update_IMGTHLA() to bring your local IMGT/HLA repository up-to-date"
+    }
+  } else if (is(repo, "character")) {
+    msg <- repo
+  }
 
-#' Fetch and parse or update the IMGT/HLA hla.xml file
+  packageStartupMessage(msg)
+}
+
+#' Fetch and parse or update the IPD-IMGT/HLA hla.xml file
 #'
 #' @param remote [logical] Pull data from the IMGT/HLA ftp server or
 #' \code{getOption("hlatools.local_repos")}

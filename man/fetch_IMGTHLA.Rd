@@ -3,11 +3,14 @@
 \name{fetch_IMGTHLA}
 \alias{fetch_IMGTHLA}
 \alias{update_IMGTHLA}
-\title{Clone or update the IMGTHLA repo on github}
+\alias{check_IMGTHLA}
+\title{Clone or pull from the \href{https://github.com/ANHIG/IMGTHLA}{ANHIG/IMGTHLA} repo}
 \usage{
 fetch_IMGTHLA(local_path = getOption("hlatools.local_repos"))
 
-update_IMGTHLA()
+update_IMGTHLA(local_path = getOption("hlatools.local_repos"))
+
+check_IMGTHLA(local_path = getOption("hlatools.local_repos"))
 }
 \arguments{
 \item{local_path}{Local directory to clone to. Defaults to \file{~/local/db/IMGTHLA}.}
@@ -16,6 +19,8 @@ update_IMGTHLA()
 A S4 \code{\linkS4class{git_repository}} object.
 
 \code{invisible(NULL)}
+
+A diagnostic message.
 }
 \description{
 Clone or update the IMGTHLA repo on github
@@ -26,6 +31,7 @@ behind a proxy.
 }
 \examples{
 \dontrun{
+check_IMGTHLA()
 repo <- fetch_IMGTHLA()
 update_IMGTHLA()
 }

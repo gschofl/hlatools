@@ -7,6 +7,9 @@
   if (any(toset)) {
     options(op.hlatools[toset])
   }
+  ##
+  check_IMGTHLA()
+  ##
   invisible(NULL)
 }
 
