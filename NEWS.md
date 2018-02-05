@@ -1,6 +1,8 @@
 # hlatools 0.0.7.9000
 
 * [feature] Added `check_IMGTHLA()` to check if the local repo is uo-to-date.
+* Renamed `fetch_IMGTHLA()` to `clone_IMGTHLA()` and `update_IMGHTHLA()` to
+  `pull_IMGTHLA()` (the old functions are aliased to the new)
 
 # hlatools 0.0.7
 

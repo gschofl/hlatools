@@ -30,9 +30,11 @@ devtools::install_github("gscholf/hlatools")
 
 ### Get HLA data
 
-* `fetch_IMGTHLA()`: Clone the _ANHIG/IMGTHLA_ repo on [GitHub](https://github.com/ANHIG/IMGTHLA) to a location specified by the option `hlatools.local_repos`. Defaults to _~/local/db/_.
+* `clone_IMGTHLA()`: Clone the _ANHIG/IMGTHLA_ repo on [GitHub](https://github.com/ANHIG/IMGTHLA) to a location specified by the option `hlatools.local_repos`. Defaults to _~/local/db/_.
 
-* `update_IMGTHLA()`: Send a pull request to _ANHIG/IMGTHLA_.
+* `pull_IMGTHLA()`: Send a pull request to _ANHIG/IMGTHLA_.
+
+* `check_IMGTHLA()`: Check if your local repository is up-to-date.
 
 ### Read HLA data
 

@@ -22,9 +22,11 @@ Usage
 
 ### Get HLA data
 
--   `fetch_IMGTHLA()`: Clone the *ANHIG/IMGTHLA* repo on [GitHub](https://github.com/ANHIG/IMGTHLA) to a location specified by the option `hlatools.local_repos`. Defaults to *~/local/db/*.
+-   `clone_IMGTHLA()`: Clone the *ANHIG/IMGTHLA* repo on [GitHub](https://github.com/ANHIG/IMGTHLA) to a location specified by the option `hlatools.local_repos`. Defaults to *~/local/db/*.
 
--   `update_IMGTHLA()`: Send a pull request to *ANHIG/IMGTHLA*.
+-   `pull_IMGTHLA()`: Send a pull request to *ANHIG/IMGTHLA*.
+
+-   `check_IMGTHLA()`: Check if your local repository is up-to-date.
 
 ### Read HLA data
 
@@ -206,52 +208,52 @@ These obects come with an additional set of `R6`-methods that implement an API u
     #>  language en_GB:en                    
     #>  collate  en_GB.UTF-8                 
     #>  tz       Europe/Berlin               
-    #>  date     2018-02-02
+    #>  date     2018-02-05
     #> Packages -----------------------------------------------------------------
-    #>  package          * version   date       source                     
-    #>  assertive.base     0.0-7     2016-12-30 CRAN (R 3.4.2)             
-    #>  backports          1.1.2     2017-12-13 cran (@1.1.2)              
-    #>  base             * 3.4.3     2017-12-01 local                      
-    #>  BiocGenerics       0.24.0    2017-11-17 Bioconductor               
-    #>  Biostrings         2.46.0    2017-11-17 Bioconductor               
-    #>  bitops             1.0-6     2013-08-17 CRAN (R 3.4.2)             
-    #>  codetools          0.2-15    2016-10-05 CRAN (R 3.3.1)             
-    #>  compiler           3.4.3     2017-12-01 local                      
-    #>  data.table         1.10.4-3  2017-10-27 cran (@1.10.4-)            
-    #>  datasets         * 3.4.3     2017-12-01 local                      
-    #>  devtools           1.13.4    2017-11-09 cran (@1.13.4)             
-    #>  digest             0.6.14    2018-01-14 cran (@0.6.14)             
-    #>  evaluate           0.10.1    2017-06-24 cran (@0.10.1)             
-    #>  foreach            1.4.4     2017-12-12 cran (@1.4.4)              
-    #>  GenomeInfoDb       1.14.0    2017-11-17 Bioconductor               
-    #>  GenomeInfoDbData   0.99.1    2017-11-17 Bioconductor               
-    #>  GenomicRanges      1.30.0    2017-11-17 Bioconductor               
-    #>  git2r              0.21.0    2018-01-04 cran (@0.21.0)             
-    #>  graphics         * 3.4.3     2017-12-01 local                      
-    #>  grDevices        * 3.4.3     2017-12-01 local                      
-    #>  hlatools         * 0.0.7     2018-01-25 local (gschofl/hlatools@NA)
-    #>  htmltools          0.3.6     2017-04-28 CRAN (R 3.4.2)             
-    #>  IRanges            2.12.0    2017-11-17 Bioconductor               
-    #>  iterators          1.0.9     2017-12-12 cran (@1.0.9)              
-    #>  knitr              1.18      2017-12-27 cran (@1.18)               
-    #>  magrittr           1.5       2014-11-22 CRAN (R 3.4.2)             
-    #>  memoise            1.1.0     2017-04-21 CRAN (R 3.4.2)             
-    #>  methods          * 3.4.3     2017-12-01 local                      
-    #>  parallel           3.4.3     2017-12-01 local                      
-    #>  R6                 2.2.2     2017-06-17 cran (@2.2.2)              
-    #>  Rcpp               0.12.15   2018-01-20 cran (@0.12.15)            
-    #>  RCurl              1.95-4.10 2018-01-04 cran (@1.95-4.)            
-    #>  rmarkdown          1.8       2017-11-17 cran (@1.8)                
-    #>  rprojroot          1.3-2     2018-01-03 cran (@1.3-2)              
-    #>  S4Vectors          0.16.0    2017-11-17 Bioconductor               
-    #>  stats            * 3.4.3     2017-12-01 local                      
-    #>  stats4             3.4.3     2017-12-01 local                      
-    #>  stringi            1.1.6     2017-11-17 cran (@1.1.6)              
-    #>  stringr            1.2.0     2017-02-18 CRAN (R 3.4.2)             
-    #>  tools              3.4.3     2017-12-01 local                      
-    #>  utils            * 3.4.3     2017-12-01 local                      
-    #>  withr              2.1.1     2017-12-19 cran (@2.1.1)              
-    #>  xml2               1.2.0     2018-01-24 cran (@1.2.0)              
-    #>  XVector            0.18.0    2017-11-17 Bioconductor               
-    #>  yaml               2.1.16    2017-12-12 cran (@2.1.16)             
-    #>  zlibbioc           1.24.0    2017-11-17 Bioconductor
+    #>  package          * version    date       source                     
+    #>  assertive.base     0.0-7      2016-12-30 CRAN (R 3.4.2)             
+    #>  backports          1.1.2      2017-12-13 cran (@1.1.2)              
+    #>  base             * 3.4.3      2017-12-01 local                      
+    #>  BiocGenerics       0.24.0     2017-11-17 Bioconductor               
+    #>  Biostrings         2.46.0     2017-11-17 Bioconductor               
+    #>  bitops             1.0-6      2013-08-17 CRAN (R 3.4.2)             
+    #>  codetools          0.2-15     2016-10-05 CRAN (R 3.3.1)             
+    #>  compiler           3.4.3      2017-12-01 local                      
+    #>  data.table         1.10.4-3   2017-10-27 cran (@1.10.4-)            
+    #>  datasets         * 3.4.3      2017-12-01 local                      
+    #>  devtools           1.13.4     2017-11-09 cran (@1.13.4)             
+    #>  digest             0.6.14     2018-01-14 cran (@0.6.14)             
+    #>  evaluate           0.10.1     2017-06-24 cran (@0.10.1)             
+    #>  foreach            1.4.4      2017-12-12 cran (@1.4.4)              
+    #>  GenomeInfoDb       1.14.0     2017-11-17 Bioconductor               
+    #>  GenomeInfoDbData   0.99.1     2017-11-17 Bioconductor               
+    #>  GenomicRanges      1.30.0     2017-11-17 Bioconductor               
+    #>  git2r              0.21.0     2018-01-04 cran (@0.21.0)             
+    #>  graphics         * 3.4.3      2017-12-01 local                      
+    #>  grDevices        * 3.4.3      2017-12-01 local                      
+    #>  hlatools         * 0.0.7.9000 2018-02-05 local (gschofl/hlatools@NA)
+    #>  htmltools          0.3.6      2017-04-28 CRAN (R 3.4.2)             
+    #>  IRanges            2.12.0     2017-11-17 Bioconductor               
+    #>  iterators          1.0.9      2017-12-12 cran (@1.0.9)              
+    #>  knitr              1.18       2017-12-27 cran (@1.18)               
+    #>  magrittr           1.5        2014-11-22 CRAN (R 3.4.2)             
+    #>  memoise            1.1.0      2017-04-21 CRAN (R 3.4.2)             
+    #>  methods          * 3.4.3      2017-12-01 local                      
+    #>  parallel           3.4.3      2017-12-01 local                      
+    #>  R6                 2.2.2      2017-06-17 cran (@2.2.2)              
+    #>  Rcpp               0.12.15    2018-01-20 cran (@0.12.15)            
+    #>  RCurl              1.95-4.10  2018-01-04 cran (@1.95-4.)            
+    #>  rmarkdown          1.8        2017-11-17 cran (@1.8)                
+    #>  rprojroot          1.3-2      2018-01-03 cran (@1.3-2)              
+    #>  S4Vectors          0.16.0     2017-11-17 Bioconductor               
+    #>  stats            * 3.4.3      2017-12-01 local                      
+    #>  stats4             3.4.3      2017-12-01 local                      
+    #>  stringi            1.1.6      2017-11-17 cran (@1.1.6)              
+    #>  stringr            1.2.0      2017-02-18 CRAN (R 3.4.2)             
+    #>  tools              3.4.3      2017-12-01 local                      
+    #>  utils            * 3.4.3      2017-12-01 local                      
+    #>  withr              2.1.1      2017-12-19 cran (@2.1.1)              
+    #>  xml2               1.2.0      2018-01-24 cran (@1.2.0)              
+    #>  XVector            0.18.0     2017-11-17 Bioconductor               
+    #>  yaml               2.1.16     2017-12-12 cran (@2.1.16)             
+    #>  zlibbioc           1.24.0     2017-11-17 Bioconductor

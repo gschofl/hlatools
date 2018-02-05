@@ -1,18 +1,20 @@
-#' Clone or pull from the [ANHIG/IMGTHLA](https://github.com/ANHIG/IMGTHLA) repo
+#' Clone or pull the [ANHIG/IMGTHLA](https://github.com/ANHIG/IMGTHLA) repository
 #'
-#' @note Due to limitations in the \pkg{git2r} this will not work
-#' behind a proxy.
-#' @param local_path Local directory to clone to. Defaults to \file{~/local/db/IMGTHLA}.
+#' @param local_path Local directory to clone into. Defaults to \file{~/local/db/IMGTHLA}.
+#' @param branch The name of the branch to checkout. Defaults to the remote's default branch.
+#' @param progress Show progress. Default is `TRUE`.
 #'
 #' @return A [git_repository-class] object.
 #' @export
 #' @examples
 #' \dontrun{
 #' check_IMGTHLA()
-#' repo <- fetch_IMGTHLA()
-#' update_IMGTHLA()
+#' repo <- clone_IMGTHLA()
+#' repo <- pull_IMGTHLA()
 #' }
-fetch_IMGTHLA <- function(local_path = getOption("hlatools.local_repos")) {
+clone_IMGTHLA <- function(local_path = getOption("hlatools.local_repos"),
+                          branch = NULL,
+                          progress = TRUE) {
   assertive.base::assert_all_are_true(
     requireNamespace("git2r", quietly = TRUE)
   )
@@ -20,15 +22,22 @@ fetch_IMGTHLA <- function(local_path = getOption("hlatools.local_repos")) {
   if (!dir.exists(local_path)) {
     dir.create(local_path, recursive = TRUE)
   }
-  # Currently not working behind proxy
-  url <- "https://github.com/ANHIG/IMGTHLA"
-  git2r::clone(url, local_path)
+  repo <- git2r::clone("https://github.com/ANHIG/IMGTHLA", local_path, branch = branch,
+                       progress = progress)
+  invisible(repo)
 }
 
-#' @rdname fetch_IMGTHLA
-#' @return `invisible(NULL)`
 #' @export
-update_IMGTHLA <- function(local_path = getOption("hlatools.local_repos")) {
+fetch_IMGTHLA <- function(local_path = getOption("hlatools.local_repos"),
+                          branch = NULL,
+                          progress = TRUE) {
+  .Deprecated("clone_IMGTHLA")
+  clone_IMGTHLA(local_path, branch, progress)
+}
+
+#' @rdname clone_IMGTHLA
+#' @export
+pull_IMGTHLA <- function(local_path = getOption("hlatools.local_repos")) {
   assertive.base::assert_all_are_true(
     requireNamespace("git2r", quietly = TRUE)
   )
@@ -38,16 +47,22 @@ update_IMGTHLA <- function(local_path = getOption("hlatools.local_repos")) {
     }, error =  function(e) {
       if (grepl("Unable to open repository", e$message))
         ## go and try cloning the IPD-IMGT/HLA repo
-        return(fetch_IMGTHLA())
+        return(clone_IMGTHLA())
       else
         stop(e$message, call. = FALSE)
     })
   git2r::pull(repo)
-  repo
+  invisible(repo)
 }
 
-#' @rdname fetch_IMGTHLA
-#' @return A diagnostic message.
+#' @export
+update_IMGTHLA <- function(local_path = getOption("hlatools.local_repos")) {
+  .Deprecated("pull_IMGTHLA")
+  pull_IMGTHLA(local_path)
+}
+
+#' @rdname clone_IMGTHLA
+#' @return [character]; a diagnostic message.
 #' @export
 check_IMGTHLA <- function(local_path = getOption("hlatools.local_repos")) {
   assertive.base::assert_all_are_true(
@@ -59,7 +74,7 @@ check_IMGTHLA <- function(local_path = getOption("hlatools.local_repos")) {
     git2r::repository(repo_path)
   }, error =  function(e) {
     if (grepl("No such file or directory", e$message))
-      structure("Use fetch_IMGTHLA() to create a local IPD-IMGT/HLA repository", class = "msg")
+      structure("Use clone_IMGTHLA() to create a local IPD-IMGT/HLA repository", class = "msg")
     else
       structure(e$message, class = "msg")
   })
@@ -76,7 +91,7 @@ check_IMGTHLA <- function(local_path = getOption("hlatools.local_repos")) {
     msg <- if (rl[[1]]@sha == remote_shas[["HEAD"]]) {
       "Your local IPD-IMGT/HLA repository is up-to-date"
     } else {
-      "Run update_IMGTHLA() to bring your local IPD-IMGT/HLA repository up-to-date"
+      "Run pull_IMGTHLA() to bring your local IPD-IMGT/HLA repository up-to-date"
     }
   } else if (is(repo, "msg")) {
     msg <- repo
@@ -108,7 +123,7 @@ checkout_db_version <- function(version = "Latest") {
   }, error =  function(e) {
     if (grepl("Unable to open repository", e$message))
       ## go and try cloning the IPD-IMGT/HLA repo
-      return(fetch_IMGTHLA())
+      return(clone_IMGTHLA())
     else
       stop(e$message, call. = FALSE)
   })

@@ -1,2 +1,2 @@
 ## Cleanup
-unlink(tmp)
+unlink(file.path(tmp, "IMGTHLA"), recursive = TRUE)
