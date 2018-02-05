@@ -5,13 +5,15 @@
 \alias{update_hla_xml}
 \title{Fetch or update the IPD-IMGT/HLA hla.xml file}
 \usage{
-read_hla_xml(remote = FALSE)
+read_hla_xml(db_path = getOption("hlatools.local_repos"), remote = FALSE)
 
-update_hla_xml()
+update_hla_xml(db_path = getOption("hlatools.local_repos"))
 }
 \arguments{
+\item{db_path}{<\link{character}>; location of local IPD-IMGT/HLA repository.}
+
 \item{remote}{<\link{logical}>; if \code{TRUE} pull data from the IPD-IMGT/HLA ftp server,
-if \code{FALSE} retrieve data from \code{getOption("hlatools.local_repos")}}
+if \code{FALSE} retrieve data from \code{db_path}.}
 }
 \value{
 An \link[xml2:read_xml]{xml_document}.

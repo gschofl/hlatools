@@ -7,9 +7,10 @@ NULL
 
 #' Constructor for [HLAGene][HLAGene_] objects.
 #'
-#' @param locusname A valid HLA gene name.
-#' @param db_version IPD-IMGT/HLA version (e.g.: 3.28.0, 3.18.0, ...)
-#' @param ... Passed on.
+#' @param locusname <[character]>; a valid HLA gene name.
+#' @param db_version <[character]>; IPD-IMGT/HLA version (e.g.: 3.28.0, 3.18.0, ...)
+#' @param db_path <[character]>; Location of local IPD-IMGT/HLA repository. Defaults to \file{~/local/db/IMGTHLA}.
+#' @param ... Passed on to the initialiser.
 #'
 #' @return A [HLAGene][HLAGene_] object.
 #' @export
@@ -26,21 +27,24 @@ NULL
 #' ## extract all Common alleles
 #' x[cwd_status(x) == "Common"]
 #' }
-HLAGene <- function(locusname, db_version = "Latest", ...) {
-  HLAGene_$new(locusname, db_version, ...)
+HLAGene <- function(locusname, db_version = "Latest", db_path = getOption("hlatools.local_repos"), ...) {
+  assertive.properties::assert_is_not_null(db_path)
+  HLAGene_$new(locusname, db_version, db_path, ...)
 }
 
 #' Class `"HLAGene"`
 #'
 #' @docType class
-#' @usage HLAgene(locusname, db_version = "Latest", ncores = parallel::detectCores(), with_dist = FALSE)
+#' @usage HLAgene(locusname, db_version = "Latest", db_path = getOption("hlatools.local_repos"),
+#'        ncores = parallel::detectCores(), with_dist = FALSE)
 #' @keywords data internal
 #' @importFrom XVector subseq subseq<-
 #' @import foreach
 #' @return Object of [R6Class] representing an HLA gene.
 #' @section Methods:
 #' \describe{
-#'   \item{\code{x$new(locusname, db_version, ncores = parallel::detectCores(), with_dist = FALSE)}}{Create an object of this class.}
+#'   \item{\code{x$new(locusname, db_version = "Latest", db_path = getOption("hlatools.local_repos"),
+#'   ncores = parallel::detectCores(), with_dist = FALSE)}}{Create an object of this class.}
 #'   \item{\code{x$get_db_version()}}{Get the IPD-IMGT/HLA database version.}
 #'   \item{\code{x$get_hlatools_version()}}{Get the package version under which an object was created.}
 #'   \item{\code{x$get_locusname()}}{Get the name of the locus.}
@@ -51,12 +55,16 @@ HLAGene <- function(locusname, db_version = "Latest", ...) {
 HLAGene_ <- R6::R6Class(
   classname = "HLAGene",
   public = list(
-    initialize = function(locusname, db_version, ncores = parallel::detectCores(), with_dist = FALSE) {
+    initialize = function(locusname,
+                          db_version,
+                          db_path = getOption("hlatools.local_repos"),
+                          ncores = parallel::detectCores(),
+                          with_dist = FALSE) {
       if (db_version != "Latest") {
-        checkout_db_version(db_version)
-        on.exit(checkout_db_version("Latest"))
+        checkout_db_version(db_version, db_path)
+        on.exit(checkout_db_version("Latest", db_path))
       }
-      doc <- read_hla_xml()
+      doc         <- read_hla_xml(db_path)
       private$htv <- utils::packageVersion("hlatools")
       private$dbv <- numeric_version(xml2::xml_attr(xml2::xml_find_all(doc, "//d1:alleles/d1:allele[1]/d1:releaseversions"), "currentrelease"))
       private$lcn <- match_hla_locus(locusname)
@@ -105,7 +113,9 @@ HLAGene_ <- R6::R6Class(
   )
 )
 
+
 # Methods: HLAGene --------------------------------------------------------
+
 
 HLAGene_$set("public", "get_closest_complete_neighbor", function(allele) {
   allele <- expand_hla_allele(allele, self$get_locusname())
@@ -149,7 +159,6 @@ HLAGene_$set("public", "get_reference_sequence", function(allele) {
   }
   sref
 })
-
 
 HLAGene_$set("public", "get_all_reference_sequences", function(allele) {
   allele <- expand_hla_allele(allele, self$get_locusname())

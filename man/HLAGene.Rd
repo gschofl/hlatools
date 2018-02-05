@@ -4,14 +4,17 @@
 \alias{HLAGene}
 \title{Constructor for \link[=HLAGene_]{HLAGene} objects.}
 \usage{
-HLAGene(locusname, db_version = "Latest", ...)
+HLAGene(locusname, db_version = "Latest",
+  db_path = getOption("hlatools.local_repos"), ...)
 }
 \arguments{
-\item{locusname}{A valid HLA gene name.}
+\item{locusname}{<\link{character}>; a valid HLA gene name.}
 
-\item{db_version}{IPD-IMGT/HLA version (e.g.: 3.28.0, 3.18.0, ...)}
+\item{db_version}{<\link{character}>; IPD-IMGT/HLA version (e.g.: 3.28.0, 3.18.0, ...)}
 
-\item{...}{Passed on.}
+\item{db_path}{<\link{character}>; Location of local IPD-IMGT/HLA repository. Defaults to \file{~/local/db/IMGTHLA}.}
+
+\item{...}{Passed on to the initialiser.}
 }
 \value{
 A \link[=HLAGene_]{HLAGene} object.

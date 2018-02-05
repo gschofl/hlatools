@@ -14,7 +14,7 @@ NULL
 #'
 #' @importClassesFrom GenomicRanges GRanges GRangesList
 #' @keywords classes internal
-#' @seealso [parse_hla_alleles()], [HLAAllele-class]
+#' @seealso [read_hla_xml()], [parse_hla_alleles()], [HLAAllele-class], [HLAGene][HLAGene_]
 #' @export
 #' @examples
 #' showClass("HLARanges")

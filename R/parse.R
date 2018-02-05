@@ -4,8 +4,9 @@ utils::globalVariables("node", package = "hlatools")
 
 #' Fetch or update the IPD-IMGT/HLA hla.xml file
 #'
+#' @param db_path <[character]>; location of local IPD-IMGT/HLA repository.
 #' @param remote <[logical]>; if `TRUE` pull data from the IPD-IMGT/HLA ftp server,
-#' if `FALSE` retrieve data from \code{getOption("hlatools.local_repos")}
+#' if `FALSE` retrieve data from `db_path`.
 #'
 #' @return An [xml_document][xml2::read_xml()].
 #' @export
@@ -13,7 +14,7 @@ utils::globalVariables("node", package = "hlatools")
 #' doc <- read_hla_xml(remote = TRUE)
 #' update_hla_xml()
 #' }
-read_hla_xml <- function(remote = FALSE) {
+read_hla_xml <- function(db_path = getOption("hlatools.local_repos"), remote = FALSE) {
   tdir <- tempdir()
   if (remote) {
     ftpfile <- "ftp://ftp.ebi.ac.uk/pub/databases/ipd/imgt/hla/xml/hla.xml.zip"
@@ -21,9 +22,9 @@ read_hla_xml <- function(remote = FALSE) {
     download.file(url = ftpfile, destfile = dlfile, method = "libcurl")
     tfile <- unzip(zipfile = dlfile, exdir = tdir)
   } else {
-    dbpath <- getOption("hlatools.local_repos")
-    dbfile <- normalizePath(file.path(dbpath, "IMGTHLA", "xml", "hla.xml.zip"), mustWork = TRUE)
-    tfile <- unzip(zipfile = dbfile, exdir = tdir)[1]
+    assertive.properties::assert_is_not_null(db_path)
+    dbfile <- normalizePath(file.path(db_path, "IMGTHLA", "xml", "hla.xml.zip"), mustWork = TRUE)
+    tfile  <- unzip(zipfile = dbfile, exdir = tdir)[1]
   }
   doc <- xml2::read_xml(tfile)
   unlink(tfile, force = TRUE)
@@ -33,10 +34,9 @@ read_hla_xml <- function(remote = FALSE) {
 #' @rdname read_hla_xml
 #' @return `invisible(NULL)`
 #' @export
-update_hla_xml <- function() {
-  assertive.properties::assert_is_not_null(getOption("hlatools.local_repos"))
-  dbpath <- getOption("hlatools.local_repos")
-  dlfile <- normalizePath(file.path(dbpath, "IMGTHLA", "xml", "hla.xml.zip"), mustWork = FALSE)
+update_hla_xml <- function(db_path = getOption("hlatools.local_repos")) {
+  assertive.properties::assert_is_not_null(db_path)
+  dlfile <- normalizePath(file.path(db_path, "IMGTHLA", "xml", "hla.xml.zip"), mustWork = FALSE)
   ftpfile <- "ftp://ftp.ebi.ac.uk/pub/databases/ipd/imgt/hla/xml/hla.xml.zip"
   download.file(url = ftpfile, destfile = dlfile, method = "libcurl")
 }
@@ -48,10 +48,12 @@ update_hla_xml <- function() {
 #' @param ncores The number of compute cores to use.
 #'
 #' @return A [HLAAllele-class] object.
+#' @seealso [read_hla_xml()], [parse_hla_alleles()], [HLARanges-class],
+#' [HLAAllele-class], [HLAGene][HLAGene_]
 #' @export
 #' @examples
 #' \dontrun{
-#' doc <- read_hla_xml()
+#' doc  <- read_hla_xml()
 #' dpb1 <- parse_hla_alleles(doc, "HLA-DPB1")
 #' }
 parse_hla_alleles <- function(doc, locusname, ncores = parallel::detectCores()) {

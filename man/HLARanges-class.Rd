@@ -25,7 +25,7 @@ Extends \linkS4class{GRanges}.
 showClass("HLARanges")
 }
 \seealso{
-\code{\link[=parse_hla_alleles]{parse_hla_alleles()}}, \linkS4class{HLAAllele}
+\code{\link[=read_hla_xml]{read_hla_xml()}}, \code{\link[=parse_hla_alleles]{parse_hla_alleles()}}, \linkS4class{HLAAllele}, \link[=HLAGene_]{HLAGene}
 }
 \keyword{classes}
 \keyword{internal}

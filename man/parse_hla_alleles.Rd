@@ -21,7 +21,11 @@ Parse all HLA alleles for a locus from hla.xml
 }
 \examples{
 \dontrun{
-doc <- read_hla_xml()
+doc  <- read_hla_xml()
 dpb1 <- parse_hla_alleles(doc, "HLA-DPB1")
 }
+}
+\seealso{
+\code{\link[=read_hla_xml]{read_hla_xml()}}, \code{\link[=parse_hla_alleles]{parse_hla_alleles()}}, \linkS4class{HLARanges},
+\linkS4class{HLAAllele}, \link[=HLAGene_]{HLAGene}
 }

@@ -56,9 +56,14 @@ match_hla_locus <- function(locusname) {
   ifelse(!nzchar(a), b, a)
 }
 
+collapse <- function(...) paste0(..., collapse = "|")
+
 comma <- function(...) paste0(..., collapse = ", ")
 
 colon <- function(...) paste0(..., collapse = ":")
+
+slash <- function(...) paste0(..., collapse = "/")
+
 
 `%.%` <- function(f, g) {
   f <- match.fun(f)
@@ -78,6 +83,8 @@ normalise_ranges <- function(x) {
     names = names(x)
   )
 }
+
+strsplit1 <- function(...) strsplit(...)[[1]]
 
 strsplitN <- function(x, split, n, from = "start", collapse = split, ...) {
   assertive.properties::assert_is_vector(x)
@@ -108,12 +115,6 @@ recycle_vector <- function(x, length.out) {
     ans
   }
 }
-
-collapse <- function(...) paste0(..., collapse = "|")
-
-colon <- function(...) paste0(..., collapse = ":")
-
-slash <- function(...) paste0(..., collapse = "/")
 
 #' Set remote data checking on of off
 #' @param what `TRUE` or `FALSE`

@@ -14,7 +14,7 @@ NULL
 #' @importClassesFrom Biostrings DNAStringSet
 #' @importClassesFrom S4Vectors DataFrame
 #' @keywords classes internal
-#' @seealso [HLAGene][HLAGene_]
+#' @seealso [read_hla_xml()], [parse_hla_alleles()], [HLARanges-class], [HLAGene][HLAGene_]
 #' @export
 #' @examples
 #' showClass("HLAAllele")

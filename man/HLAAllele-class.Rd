@@ -58,7 +58,7 @@ Part of a \link[=HLAGene_]{HLAGene} object.
 showClass("HLAAllele")
 }
 \seealso{
-\link[=HLAGene_]{HLAGene}
+\code{\link[=read_hla_xml]{read_hla_xml()}}, \code{\link[=parse_hla_alleles]{parse_hla_alleles()}}, \linkS4class{HLARanges}, \link[=HLAGene_]{HLAGene}
 }
 \keyword{classes}
 \keyword{internal}

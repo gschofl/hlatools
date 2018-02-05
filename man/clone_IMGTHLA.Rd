@@ -6,15 +6,15 @@
 \alias{check_IMGTHLA}
 \title{Clone or pull the \href{https://github.com/ANHIG/IMGTHLA}{ANHIG/IMGTHLA} repository}
 \usage{
-clone_IMGTHLA(local_path = getOption("hlatools.local_repos"), branch = NULL,
+clone_IMGTHLA(db_path = getOption("hlatools.local_repos"), branch = NULL,
   progress = TRUE)
 
-pull_IMGTHLA(local_path = getOption("hlatools.local_repos"))
+pull_IMGTHLA(db_path = getOption("hlatools.local_repos"))
 
-check_IMGTHLA(local_path = getOption("hlatools.local_repos"))
+check_IMGTHLA(db_path = getOption("hlatools.local_repos"))
 }
 \arguments{
-\item{local_path}{Local directory to clone into. Defaults to \file{~/local/db/IMGTHLA}.}
+\item{db_path}{Local directory to clone into. Defaults to \file{~/local/db/IMGTHLA}.}
 
 \item{branch}{The name of the branch to checkout. Defaults to the remote's default branch.}
 
