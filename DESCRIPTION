@@ -7,7 +7,8 @@ Depends:
     R (>= 3.3.0)
 License: MIT + file LICENSE
 Suggests:
-    git2r
+    git2r,
+    testthat (>= 2.0.0)
 LazyData: true
 Type: Package
 Maintainer: Gerhard Schöfl <schoefl@dkms-lab.de>
@@ -36,7 +37,7 @@ Imports:
     curl,
     purrr
 RoxygenNote: 6.0.1
-Collate: 
+Collate:
     'utils.R'
     'all-generics.R'
     'HLARanges.R'
