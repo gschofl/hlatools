@@ -9,6 +9,12 @@
 \usage{
 allele_table(db_path = getOption("hlatools.local_repos"), remote = FALSE)
 }
+\arguments{
+\item{db_path}{<\link{character}>; location of local IPD-IMGT/HLA repository.}
+
+\item{remote}{<\link{logical}>; if \code{TRUE} pull data from \href{https://www.hla.alleles.org/wmda}{hla.alleles.org},
+if \code{FALSE} retrieve data from \code{db_path}.}
+}
 \value{
 A \link{tibble} with the fields:
 \itemize{

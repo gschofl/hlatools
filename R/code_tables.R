@@ -119,8 +119,10 @@ print.g_tbl <- function(x, ..., n = 5) {
 #'
 #' Constructor for a <`allele_tbl`> object.
 #'
+#' @param db_path <[character]>; location of local IPD-IMGT/HLA repository.
+#' @param remote <[logical]>; if `TRUE` pull data from [hla.alleles.org](https://www.hla.alleles.org/wmda),
+#' if `FALSE` retrieve data from `db_path`.
 #' @source [hla.alleles.org](https://www.hla.alleles.org/wmda).
-#'
 #' @return
 #' A [tibble] with the fields:
 #' \itemize{
