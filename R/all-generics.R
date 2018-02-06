@@ -1,7 +1,7 @@
 #' @include utils.R
 NULL
 
-#' Get or set sequence data
+#' Access sequence data
 #'
 #' @param x A [HLAGene][HLAGene_] or [HLAAllele-class] object.
 #' @param ... Further arguments passed to methods.
@@ -18,7 +18,7 @@ setGeneric("sequences", signature = "x", function(x, ...) standardGeneric("seque
 #' @rdname sequences
 setGeneric("sequences<-", signature = "x", function(x, ..., value) standardGeneric("sequences<-"))
 
-#' Get or set feature data
+#' Access feature data
 #'
 #' @param x A [HLAGene][HLAGene_] or [HLAAllele-class] object.
 #' @param ... Further arguments passed to methods.
@@ -135,6 +135,10 @@ setGeneric("sample_name", signature = "x", function(x, ...) standardGeneric("sam
 
 #' Access completeness status
 #'
+#' @note A complete allelic sequence is defined as a sequence that includes
+#' 3'-UTR and 5'-UTR sequence, irrespective of whether the UTR sequences
+#' are complete.
+#'
 #' @param x A [HLAGene][HLAGene_] or [HLAAllele-class] object.
 #' @param ... Further arguments passed to methods.
 #'
@@ -178,7 +182,7 @@ setGeneric("locusname", signature = "x", function(x, ...) standardGeneric("locus
 #' @rdname locusname
 setGeneric("locusname<-", signature = "x", function(x, ..., value) standardGeneric("locusname<-"))
 
-#' Retrieve exon sequences
+#' Access exon sequences
 #'
 #' @param x A [HLAGene][HLAGene_] object.
 #' @param exon The feature number or `NULL` (Retrieves all exons).
@@ -193,7 +197,7 @@ setGeneric("locusname<-", signature = "x", function(x, ..., value) standardGener
 #' }
 setGeneric("exon", signature = "x", function(x, exon = NULL, ...) standardGeneric("exon"))
 
-#' Retrieve intron sequences
+#' Access intron sequences
 #'
 #' @param x A [HLAGene][HLAGene_] object.
 #' @param intron The feature number or `NULL` (Retrieves all introns).
@@ -208,7 +212,7 @@ setGeneric("exon", signature = "x", function(x, exon = NULL, ...) standardGeneri
 #' }
 setGeneric("intron", signature = "x", function(x, intron = NULL, ...) standardGeneric("intron"))
 
-#' Retrieve UTR sequences
+#' Access UTR sequences
 #'
 #' @param x A [HLAGene][HLAGene_] object.
 #' @param utr The feature number or `NULL` (Retrieves all UTRs).
@@ -225,7 +229,8 @@ setGeneric("utr", signature = "x", function(x, utr = NULL, ...) standardGeneric(
 
 #' Get hlatools package version
 #'
-#' Retrieve the package version under which a HLAgene object has been created.
+#' Access the package version under which a [HLAGene][HLAGene_] object has been
+#' created.
 #'
 #' @param x A [HLAGene][HLAGene_] object.
 #' @param ... Further arguments passed to methods.
@@ -241,8 +246,8 @@ setGeneric("hlatools_version", signature = "x", function(x, ...) standardGeneric
 
 #' Get IPD-IMGT/HLA database version
 #'
-#' Retrieve the [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) from which
-#' a HLAgene object has been created.
+#' Access the [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) version from
+#' which a [HLAGene][HLAGene_] object has been created.
 #'
 #' @param x A [HLAGene][HLAGene_] object.
 #' @param ... Further arguments passed to methods.
@@ -261,7 +266,7 @@ setGeneric("db_version", signature = "x", function(x, ...) standardGeneric("db_v
 ### HLARanges class
 ###
 
-#' Get feature id
+#' Access feature ID
 #'
 #' @param x A [HLARanges-class] object.
 #' @param ... Further arguments passed to methods.
@@ -272,7 +277,7 @@ setGeneric("db_version", signature = "x", function(x, ...) standardGeneric("db_v
 #' ##
 setGeneric("getId", signature = "x", function(x, ...) standardGeneric("getId"))
 
-#' Get feature order
+#' Access feature order
 #'
 #' @param x A [HLARanges-class] object.
 #' @param ... Further arguments passed to methods.
@@ -283,7 +288,7 @@ setGeneric("getId", signature = "x", function(x, ...) standardGeneric("getId"))
 #' ##
 setGeneric("getOrder", signature = "x", function(x, ...) standardGeneric("getOrder"))
 
-#' Get feature type
+#' Access feature type
 #'
 #' @param x A [HLARanges-class] object.
 #' @param ... Further arguments passed to methods.
@@ -294,7 +299,7 @@ setGeneric("getOrder", signature = "x", function(x, ...) standardGeneric("getOrd
 #' ##
 setGeneric("getType", signature = "x", function(x, ...) standardGeneric("getType"))
 
-#' Get feature status
+#' Access feature status
 #'
 #' @param x A [HLARanges-class] object.
 #' @param ... Further arguments passed to methods.
@@ -305,7 +310,7 @@ setGeneric("getType", signature = "x", function(x, ...) standardGeneric("getType
 #' ##
 setGeneric("getStatus", signature = "x", function(x, ...) standardGeneric("getStatus"))
 
-#' Get feature reading frame
+#' Access feature reading frame
 #'
 #' @param x A [HLARanges-class] object.
 #' @param ... Further arguments passed to methods.

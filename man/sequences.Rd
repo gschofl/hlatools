@@ -3,7 +3,7 @@
 \name{sequences}
 \alias{sequences}
 \alias{sequences<-}
-\title{Get or set sequence data}
+\title{Access sequence data}
 \usage{
 sequences(x, ...)
 
@@ -20,7 +20,7 @@ sequences(x, ...) <- value
 A \linkS4class{DNAStringSet} object.
 }
 \description{
-Get or set sequence data
+Access sequence data
 }
 \examples{
 \dontrun{

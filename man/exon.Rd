@@ -2,7 +2,7 @@
 % Please edit documentation in R/all-generics.R
 \name{exon}
 \alias{exon}
-\title{Retrieve exon sequences}
+\title{Access exon sequences}
 \usage{
 exon(x, exon = NULL, ...)
 }
@@ -17,7 +17,7 @@ exon(x, exon = NULL, ...)
 A \linkS4class{DNAStringSet}.
 }
 \description{
-Retrieve exon sequences
+Access exon sequences
 }
 \examples{
 \dontrun{

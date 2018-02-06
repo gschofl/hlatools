@@ -17,6 +17,11 @@ A logical vector.
 \description{
 Access completeness status
 }
+\note{
+A complete allelic sequence is defined as a sequence that includes
+3'-UTR and 5'-UTR sequence, irrespective of whether the UTR sequences
+are complete.
+}
 \examples{
 \dontrun{
 x <- HLAGene("DPB1")

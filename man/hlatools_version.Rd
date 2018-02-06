@@ -15,7 +15,8 @@ hlatools_version(x, ...)
 A \link{package_version} object.
 }
 \description{
-Retrieve the package version under which a HLAgene object has been created.
+Access the package version under which a \link[=HLAGene_]{HLAGene} object has been
+created.
 }
 \examples{
 \dontrun{

@@ -2,7 +2,7 @@
 % Please edit documentation in R/all-generics.R
 \name{getOrder}
 \alias{getOrder}
-\title{Get feature order}
+\title{Access feature order}
 \usage{
 getOrder(x, ...)
 }
@@ -15,7 +15,7 @@ getOrder(x, ...)
 An \link{integer} vector.
 }
 \description{
-Get feature order
+Access feature order
 }
 \examples{
 ##

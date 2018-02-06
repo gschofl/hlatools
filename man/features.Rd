@@ -3,7 +3,7 @@
 \name{features}
 \alias{features}
 \alias{features<-}
-\title{Get or set feature data}
+\title{Access feature data}
 \usage{
 features(x, ...)
 
@@ -20,7 +20,7 @@ features(x, ...) <- value
 A \linkS4class{HLAFeatureList} object.
 }
 \description{
-Get or set feature data
+Access feature data
 }
 \examples{
 \dontrun{

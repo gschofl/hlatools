@@ -15,8 +15,8 @@ db_version(x, ...)
 A \link{numeric_version} object.
 }
 \description{
-Retrieve the \href{https://www.ebi.ac.uk/ipd/imgt/hla/}{IPD-IMGT/HLA} from which
-a HLAgene object has been created.
+Access the \href{https://www.ebi.ac.uk/ipd/imgt/hla/}{IPD-IMGT/HLA} version from
+which a \link[=HLAGene_]{HLAGene} object has been created.
 }
 \examples{
 \dontrun{

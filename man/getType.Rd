@@ -2,7 +2,7 @@
 % Please edit documentation in R/all-generics.R
 \name{getType}
 \alias{getType}
-\title{Get feature type}
+\title{Access feature type}
 \usage{
 getType(x, ...)
 }
@@ -15,7 +15,7 @@ getType(x, ...)
 A \link{character} vector.
 }
 \description{
-Get feature type
+Access feature type
 }
 \examples{
 ##

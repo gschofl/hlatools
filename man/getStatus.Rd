@@ -2,7 +2,7 @@
 % Please edit documentation in R/all-generics.R
 \name{getStatus}
 \alias{getStatus}
-\title{Get feature status}
+\title{Access feature status}
 \usage{
 getStatus(x, ...)
 }
@@ -15,7 +15,7 @@ getStatus(x, ...)
 A \link{character} vector.
 }
 \description{
-Get feature status
+Access feature status
 }
 \examples{
 ##

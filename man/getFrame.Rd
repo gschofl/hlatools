@@ -2,7 +2,7 @@
 % Please edit documentation in R/all-generics.R
 \name{getFrame}
 \alias{getFrame}
-\title{Get feature reading frame}
+\title{Access feature reading frame}
 \usage{
 getFrame(x, ...)
 }
@@ -15,7 +15,7 @@ getFrame(x, ...)
 An \link{integer} vector.
 }
 \description{
-Get feature reading frame
+Access feature reading frame
 }
 \examples{
 ##

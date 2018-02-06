@@ -2,7 +2,7 @@
 % Please edit documentation in R/all-generics.R
 \name{utr}
 \alias{utr}
-\title{Retrieve UTR sequences}
+\title{Access UTR sequences}
 \usage{
 utr(x, utr = NULL, ...)
 }
@@ -17,7 +17,7 @@ utr(x, utr = NULL, ...)
 A \linkS4class{DNAStringSet}.
 }
 \description{
-Retrieve UTR sequences
+Access UTR sequences
 }
 \examples{
 \dontrun{

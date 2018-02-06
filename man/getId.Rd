@@ -2,7 +2,7 @@
 % Please edit documentation in R/all-generics.R
 \name{getId}
 \alias{getId}
-\title{Get feature id}
+\title{Access feature ID}
 \usage{
 getId(x, ...)
 }
@@ -15,7 +15,7 @@ getId(x, ...)
 A \link{character} vector.
 }
 \description{
-Get feature id
+Access feature ID
 }
 \examples{
 ##

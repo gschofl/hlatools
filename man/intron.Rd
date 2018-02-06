@@ -2,7 +2,7 @@
 % Please edit documentation in R/all-generics.R
 \name{intron}
 \alias{intron}
-\title{Retrieve intron sequences}
+\title{Access intron sequences}
 \usage{
 intron(x, intron = NULL, ...)
 }
@@ -17,7 +17,7 @@ intron(x, intron = NULL, ...)
 A \linkS4class{DNAStringSet}.
 }
 \description{
-Retrieve intron sequences
+Access intron sequences
 }
 \examples{
 \dontrun{
