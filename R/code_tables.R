@@ -10,7 +10,7 @@
 #'  \item "code": An NMDP code.
 #'  \item "subtype": The '/'-separated subtypes into which an NMDP code expands.
 #' }
-#' @seealso [g_table]
+#' @seealso [g_table], [allele_table]
 #' @export
 #' @examples
 #' \dontrun{
@@ -75,7 +75,7 @@ generate_nmdp_lookup <- function(alleles, nmdp_tbl) {
 #'  \item "code": The G Code.
 #'  \item "subtype": The '/'-separated subtypes into which a G Code expands.
 #' }
-#' @seealso [nmdp_table]
+#' @seealso [nmdp_table], [allele_table]
 #' @export
 #' @examples
 #' \dontrun{
@@ -113,3 +113,70 @@ print.g_tbl <- function(x, ..., n = 5) {
   NextMethod(n = n)
   cat("...\n", sep = "")
 }
+
+
+#' Class: allele_tbl
+#'
+#' Constructor for a <`allele_tbl`> object.
+#'
+#' @source [hla.alleles.org](https://www.hla.alleles.org/wmda).
+#'
+#' @return
+#' A [tibble] with the fields:
+#' \itemize{
+#'  \item "gene": The HLA gene.
+#'  \item "allele_name": HLA Allele name.
+#'  \item "date_assigned": Date assigned.
+#'  \item "date_deleted": Date deleted, if the name has now been abandoned or `NA`.
+#'  \item "identical_to":  Allele that the deleted allele was shown to be identical to.
+#'  \item "reason_for_deletion": Reason for the Allele to be deleted.
+#' }
+#' @seealso [nmdp_table], [g_table]
+#' @export
+#' @examples
+#' \dontrun{
+#' a_tbl <- allele_table()
+#' }
+allele_table <- function(db_path = getOption("hlatools.local_repos"), remote = FALSE) {
+  datafile <- normalizePath(file.path(db_path, "IMGTHLA", "wmda", "hla_nom.txt"), mustWork = FALSE)
+  if (!file.exists(datafile) || remote) {
+    con <- base::url("http://hla.alleles.org/wmda/hla_nom.txt", open = "rb")
+    on.exit(close(con))
+    tryCatch(open(con), error = function(e) {
+      stop("Trying to access http://hla.alleles.org/wmda/: ", e$message, call. = FALSE)
+    })
+    if (readr::read_lines(con, n_max = 1) != "# file: hla_nom.txt") {
+      warning("Possibly malformed file \"hla_nom.txt\" ",
+              "downloaded from http://hla.alleles.org/wmda/.", immediate. = TRUE)
+    }
+  } else {
+    con <- base::file(datafile, "rb")
+    on.exit(close(con))
+  }
+  col_names <- c("gene", "allele_name", "date_assigned", "date_deleted", "identical_to", "reason_for_deletion")
+  col_types <- readr::cols(
+    readr::col_character(),
+    readr::col_character(),
+    readr::col_date(format = "%Y%m%d"),
+    readr::col_date(format = "%Y%m%d"),
+    readr::col_character(),
+    readr::col_character()
+  )
+  rs <- readr::read_delim(
+    con, ";",  col_names = col_names, col_types = col_types, comment = "#"
+  ) %>%
+    dplyr::filter(endsWith(gene, "*")) %>%
+    dplyr::mutate(gene = sub("*", "", gene, fixed = TRUE))
+  structure(rs, class = c("allele_tbl", class(rs)))
+}
+
+#' @export
+print.allele_tbl <- function(x, ..., n = 5) {
+  cat("HLA allele codes: ", sep = "")
+  NextMethod(n = n)
+  cat("...\n", sep = "")
+}
+
+
+
+

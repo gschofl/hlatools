@@ -28,6 +28,8 @@ Imports:
     assertive,
     XVector,
     DECIPHER,
+    dplyr,
+    readr,
     dtplyr,
     xml2,
     assertive.types,

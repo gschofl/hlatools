@@ -2,5 +2,6 @@
 #'
 #' @useDynLib hlatools
 #' @importFrom Rcpp sourceCpp
+#' @importFrom dplyr "%>%"
 #' @details Details
 "_PACKAGE"

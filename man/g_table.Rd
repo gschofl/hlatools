@@ -26,5 +26,5 @@ g_codes <- g_table()
 }
 }
 \seealso{
-\link{nmdp_table}
+\link{nmdp_table}, \link{allele_table}
 }
