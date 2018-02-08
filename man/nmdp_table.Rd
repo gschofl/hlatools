@@ -10,7 +10,7 @@
 nmdp_table()
 }
 \value{
-A table of mappings between NMDP codes and allelic subtypes with the fields:
+A \link{tibble} of mappings between NMDP codes and allelic subtypes with the fields:
 \itemize{
 \item "code": An NMDP code.
 \item "subtype": The '/'-separated subtypes into which an NMDP code expands.

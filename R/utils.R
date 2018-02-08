@@ -1,3 +1,14 @@
+#' Pipe operator
+#'
+#' @name %>%
+#' @rdname pipe
+#' @keywords internal
+#' @export
+#' @importFrom dplyr %>%
+#' @usage lhs \%>\% rhs
+NULL
+
+
 valid_hla_loci_ <- function() {
   c(
     'HLA-A',    'HLA-B',    'HLA-C',

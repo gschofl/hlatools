@@ -1,11 +1,19 @@
 # hlatools 0.0.7.9000
 
-* [feature] Added `allele_table()` to parse the *hla_nom.txt* file.
-* [feature] Added `check_IMGTHLA()` to check if the local repo is uo-to-date.
+## API changes
+* The code table functions `nmdp_table()`, `g_table`, and `generate_nmdp_lookup()`
+  return `tibble`s instead of `data.table`s.
+
+## New or modified functions
+* Added `allele_table()` to parse the *hla_nom.txt* file.
+* Added `check_IMGTHLA()` to check if the local repo is uo-to-date.
 * Renamed `fetch_IMGTHLA()` to `clone_IMGTHLA()` and `update_IMGHTHLA()` to
   `pull_IMGTHLA()` (the old functions are aliased to the new).
+  
+## Minor improvements and bug fixes
 * Added `db_path` argument to `HLAGene()` and `read_hla_xml()` to allow for
   alternative repositry locations.
+* Remove package `curl` as a dependency.
 
 # hlatools 0.0.7
 

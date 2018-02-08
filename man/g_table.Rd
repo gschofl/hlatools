@@ -4,16 +4,22 @@
 \alias{g_table}
 \title{Class: g_tbl}
 \source{
-\href{http://hla.alleles.org/nomenclature/g_groups.html}{hla.alleles.org}.
+\href{https://www.hla.alleles.org/nomenclature/g_groups.html}{hla.alleles.org}.
 }
 \usage{
-g_table()
+g_table(db_path = getOption("hlatools.local_repos"), remote = FALSE)
+}
+\arguments{
+\item{db_path}{<\link{character}>; location of local IPD-IMGT/HLA repository.}
+
+\item{remote}{<\link{logical}>; if \code{TRUE} pull data from \href{https://www.hla.alleles.org/wmda}{hla.alleles.org},
+if \code{FALSE} retrieve data from \code{db_path}.}
 }
 \value{
-A table with the fields:
+A \link{tibble} with the fields:
 \itemize{
-\item "gene": A HLA gene.
-\item "code": The G Code.
+\item "gene": The HLA gene.
+\item "code": The G group name.
 \item "subtype": The '/'-separated subtypes into which a G Code expands.
 }
 }
