@@ -75,7 +75,6 @@ colon <- function(...) paste0(..., collapse = ":")
 
 slash <- function(...) paste0(..., collapse = "/")
 
-
 `%.%` <- function(f, g) {
   f <- match.fun(f)
   g <- match.fun(g)

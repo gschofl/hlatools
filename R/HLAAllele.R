@@ -151,6 +151,22 @@ setMethod("utr", "HLAAllele", function(x, utr = NULL, ...) {
   utr_seq
 })
 
+setMethod("noutr", "HLAAllele", function(x, ...) {
+  rng0 <- IRanges::lapply(ranges(features(x, ...)), function(r0) {
+    if (all(c("5' UTR", "3' UTR") %in% names(r0))) {
+      IRanges::IRanges(start = end(r0["5' UTR"]) + 1L, end = start(r0["3' UTR"]) - 1L)
+    } else if ("5' UTR" %in% names(r0)) {
+      IRanges::IRanges(start = end(r0["5' UTR"]) + 1L, end = max(end(r0)))
+    } else if ("3' UTR" %in% names(r0)) {
+      IRanges::IRanges(start = min(start(r0)), end = start(r0["3' UTR"]) - 1L)
+    } else {
+      IRanges::IRanges(start = min(start(r0)), end =  max(end(r0)))
+    }
+  })
+  noutr_seq <- sequences(x)[rng0]
+  noutr_seq
+})
+
 #' @describeIn HLAAllele Combine [HLAAllele-class] objects.
 setMethod("c", signature(x = "HLAAllele"), function(x, ..., recursive = FALSE) {
   args <- unname(list(x, ...))

@@ -9,6 +9,7 @@
 * Added `check_IMGTHLA()` to check if the local repo is uo-to-date.
 * Renamed `fetch_IMGTHLA()` to `clone_IMGTHLA()` and `update_IMGHTHLA()` to
   `pull_IMGTHLA()` (the old functions are aliased to the new).
+* Added `noutr()` to extract sequences except for UTRs.
   
 ## Minor improvements and bug fixes
 * Added `db_path` argument to `HLAGene()` and `read_hla_xml()` to allow for

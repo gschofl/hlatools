@@ -19,11 +19,14 @@ Class \code{"HLAGene"}
 
 \describe{
 \item{\code{x$new(locusname, db_version = "Latest", db_path = getOption("hlatools.local_repos"),
-  ncores = parallel::detectCores(), with_dist = FALSE)}}{Create an object of this class.}
-\item{\code{x$get_db_version()}}{Get the IPD-IMGT/HLA database version.}
-\item{\code{x$get_hlatools_version()}}{Get the package version under which an object was created.}
-\item{\code{x$get_locusname()}}{Get the name of the locus.}
-\item{\code{x$get_alleles(allele)}}{Get alleles.}
+  ncores = parallel::detectCores(), with_dist = FALSE)}}{Create a HLAGene object.}
+\item{\code{x$print()}}{Display the HLAGene object.}
+\item{\code{x$get_hlatools_version()}}{The package version under which a HLAGene object was created.}
+\item{\code{x$get_db_version()}}{The IPD-IMGT/HLA database version.}
+\item{\code{x$get_locusname()}}{The name of the HLA locus.}
+\item{\code{x$get_alleles(allele)}}{A HLAAllele object.}
+\item{\code{x$has_distances()}}{Has a distance matricx between all alleles been calculated?}
+\item{\code{x$calculate_distances()}}{Calculate a distance matricx between all alleles.}
 \item{\code{x$get_closest_complete_neighbor(allele)}}{Get the complete allele that is closest at exon 2 to the query allele.}
 \item{\code{x$get_reference_sequence(allele)}}{Get the (imputed) reference sequence for allele.}
 }

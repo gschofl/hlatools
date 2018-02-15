@@ -44,11 +44,14 @@ HLAGene <- function(locusname, db_version = "Latest", db_path = getOption("hlato
 #' @section Methods:
 #' \describe{
 #'   \item{\code{x$new(locusname, db_version = "Latest", db_path = getOption("hlatools.local_repos"),
-#'   ncores = parallel::detectCores(), with_dist = FALSE)}}{Create an object of this class.}
-#'   \item{\code{x$get_db_version()}}{Get the IPD-IMGT/HLA database version.}
-#'   \item{\code{x$get_hlatools_version()}}{Get the package version under which an object was created.}
-#'   \item{\code{x$get_locusname()}}{Get the name of the locus.}
-#'   \item{\code{x$get_alleles(allele)}}{Get alleles.}
+#'   ncores = parallel::detectCores(), with_dist = FALSE)}}{Create a HLAGene object.}
+#'   \item{\code{x$print()}}{Display the HLAGene object.}
+#'   \item{\code{x$get_hlatools_version()}}{The package version under which a HLAGene object was created.}
+#'   \item{\code{x$get_db_version()}}{The IPD-IMGT/HLA database version.}
+#'   \item{\code{x$get_locusname()}}{The name of the HLA locus.}
+#'   \item{\code{x$get_alleles(allele)}}{A HLAAllele object.}
+#'   \item{\code{x$has_distances()}}{Has a distance matricx between all alleles been calculated?}
+#'   \item{\code{x$calculate_distances()}}{Calculate a distance matricx between all alleles.}
 #'   \item{\code{x$get_closest_complete_neighbor(allele)}}{Get the complete allele that is closest at exon 2 to the query allele.}
 #'   \item{\code{x$get_reference_sequence(allele)}}{Get the (imputed) reference sequence for allele.}
 #' }
@@ -101,6 +104,10 @@ HLAGene_ <- R6::R6Class(
     },
     has_distances = function() {
       is.matrix(private$dmt)
+    },
+    calculate_exon_distance_matrix = function() {
+      private$dmt <- exon_distance_matrix(private$all, verbose = TRUE)
+      private$cns <- calc_consensus_string(private$all, private$lcn, verbose = TRUE)
     }
   ),
   private = list(
@@ -127,7 +134,7 @@ HLAGene_$set("public", "get_closest_complete_neighbor", function(allele) {
     return(allele)
   }
   if (!self$has_distances()) {
-    private$dmt <- calc_exon2_distance(self$get_alleles(), verbose = TRUE)
+    self$calculate_exon_distance_matrix()
   }
   dmi <- private$dmt[allele, nm_complete]
   names(which.min(dmi))
@@ -285,6 +292,10 @@ setMethod("utr", signature(x = "HLAGene"), function(x, utr = NULL, ...) {
   utr(x$get_alleles(), utr = utr, ...)
 })
 
+setMethod("noutr", signature(x = "HLAGene"), function(x, ...) {
+  noutr(x$get_alleles(), ...)
+})
+
 setMethod("locusname", signature(x = "HLAGene"), function(x, ...) {
   x$get_locusname()
 })
@@ -318,16 +329,33 @@ length.HLAGene <- function(x) {
 
 # Helpers -----------------------------------------------------------------
 
-calc_exon2_distance <- function(x, verbose = TRUE) {
-  stopifnot(requireNamespace("DECIPHER", quietly = TRUE))
-  name <- "Exon 2"
-  df <- as.data.frame(ranges(features(x)))
-  df <- df[df$names == name, c("start", "end")]
-  exon2 <- subseq(sequences(x), df$start, df$end)
-  aln <- DECIPHER::AlignSeqs(exon2, iterations = 0, refinements = 0,
-                             restrict = c(-500, 2, 10), verbose = verbose)
-  DECIPHER::DistanceMatrix(aln, includeTerminalGaps = TRUE, verbose = verbose)
+exon_distance_matrix <- function(x, verbose = TRUE) {
+  stopifnot(
+    requireNamespace("DECIPHER", quietly = TRUE)
+  )
+  exon <- exon(x, NULL)
+  names(exon) <- strsplitN(names(exon), "|", 1, fixed = TRUE)
+  aln  <- DECIPHER::AlignSeqs(exon, iterations = 0, refinements = 0,
+                              restrict = c(-500, 2, 10), verbose = verbose)
+  dm <- DECIPHER::DistanceMatrix(aln,
+                                 includeTerminalGaps = FALSE,     # terminal gaps are not included into the calculation of distance.
+                                 penalizeGapLetterMatches = TRUE, # gap-to-letter matches are included in the total length used to calculate distance
+                                 penalizeGapGapMatches = FALSE,   # gap-to-gap matches are not included in the total length used to calculate distance
+                                 processors = NULL,               # auto-detect the number of available processors.
+                                 verbose = verbose)
+  dm
 }
+
+# calc_exon2_distance <- function(x, verbose = TRUE) {
+#   stopifnot(requireNamespace("DECIPHER", quietly = TRUE))
+#   name <- "Exon 2"
+#   df <- as.data.frame(ranges(features(x)))
+#   df <- df[df$names == name, c("start", "end")]
+#   exon2 <- subseq(sequences(x), df$start, df$end)
+#   aln <- DECIPHER::AlignSeqs(exon2, iterations = 0, refinements = 0,
+#                              restrict = c(-500, 2, 10), verbose = verbose)
+#   DECIPHER::DistanceMatrix(aln, includeTerminalGaps = TRUE, verbose = verbose)
+# }
 
 calc_consensus_string <- function(x, locusname = "", verbose = TRUE) {
   stopifnot(

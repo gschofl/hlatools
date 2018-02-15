@@ -227,6 +227,20 @@ setGeneric("intron", signature = "x", function(x, intron = NULL, ...) standardGe
 #' }
 setGeneric("utr", signature = "x", function(x, utr = NULL, ...) standardGeneric("utr"))
 
+#' Access all sequence data except for the UTRs
+#'
+#' @param x A [HLAGene][HLAGene_] object.
+#' @param ... Further arguments passed to methods.
+#'
+#' @return A [DNAStringSet-class].
+#' @export
+#' @examples
+#' \dontrun{
+#' x <- HLAGene("DPB1")
+#' noutr(x)
+#' }
+setGeneric("noutr", signature = "x", function(x, ...) standardGeneric("noutr"))
+
 #' Get hlatools package version
 #'
 #' Access the package version under which a [HLAGene][HLAGene_] object has been
