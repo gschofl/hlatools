@@ -3,11 +3,11 @@
 ## API changes
 * The code table functions `nmdp_table()`, `g_table`, and `generate_nmdp_lookup()`
   return `tibble`s instead of `data.table`s.
+* Renamed `fetch_IMGTHLA()` to `clone_IMGTHLA()` and `update_IMGHTHLA()` to
 
 ## New or modified functions
 * Added `allele_table()` to parse the *hla_nom.txt* file.
-* Added `check_IMGTHLA()` to check if the local repo is uo-to-date.
-* Renamed `fetch_IMGTHLA()` to `clone_IMGTHLA()` and `update_IMGHTHLA()` to
+* Added `check_IMGTHLA()` to check if the local repo is up-to-date.
   `pull_IMGTHLA()` (the old functions are aliased to the new).
 * Added `noutr()` to extract sequences except for UTRs.
   
@@ -15,6 +15,12 @@
 * Added `db_path` argument to `HLAGene()` and `read_hla_xml()` to allow for
   alternative repositry locations.
 * Remove package `curl` as a dependency.
+
+## Internal changes
+* Distance calculations between alleles are now based on all available exons
+  instead of exon 2 alone. The internal function `calc_exon2_distance()` has been
+  replaced by `exon_distance_matrix()`. A new `HLAGene` method `x$calculate_exon_distance_matrix()`
+  has been introduced.
 
 # hlatools 0.0.7
 

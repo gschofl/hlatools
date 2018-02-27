@@ -216,18 +216,10 @@ setMethod("[", signature(x = "HLAAllele", i = "logical", j = "missing"), functio
 #' @describeIn HLAAllele Subset [HLAAllele-class] objects.
 setMethod("[", signature(x = "HLAAllele", i = "character", j = "missing"), function(x, i, j, ..., drop = TRUE) {
   ans <- HLAAllele()
-  all <- expand_hla_allele(x = i, locus = locusname(x))
-  i   <- match(all, names(x))
+  i   <- match_alleles(i, x, partially = TRUE)
 
-  ## if there is no exact match try prefix matching
-  if (length(i <- i[!is.na(i)]) == 0) {
-    for (a in all) {
-      i <- c(i, which(startsWith(names(x), a)))
-    }
-  }
-
-  ## if there is still no match return empty object
-  if (length(i <- i[!is.na(i)]) == 0) {
+  ## if there is no match return empty object
+  if (length(i) == 0) {
     return(ans)
   }
 

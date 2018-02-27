@@ -50,9 +50,9 @@ HLAGene <- function(locusname, db_version = "Latest", db_path = getOption("hlato
 #'   \item{\code{x$get_db_version()}}{The IPD-IMGT/HLA database version.}
 #'   \item{\code{x$get_locusname()}}{The name of the HLA locus.}
 #'   \item{\code{x$get_alleles(allele)}}{A HLAAllele object.}
-#'   \item{\code{x$has_distances()}}{Has a distance matricx between all alleles been calculated?}
-#'   \item{\code{x$calculate_distances()}}{Calculate a distance matricx between all alleles.}
-#'   \item{\code{x$get_closest_complete_neighbor(allele)}}{Get the complete allele that is closest at exon 2 to the query allele.}
+#'   \item{\code{x$has_distances()}}{Has a distance matrix between all alleles been calculated?}
+#'   \item{\code{x$calculate_exon_distance_matrix()}}{Calculate a distance matrix between all alleles based on available exon sequences.}
+#'   \item{\code{x$get_closest_complete_neighbor(allele)}}{Get the full-length allele that is closest to the query allele.}
 #'   \item{\code{x$get_reference_sequence(allele)}}{Get the (imputed) reference sequence for allele.}
 #' }
 HLAGene_ <- R6::R6Class(
@@ -73,7 +73,7 @@ HLAGene_ <- R6::R6Class(
       private$lcn <- match_hla_locus(locusname)
       private$all <- parse_hla_alleles(doc, private$lcn, ncores)
       if (with_dist) {
-        private$dmt <- calc_exon2_distance(private$all, verbose = TRUE)
+        private$dmt <- exon_distance_matrix(private$all, verbose = TRUE)
         private$cns <- calc_consensus_string(private$all, private$lcn, verbose = TRUE)
       }
     },
@@ -124,20 +124,27 @@ HLAGene_ <- R6::R6Class(
 # Methods: HLAGene --------------------------------------------------------
 
 
-HLAGene_$set("public", "get_closest_complete_neighbor", function(allele) {
-  allele <- expand_hla_allele(allele, self$get_locusname())
-  if (!allele %in% allele_name(self)) {
+HLAGene_$set("public", "get_closest_complete_neighbor", function(allele, partially = TRUE) {
+  i <- match_alleles(allele, self, partially)
+  if (length(i) == 0) {
     stop("Allele ", dQuote(allele), " not found.", call. = FALSE)
   }
-  nm_complete <- allele_name(self$get_alleles(is_complete(self)))
-  if (allele %in% nm_complete) {
-    return(allele)
+
+  ## get indices of full-length alleles
+  completes <- which(is_complete(self))
+  if (any(i %in% completes)) {
+    ## return name of first allele amongst matching full-length alleles
+    i <- i[i %in% completes]
+    return(allele_name(self$get_alleles(i[1])))
   }
+
   if (!self$has_distances()) {
     self$calculate_exon_distance_matrix()
   }
-  dmi <- private$dmt[allele, nm_complete]
-  names(which.min(dmi))
+
+  ## report the full-length with min(sum(dist)) from query alleles
+  dmi <- private$dmt[i, completes, drop = FALSE]
+  names(which.min(colSums(dmi)))
 })
 
 HLAGene_$set("public", "get_reference_sequence", function(allele) {

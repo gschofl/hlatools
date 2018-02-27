@@ -55,6 +55,38 @@ match_hla_locus <- function(locusname) {
   match.arg(locus, valid_hla_loci_())
 }
 
+#' (Partially) match allele in a HLAGene object.
+#'
+#' @param allele [character]; A vector of (partial) allele names.
+#' @param x A [HLAAllele-class] or [HLAGene-class] object.
+#' @param partially If `TRUE` match partial allele names.
+#'
+#' @return An [integer] vector
+#' @export
+#' @keywords internal
+#' @examples
+#' ##
+match_alleles <- function(allele, x, partially = FALSE) {
+  allele <- expand_hla_allele(x = allele, locus = locusname(x))
+
+  ## first try matching complete allele names
+  i <- match(allele, names(x), nomatch = NA)
+
+  ## if there is no exact match and partially == TRUE try prefix matching
+  if (partially && length(i <- i[!is.na(i)]) == 0) {
+    for (a in allele) {
+      i <- c(i, which(startsWith(names(x), a)))
+    }
+  }
+
+  ## if there is still no match return an empty integer object
+  if (length(i <- i[!is.na(i)]) == 0) {
+    return(i)
+  }
+
+  i
+}
+
 `%||%` <- function(a, b) {
   if (length(a) == 0) b else a
 }

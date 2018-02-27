@@ -25,9 +25,9 @@ Class \code{"HLAGene"}
 \item{\code{x$get_db_version()}}{The IPD-IMGT/HLA database version.}
 \item{\code{x$get_locusname()}}{The name of the HLA locus.}
 \item{\code{x$get_alleles(allele)}}{A HLAAllele object.}
-\item{\code{x$has_distances()}}{Has a distance matricx between all alleles been calculated?}
-\item{\code{x$calculate_distances()}}{Calculate a distance matricx between all alleles.}
-\item{\code{x$get_closest_complete_neighbor(allele)}}{Get the complete allele that is closest at exon 2 to the query allele.}
+\item{\code{x$has_distances()}}{Has a distance matrix between all alleles been calculated?}
+\item{\code{x$calculate_exon_distance_matrix()}}{Calculate a distance matrix between all alleles based on available exon sequences.}
+\item{\code{x$get_closest_complete_neighbor(allele)}}{Get the full-length allele that is closest to the query allele.}
 \item{\code{x$get_reference_sequence(allele)}}{Get the (imputed) reference sequence for allele.}
 }
 }
