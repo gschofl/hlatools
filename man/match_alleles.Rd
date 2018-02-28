@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{match_alleles}
 \alias{match_alleles}
-\title{(Partially) match allele in a HLAGene object.}
+\title{(Partially) match allele names in a HLAGene object.}
 \usage{
 match_alleles(allele, x, partially = FALSE)
 }
@@ -14,12 +14,9 @@ match_alleles(allele, x, partially = FALSE)
 \item{partially}{If \code{TRUE} match partial allele names.}
 }
 \value{
-An \link{integer} vector
+An \link{integer} vector of matching positions.
 }
 \description{
-(Partially) match allele in a HLAGene object.
-}
-\examples{
-##
+(Partially) match allele names in a HLAGene object.
 }
 \keyword{internal}

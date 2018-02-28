@@ -8,7 +8,6 @@
 #' @usage lhs \%>\% rhs
 NULL
 
-
 valid_hla_loci_ <- function() {
   c(
     'HLA-A',    'HLA-B',    'HLA-C',
@@ -55,17 +54,13 @@ match_hla_locus <- function(locusname) {
   match.arg(locus, valid_hla_loci_())
 }
 
-#' (Partially) match allele in a HLAGene object.
-#'
+#' (Partially) match allele names in a HLAGene object.
 #' @param allele [character]; A vector of (partial) allele names.
 #' @param x A [HLAAllele-class] or [HLAGene-class] object.
 #' @param partially If `TRUE` match partial allele names.
-#'
-#' @return An [integer] vector
+#' @return An [integer] vector of matching positions.
 #' @export
 #' @keywords internal
-#' @examples
-#' ##
 match_alleles <- function(allele, x, partially = FALSE) {
   allele <- expand_hla_allele(x = allele, locus = locusname(x))
 

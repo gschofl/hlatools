@@ -52,7 +52,7 @@ HLAGene <- function(locusname, db_version = "Latest", db_path = getOption("hlato
 #'   \item{\code{x$get_alleles(allele)}}{A HLAAllele object.}
 #'   \item{\code{x$has_distances()}}{Has a distance matrix between all alleles been calculated?}
 #'   \item{\code{x$calculate_exon_distance_matrix()}}{Calculate a distance matrix between all alleles based on available exon sequences.}
-#'   \item{\code{x$get_closest_complete_neighbor(allele)}}{Get the full-length allele that is closest to the query allele.}
+#'   \item{\code{x$get_closest_complete_neighbor(allele, partially = TRUE)}}{Get the full-length allele that is closest to the query allele.}
 #'   \item{\code{x$get_reference_sequence(allele)}}{Get the (imputed) reference sequence for allele.}
 #' }
 HLAGene_ <- R6::R6Class(

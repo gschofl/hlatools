@@ -14,7 +14,7 @@ Installation
 Install from GitHub using `devtools`:
 
 ``` r
-devtools::install_github("gscholf/hlatools")
+devtools::install_github("gschofl/hlatools")
 ```
 
 Usage
@@ -194,7 +194,7 @@ x[hlatools::cwd_status(x) == "Common"][1:10]
 
 These obects come with an additional set of `R6`-methods that implement an API used mostly in conjunction with the `DR2S` package:
 
--   `x$get_closest_complete_neighbor(allele)`: Find the closest full-length allele based on the genetic distance between exon 2 sequences.
+-   `x$get_closest_complete_neighbor(allele, partially = TRUE)`: Find the closest full-length allele based on the genetic distance between exon sequences.
 
 -   `x$get_reference_sequence(allele)`: Return a `BStringSet` object of a full-length reference sequence for `allele`. If `allele` is not fully known the missing stretches are taken from the allele returned by a call to `get_closest_complete_neighbor()`.
 
@@ -208,52 +208,119 @@ These obects come with an additional set of `R6`-methods that implement an API u
     #>  language en_GB:en                    
     #>  collate  en_GB.UTF-8                 
     #>  tz       Europe/Berlin               
-    #>  date     2018-02-05
+    #>  date     2018-02-28
     #> Packages -----------------------------------------------------------------
-    #>  package          * version    date       source                     
-    #>  assertive.base     0.0-7      2016-12-30 CRAN (R 3.4.2)             
-    #>  backports          1.1.2      2017-12-13 cran (@1.1.2)              
-    #>  base             * 3.4.3      2017-12-01 local                      
-    #>  BiocGenerics       0.24.0     2017-11-17 Bioconductor               
-    #>  Biostrings         2.46.0     2017-11-17 Bioconductor               
-    #>  bitops             1.0-6      2013-08-17 CRAN (R 3.4.2)             
-    #>  codetools          0.2-15     2016-10-05 CRAN (R 3.3.1)             
-    #>  compiler           3.4.3      2017-12-01 local                      
-    #>  data.table         1.10.4-3   2017-10-27 cran (@1.10.4-)            
-    #>  datasets         * 3.4.3      2017-12-01 local                      
-    #>  devtools           1.13.4     2017-11-09 cran (@1.13.4)             
-    #>  digest             0.6.14     2018-01-14 cran (@0.6.14)             
-    #>  evaluate           0.10.1     2017-06-24 cran (@0.10.1)             
-    #>  foreach            1.4.4      2017-12-12 cran (@1.4.4)              
-    #>  GenomeInfoDb       1.14.0     2017-11-17 Bioconductor               
-    #>  GenomeInfoDbData   0.99.1     2017-11-17 Bioconductor               
-    #>  GenomicRanges      1.30.0     2017-11-17 Bioconductor               
-    #>  git2r              0.21.0     2018-01-04 cran (@0.21.0)             
-    #>  graphics         * 3.4.3      2017-12-01 local                      
-    #>  grDevices        * 3.4.3      2017-12-01 local                      
-    #>  hlatools         * 0.0.7.9000 2018-02-05 local (gschofl/hlatools@NA)
-    #>  htmltools          0.3.6      2017-04-28 CRAN (R 3.4.2)             
-    #>  IRanges            2.12.0     2017-11-17 Bioconductor               
-    #>  iterators          1.0.9      2017-12-12 cran (@1.0.9)              
-    #>  knitr              1.18       2017-12-27 cran (@1.18)               
-    #>  magrittr           1.5        2014-11-22 CRAN (R 3.4.2)             
-    #>  memoise            1.1.0      2017-04-21 CRAN (R 3.4.2)             
-    #>  methods          * 3.4.3      2017-12-01 local                      
-    #>  parallel           3.4.3      2017-12-01 local                      
-    #>  R6                 2.2.2      2017-06-17 cran (@2.2.2)              
-    #>  Rcpp               0.12.15    2018-01-20 cran (@0.12.15)            
-    #>  RCurl              1.95-4.10  2018-01-04 cran (@1.95-4.)            
-    #>  rmarkdown          1.8        2017-11-17 cran (@1.8)                
-    #>  rprojroot          1.3-2      2018-01-03 cran (@1.3-2)              
-    #>  S4Vectors          0.16.0     2017-11-17 Bioconductor               
-    #>  stats            * 3.4.3      2017-12-01 local                      
-    #>  stats4             3.4.3      2017-12-01 local                      
-    #>  stringi            1.1.6      2017-11-17 cran (@1.1.6)              
-    #>  stringr            1.2.0      2017-02-18 CRAN (R 3.4.2)             
-    #>  tools              3.4.3      2017-12-01 local                      
-    #>  utils            * 3.4.3      2017-12-01 local                      
-    #>  withr              2.1.1      2017-12-19 cran (@2.1.1)              
-    #>  xml2               1.2.0      2018-01-24 cran (@1.2.0)              
-    #>  XVector            0.18.0     2017-11-17 Bioconductor               
-    #>  yaml               2.1.16     2017-12-12 cran (@2.1.16)             
-    #>  zlibbioc           1.24.0     2017-11-17 Bioconductor
+    #>  package              * version    date      
+    #>  assertive.base         0.0-7      2016-12-30
+    #>  assertive.properties   0.0-4      2016-12-30
+    #>  assertthat             0.2.0      2017-04-11
+    #>  backports              1.1.2      2017-12-13
+    #>  base                 * 3.4.3      2017-12-01
+    #>  bindr                  0.1        2016-11-13
+    #>  bindrcpp               0.2        2017-06-17
+    #>  BiocGenerics           0.24.0     2017-11-17
+    #>  Biostrings             2.46.0     2017-11-17
+    #>  bitops                 1.0-6      2013-08-17
+    #>  codetools              0.2-15     2016-10-05
+    #>  compiler               3.4.3      2017-12-01
+    #>  data.table             1.10.4-3   2017-10-27
+    #>  datasets             * 3.4.3      2017-12-01
+    #>  devtools               1.13.5     2018-02-18
+    #>  digest                 0.6.15     2018-01-28
+    #>  dplyr                  0.7.4      2017-09-28
+    #>  evaluate               0.10.1     2017-06-24
+    #>  foreach                1.4.4      2017-12-12
+    #>  GenomeInfoDb           1.14.0     2017-11-17
+    #>  GenomeInfoDbData       0.99.1     2017-11-17
+    #>  GenomicRanges          1.30.0     2017-11-17
+    #>  git2r                  0.21.0     2018-01-04
+    #>  glue                   1.2.0.9000 2018-02-27
+    #>  graphics             * 3.4.3      2017-12-01
+    #>  grDevices            * 3.4.3      2017-12-01
+    #>  hlatools             * 0.0.7.9000 2018-02-28
+    #>  htmltools              0.3.6      2017-04-28
+    #>  IRanges                2.12.0     2017-11-17
+    #>  iterators              1.0.9      2017-12-12
+    #>  knitr                  1.20       2018-02-20
+    #>  magrittr               1.5        2014-11-22
+    #>  memoise                1.1.0      2017-04-21
+    #>  methods              * 3.4.3      2017-12-01
+    #>  parallel               3.4.3      2017-12-01
+    #>  pillar                 1.2.0      2018-02-26
+    #>  pkgconfig              2.0.1      2017-03-21
+    #>  R6                     2.2.2      2017-06-17
+    #>  Rcpp                   0.12.15    2018-01-20
+    #>  RCurl                  1.95-4.10  2018-01-04
+    #>  rlang                  0.2.0.9000 2018-02-27
+    #>  rmarkdown              1.8        2017-11-17
+    #>  rprojroot              1.3-2      2018-01-03
+    #>  S4Vectors              0.16.0     2017-11-17
+    #>  stats                * 3.4.3      2017-12-01
+    #>  stats4                 3.4.3      2017-12-01
+    #>  stringi                1.1.6      2017-11-17
+    #>  stringr                1.3.0      2018-02-19
+    #>  tibble                 1.4.2      2018-01-22
+    #>  tools                  3.4.3      2017-12-01
+    #>  utils                * 3.4.3      2017-12-01
+    #>  withr                  2.1.1.9000 2018-02-27
+    #>  xml2                   1.2.0      2018-01-24
+    #>  XVector                0.18.0     2017-11-17
+    #>  yaml                   2.1.16     2017-12-12
+    #>  zlibbioc               1.24.0     2017-11-17
+    #>  source                         
+    #>  CRAN (R 3.4.2)                 
+    #>  CRAN (R 3.4.2)                 
+    #>  CRAN (R 3.4.2)                 
+    #>  cran (@1.1.2)                  
+    #>  local                          
+    #>  CRAN (R 3.4.2)                 
+    #>  cran (@0.2)                    
+    #>  Bioconductor                   
+    #>  Bioconductor                   
+    #>  CRAN (R 3.4.2)                 
+    #>  CRAN (R 3.3.1)                 
+    #>  local                          
+    #>  cran (@1.10.4-)                
+    #>  local                          
+    #>  cran (@1.13.5)                 
+    #>  cran (@0.6.15)                 
+    #>  cran (@0.7.4)                  
+    #>  cran (@0.10.1)                 
+    #>  cran (@1.4.4)                  
+    #>  Bioconductor                   
+    #>  Bioconductor                   
+    #>  Bioconductor                   
+    #>  cran (@0.21.0)                 
+    #>  Github (tidyverse/glue@9d96cbf)
+    #>  local                          
+    #>  local                          
+    #>  local (gschofl/hlatools@NA)    
+    #>  CRAN (R 3.4.2)                 
+    #>  Bioconductor                   
+    #>  cran (@1.0.9)                  
+    #>  cran (@1.20)                   
+    #>  CRAN (R 3.4.2)                 
+    #>  CRAN (R 3.4.2)                 
+    #>  local                          
+    #>  local                          
+    #>  cran (@1.2.0)                  
+    #>  CRAN (R 3.4.2)                 
+    #>  cran (@2.2.2)                  
+    #>  cran (@0.12.15)                
+    #>  cran (@1.95-4.)                
+    #>  Github (hadley/rlang@3143f00)  
+    #>  cran (@1.8)                    
+    #>  cran (@1.3-2)                  
+    #>  Bioconductor                   
+    #>  local                          
+    #>  local                          
+    #>  cran (@1.1.6)                  
+    #>  cran (@1.3.0)                  
+    #>  cran (@1.4.2)                  
+    #>  local                          
+    #>  local                          
+    #>  Github (r-lib/withr@5d05571)   
+    #>  cran (@1.2.0)                  
+    #>  Bioconductor                   
+    #>  cran (@2.1.16)                 
+    #>  Bioconductor

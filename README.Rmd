@@ -23,7 +23,7 @@ library(hlatools)
 
 Install from GitHub using `devtools`:
 ```{r, eval=FALSE}
-devtools::install_github("gscholf/hlatools")
+devtools::install_github("gschofl/hlatools")
 ```
 
 ## Usage
@@ -73,7 +73,7 @@ x[hlatools::cwd_status(x) == "Common"][1:10]
 
 These obects come with an additional set of `R6`-methods that implement an API used mostly in conjunction with the `DR2S` package:
 
-* `x$get_closest_complete_neighbor(allele)`: Find the closest full-length allele based on the genetic distance between exon 2 sequences.
+* `x$get_closest_complete_neighbor(allele, partially = TRUE)`: Find the closest full-length allele based on the genetic distance between exon sequences.
 
 * `x$get_reference_sequence(allele)`: Return a `BStringSet` object of a full-length reference sequence for `allele`. If `allele` is not fully known the missing stretches are taken from the allele returned by a call to `get_closest_complete_neighbor()`.
 
