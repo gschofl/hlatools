@@ -1,4 +1,4 @@
-# hlatools 0.0.7.9000
+# hlatools 0.1.0
 
 ## API changes
 * The code table functions `nmdp_table()`, `g_table`, and `generate_nmdp_lookup()`
