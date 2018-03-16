@@ -26,9 +26,17 @@ Class \code{"HLAGene"}
 \item{\code{x$get_locusname()}}{The name of the HLA locus.}
 \item{\code{x$get_alleles(allele)}}{A HLAAllele object.}
 \item{\code{x$has_distances()}}{Has a distance matrix between all alleles been calculated?}
-\item{\code{x$calculate_exon_distance_matrix()}}{Calculate a distance matrix between all alleles based on available exon sequences.}
-\item{\code{x$get_closest_complete_neighbor(allele, partially = TRUE)}}{Get the full-length allele that is closest to the query allele.}
-\item{\code{x$get_reference_sequence(allele)}}{Get the (imputed) reference sequence for allele.}
+\item{\code{x$calculate_exon_distance_matrix()}}{Calculate a distance matrix
+between all alleles based on the available exon sequences.}
+\item{\code{x$get_closest_complete_neighbor(allele, partially = TRUE)}}{Get
+the full-length allele that is closest to the query allele, based on the
+available exon sequences.}
+\item{\code{x$get_reference_sequence(allele)}}{Get the reference sequence for
+query allele extended to full length by filling up missing sequence information
+with the closest complete neighbour.}
+\item{\code{x$get_extended_reference_set(verbose = FALSE)}{Get the reference
+  sequences for all allele extended to full length by filling up missing sequence
+  information with the closest complete neighbours.}}
 }
 }
 

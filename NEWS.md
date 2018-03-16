@@ -1,5 +1,7 @@
 # hlatools 0.1.0.9000
 
+* Added `HLAGene` method `x$get_extended_reference_set()`.
+
 # hlatools 0.1.0
 
 ## API changes

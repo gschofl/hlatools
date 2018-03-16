@@ -51,9 +51,17 @@ HLAGene <- function(locusname, db_version = "Latest", db_path = getOption("hlato
 #'   \item{\code{x$get_locusname()}}{The name of the HLA locus.}
 #'   \item{\code{x$get_alleles(allele)}}{A HLAAllele object.}
 #'   \item{\code{x$has_distances()}}{Has a distance matrix between all alleles been calculated?}
-#'   \item{\code{x$calculate_exon_distance_matrix()}}{Calculate a distance matrix between all alleles based on available exon sequences.}
-#'   \item{\code{x$get_closest_complete_neighbor(allele, partially = TRUE)}}{Get the full-length allele that is closest to the query allele.}
-#'   \item{\code{x$get_reference_sequence(allele)}}{Get the (imputed) reference sequence for allele.}
+#'   \item{\code{x$calculate_exon_distance_matrix()}}{Calculate a distance matrix
+#'   between all alleles based on the available exon sequences.}
+#'   \item{\code{x$get_closest_complete_neighbor(allele, partially = TRUE)}}{Get
+#'   the full-length allele that is closest to the query allele, based on the
+#'   available exon sequences.}
+#'   \item{\code{x$get_reference_sequence(allele)}}{Get the reference sequence for
+#'   query allele extended to full length by filling up missing sequence information
+#'   with the closest complete neighbour.}
+#'   \item{\code{x$get_extended_reference_set(verbose = FALSE)}{Get the reference
+#'   sequences for all allele extended to full length by filling up missing sequence
+#'   information with the closest complete neighbours.}}
 #' }
 HLAGene_ <- R6::R6Class(
   classname = "HLAGene",
@@ -161,12 +169,12 @@ HLAGene_$set("public", "get_reference_sequence", function(allele) {
     sref <- Biostrings::BString(tolower(sequences(ref)[[1]]))
     salt <- Biostrings::BString(toupper(sequences(alt)[[1]]))
     i <- match(names(falt), names(fref))
-    Rref <- iter(ranges(fref)[i, ])
-    Ralt <- iter(ranges(falt))
+    Rref <- iterators::iter(ranges(fref)[i, ])
+    Ralt <- iterators::iter(ranges(falt))
     while (hlatools::hasNext(Rref) && hlatools::hasNext(Ralt)) {
-      rref <- nextElem(Rref)
-      ralt <- nextElem(Ralt)
-      subseq(sref, start(rref), end(rref)) <- subseq(salt, start(ralt), end(ralt))
+      rref <- iterators::nextElem(Rref)
+      ralt <- iterators::nextElem(Ralt)
+      Biostrings::subseq(sref, start(rref), end(rref)) <- Biostrings::subseq(salt, start(ralt), end(ralt))
     }
     sref <- Biostrings::BStringSet(sref)
     names(sref) <- as(merge(x = fref, y = falt), "character")
@@ -233,6 +241,53 @@ HLAGene_$set("public", "get_all_reference_sequences_as_ft", function(allele) {
   }
   paste0(rs, collapse = "")
 })
+
+HLAGene_$set("public", "get_extended_reference_set", function(verbose = FALSE) {
+  iAlleles  <- iterators::iter(names(self))
+  # (allele <- iterators::nextElem(iAlleles))
+  # (ccn  <- self$get_closest_complete_neighbor(allele))
+  rset <- foreach(allele = iAlleles, .combine = "c") %do% {
+    if (verbose)
+      message(allele, " -> ", appendLF = FALSE)
+    ccn  <- self$get_closest_complete_neighbor(allele)
+    if (verbose)
+      message(ccn, appendLF = TRUE)
+    if (allele == ccn) {
+      sequences(self$get_alleles(allele))
+    } else {
+      refcoord <- character(0)
+      offset   <- 0
+      ref  <- self$get_alleles(ccn)
+      alt  <- self$get_alleles(allele)
+      fref <- features(ref)[[1]]
+      falt <- features(alt)[[1]]
+      sref <- sequences(ref)[[1]]
+      salt <- sequences(alt)[[1]]
+      i    <- match(names(falt), names(fref))
+      Rref <- iterators::iter(ranges(fref)[i, ])
+      Ralt <- iterators::iter(ranges(falt))
+      while (hlatools::hasNext(Rref) && hlatools::hasNext(Ralt)) {
+        rref <- iterators::nextElem(Rref)
+        ralt <- iterators::nextElem(Ralt)
+        sr    <- start(rref) + offset
+        er    <- end(rref) + offset
+        ## if feature widths in reference and allele differ offset
+        ## subsequent feature coordinates accordingly
+        wr   <- width(rref)
+        wa   <- width(ralt)
+        offset <- offset - (wr - wa)
+        ##
+        refcoord <- c(refcoord, paste0(sr, ":", er - (wr - wa)))
+        Biostrings::subseq(sref, sr, er) <- Biostrings::subseq(salt, start(ralt), end(ralt))
+      }
+      sref <- Biostrings::DNAStringSet(sref)
+      names(sref) <- paste0(allele, " ", ccn, " ", paste0(refcoord, collapse = "|"))
+      sref
+    }
+  }
+  rset
+})
+
 
 # Formal Methods (S4) -----------------------------------------------------
 
