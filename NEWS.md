@@ -1,6 +1,7 @@
 # hlatools 0.1.0.9000
 
 * Added `HLAGene` method `x$get_extended_reference_set()`.
+* Handle HLA-DRB before IPD-IMGT/HLA release 3.26.0.
 
 # hlatools 0.1.0
 

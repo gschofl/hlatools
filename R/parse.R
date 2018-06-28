@@ -67,11 +67,22 @@ update_hla_xml <- function(db_path = getOption("hlatools.local_repos")) {
 #' }
 parse_hla_alleles <- function(doc, locusname, ncores = parallel::detectCores()) {
   locusname <- match_hla_locus(locusname)
+  dbv <- numeric_version(xml2::xml_attr(xml2::xml_find_all(doc, "//d1:alleles/d1:allele[1]/d1:releaseversions"), "currentrelease"))
+  ## prior to release 3.26.0 all DRBs were lumped together
+  if (dbv < "3.26.0" && startsWith(locusname, "HLA-DRB")) {
+    locusname0 <- locusname
+    locusname  <- "HLA-DRB"
+  }
   ns <- xml2::xml_ns(doc)
   xpath1 <- paste0("/d1:alleles/d1:allele/d1:locus[@locusname='", locusname, "']/parent::node()")
   nodes1 <- xml2::xml_find_all(doc, xpath1, ns)
-  xpath2 <- paste0(".//d1:releaseversions[not(starts-with(@releasestatus, 'Allele Deleted'))]/parent::node()")
+  xpath2 <- paste0(".//d1:releaseversions[not(starts-with(@releasestatus,'Allele Deleted'))]/parent::node()")
   nodes2 <- xml2::xml_find_all(nodes1, xpath2, ns)
+  if (locusname == "HLA-DRB") {
+    xpath3 <- paste0("./self::node()[starts-with(@name,'", locusname0, "')]")
+    nodes2 <- xml2::xml_find_all(nodes2, xpath3, ns)
+    locusname <- locusname0
+  }
   #slen_nodeset <- length(nodes2)
   rs <- HLAAllele(nodes = nodes2, locusname = locusname, ncores = ncores)
   rs
