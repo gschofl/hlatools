@@ -21,14 +21,23 @@ read_hla_xml <- function(db_path = getOption("hlatools.local_repos"), remote = F
     dlfile <- tempfile(tmpdir = tdir)
     download.file(url = ftpfile, destfile = dlfile, method = "libcurl")
     tfile <- unzip(zipfile = dlfile, exdir = tdir)
+    on.exit(unlink(tfile, force = TRUE))
   } else {
     assertive.properties::assert_is_not_null(db_path)
-    dbfile <- normalizePath(file.path(db_path, "IMGTHLA", "xml", "hla.xml.zip"), mustWork = TRUE)
-    tfile  <- unzip(zipfile = dbfile, exdir = tdir)[1]
+    dbfile <- tryCatch(
+      normalizePath(file.path(db_path, "IMGTHLA", "xml", "hla.xml.zip"), mustWork = TRUE),
+      error = function(e) normalizePath(file.path(db_path, "IMGTHLA", "xml", "hla.xml.gz"), mustWork = TRUE))
+    if (endsWith(dbfile, "zip")) {
+      tfile  <- unzip(zipfile = dbfile, exdir = tdir)[1]
+      on.exit(unlink(tfile, force = TRUE))
+    } else if (endsWith(dbfile, "gz")) {
+      tfile  <- gzfile(dbfile, open = "b")
+      on.exit(close(tfile))
+    }
+
   }
-  doc <- xml2::read_xml(tfile)
-  unlink(tfile, force = TRUE)
-  doc
+
+  xml2::read_xml(tfile)
 }
 
 #' @rdname read_hla_xml

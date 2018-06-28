@@ -86,7 +86,7 @@ check_IMGTHLA <- function(db_path = getOption("hlatools.local_repos")) {
   })
   ##
   if (is(repo, "git_repository") && is(remote_shas, "character")) {
-    rl          <- git2r::reflog(repo)
+    rl <- git2r::reflog(repo)
     ##
     msg <- if (rl[[1]]@sha == remote_shas[["HEAD"]]) {
       "Your local IPD-IMGT/HLA repository is up-to-date"

@@ -5,12 +5,14 @@
 \alias{features<-}
 \title{Access feature data}
 \usage{
-features(x, ...)
+features(x, type = NULL, ...)
 
 features(x, ...) <- value
 }
 \arguments{
 \item{x}{A \link[=HLAGene_]{HLAGene} or \linkS4class{HLAAllele} object.}
+
+\item{type}{Which feature type.}
 
 \item{...}{Further arguments passed to methods.}
 

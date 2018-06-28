@@ -21,6 +21,7 @@ setGeneric("sequences<-", signature = "x", function(x, ..., value) standardGener
 #' Access feature data
 #'
 #' @param x A [HLAGene][HLAGene_] or [HLAAllele-class] object.
+#' @param type Which feature type.
 #' @param ... Further arguments passed to methods.
 #'
 #' @return A [HLAFeatureList-class] object.
@@ -30,7 +31,7 @@ setGeneric("sequences<-", signature = "x", function(x, ..., value) standardGener
 #' x <- HLAGene("DPB1")
 #' features(x[is_complete(x)])
 #' }
-setGeneric("features", signature = "x", function(x, ...) standardGeneric("features"))
+setGeneric("features", signature = "x", function(x, type = NULL, ...) standardGeneric("features"))
 #' @param value A \code{HLAFeatureList} object.
 #' @rdname features
 setGeneric("features<-", signature = "x", function(x, ..., value) standardGeneric("features<-"))
