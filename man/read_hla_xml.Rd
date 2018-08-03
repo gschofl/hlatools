@@ -5,7 +5,8 @@
 \alias{update_hla_xml}
 \title{Fetch or update the IPD-IMGT/HLA hla.xml file}
 \usage{
-read_hla_xml(db_path = getOption("hlatools.local_repos"), remote = FALSE)
+read_hla_xml(db_path = getOption("hlatools.local_repos"),
+  remote = FALSE)
 
 update_hla_xml(db_path = getOption("hlatools.local_repos"))
 }

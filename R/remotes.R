@@ -77,6 +77,11 @@ check_IMGTHLA <- function(db_path = getOption("hlatools.local_repos")) {
       structure("Use clone_IMGTHLA() to create a local IPD-IMGT/HLA repository", class = "msg")
     else
       structure(e$message, class = "msg")
+  }, warning =  function(e) {
+    if (grepl("No such file or directory", e$message))
+      structure("Use clone_IMGTHLA() to create a local IPD-IMGT/HLA repository", class = "msg")
+    else
+      structure(e$message, class = "msg")
   })
   ##
   remote_shas <- tryCatch({
@@ -88,10 +93,18 @@ check_IMGTHLA <- function(db_path = getOption("hlatools.local_repos")) {
   if (is(repo, "git_repository") && is(remote_shas, "character")) {
     rl <- git2r::reflog(repo)
     ##
-    msg <- if (rl[[1]]@sha == remote_shas[["HEAD"]]) {
-      "Your local IPD-IMGT/HLA repository is up-to-date"
+    msg <- if (utils::packageVersion("git2r") < "0.22.1") {
+      if (rl[[1]]@sha == remote_shas[["HEAD"]]) {
+        "Your local IPD-IMGT/HLA repository is up-to-date"
+      } else {
+        "Run pull_IMGTHLA() to bring your local IPD-IMGT/HLA repository up-to-date"
+      }
     } else {
-      "Run pull_IMGTHLA() to bring your local IPD-IMGT/HLA repository up-to-date"
+      if (git2r::sha(rl[[1]]) == remote_shas[["HEAD"]]) {
+        "Your local IPD-IMGT/HLA repository is up-to-date"
+      } else {
+        "Run pull_IMGTHLA() to bring your local IPD-IMGT/HLA repository up-to-date"
+      }
     }
   } else if (is(repo, "msg")) {
     msg <- repo
@@ -132,7 +145,12 @@ checkout_db_version <- function(db_version = "Latest",
   refs <- git2r::references(repo)
 
   ## Check if "db_version" matches a single reference
-  if (sum(na.omit(vapply(refs, function(r) strsplit1(r@shorthand, "/")[2], FUN.VALUE = "") == db_version)) != 1) {
+  shorthand_ <- if (utils::packageVersion("git2r") < "0.22.1") {
+    function(r) strsplit1(r@shorthand, "/")[2]
+  } else {
+    function(r) strsplit1(r$shorthand, "/")[2]
+  }
+  if (sum(na.omit(vapply(refs, shorthand_, FUN.VALUE = "") == db_version)) != 1) {
     stop("Version ", db_version, " not found")
   }
 

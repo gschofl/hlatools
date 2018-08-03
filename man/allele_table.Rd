@@ -7,7 +7,8 @@
 \href{https://www.hla.alleles.org/wmda}{hla.alleles.org}.
 }
 \usage{
-allele_table(db_path = getOption("hlatools.local_repos"), remote = FALSE)
+allele_table(db_path = getOption("hlatools.local_repos"),
+  remote = FALSE)
 }
 \arguments{
 \item{db_path}{<\link{character}>; location of local IPD-IMGT/HLA repository.}

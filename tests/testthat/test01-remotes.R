@@ -5,8 +5,8 @@ test_that("clone_IMGTHLA works", {
 
   repo <- clone_IMGTHLA(tmp)
   expect_is(repo, "git_repository")
-  expect_equal(repo@path, file.path(tmp, "IMGTHLA"))
-  expect_equal(git2r::head(repo)@name, "Latest")
+  expect_equal(repo$path, file.path(tmp, "IMGTHLA", ".git"))
+  expect_equal(git2r::repository_head(repo)$name, "Latest")
 })
 
 test_that("pull_IMGTHLA works", {
@@ -14,7 +14,7 @@ test_that("pull_IMGTHLA works", {
 
   repo <- pull_IMGTHLA(tmp)
   expect_is(repo, "git_repository")
-  expect_equal(repo@path, normalizePath(file.path(tmp, "IMGTHLA")))
+  expect_equal(repo$path, normalizePath(file.path(tmp, "IMGTHLA", ".git")))
 })
 
 test_that("pull_IMGTHLA works", {
@@ -22,7 +22,7 @@ test_that("pull_IMGTHLA works", {
 
   repo <- pull_IMGTHLA()
   expect_is(repo, "git_repository")
-  expect_equal(repo@path, normalizePath(file.path(getOption("hlatools.local_repos"), "IMGTHLA")))
+  expect_equal(repo$path, normalizePath(file.path(getOption("hlatools.local_repos"), "IMGTHLA", ".git")))
 })
 
 test_that("check_IMGTHLA works", {

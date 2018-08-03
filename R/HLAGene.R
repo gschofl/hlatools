@@ -76,10 +76,11 @@ HLAGene_ <- R6::R6Class(
         on.exit(checkout_db_version("Latest", db_path))
       }
       doc         <- read_hla_xml(db_path)
+      lcn         <- match_hla_locus(locusname)
       private$htv <- utils::packageVersion("hlatools")
       private$dbv <- numeric_version(xml2::xml_attr(xml2::xml_find_all(doc, "//d1:alleles/d1:allele[1]/d1:releaseversions"), "currentrelease"))
-      private$lcn <- match_hla_locus(locusname)
-      private$all <- parse_hla_alleles(doc, private$lcn, ncores)
+      private$lcn <- lcn
+      private$all <- parse_hla_alleles(doc, lcn, ncores)
       if (with_dist) {
         private$dmt <- exon_distance_matrix(private$all, verbose = TRUE)
         private$cns <- calc_consensus_string(private$all, private$lcn, verbose = TRUE)

@@ -25,7 +25,7 @@ test_that("HLAAllele global API", {
   expect_equal(length(features(dpa)[[1]]), 9)
   ## Sequences
   expect_is(sequences(dpa), "DNAStringSet")
-  expect_equal(length(sequences(dpa)), 64)
+  expect_equal(length(sequences(dpa)), 67)
   expect_equal(names(sequences(dpa))[[1]], "HLA-DPA1*01:03:01:01")
   expect_equal(width(sequences(dpa))[[1]], 9775)
   ## Metadata
@@ -67,7 +67,7 @@ test_that("HLAAllele subsetting", {
   ## Partial subsetting by allele name
   expect_equal(NROW(dpa["01:03:01"]), 11)
   expect_equal(NROW(dpa["DPA1*01:03"]), 15)
-  expect_equal(NROW(dpa["HLA-DPA1*01"]), 27)
+  expect_equal(NROW(dpa["HLA-DPA1*01"]), 28)
   ## Subsetting by number
   expect_equal(NROW(dpa[1]), 1)
   expect_equal(NROW(dpa[1:4]), 4)
