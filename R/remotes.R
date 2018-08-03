@@ -77,6 +77,11 @@ check_IMGTHLA <- function(db_path = getOption("hlatools.local_repos")) {
       structure("Use clone_IMGTHLA() to create a local IPD-IMGT/HLA repository", class = "msg")
     else
       structure(e$message, class = "msg")
+  }, warning =  function(e) {
+    if (grepl("No such file or directory", e$message))
+      structure("Use clone_IMGTHLA() to create a local IPD-IMGT/HLA repository", class = "msg")
+    else
+      structure(e$message, class = "msg")
   })
   ##
   remote_shas <- tryCatch({
@@ -88,10 +93,18 @@ check_IMGTHLA <- function(db_path = getOption("hlatools.local_repos")) {
   if (is(repo, "git_repository") && is(remote_shas, "character")) {
     rl          <- git2r::reflog(repo)
     ##
-    msg <- if (rl[[1]]@sha == remote_shas[["HEAD"]]) {
-      "Your local IPD-IMGT/HLA repository is up-to-date"
+    msg <- if (utils::packageVersion("git2r") < "0.22.1") {
+      if (rl[[1]]@sha == remote_shas[["HEAD"]]) {
+        "Your local IPD-IMGT/HLA repository is up-to-date"
+      } else {
+        "Run pull_IMGTHLA() to bring your local IPD-IMGT/HLA repository up-to-date"
+      }
     } else {
-      "Run pull_IMGTHLA() to bring your local IPD-IMGT/HLA repository up-to-date"
+      if (git2r::sha(rl[[1]]) == remote_shas[["HEAD"]]) {
+        "Your local IPD-IMGT/HLA repository is up-to-date"
+      } else {
+        "Run pull_IMGTHLA() to bring your local IPD-IMGT/HLA repository up-to-date"
+      }
     }
   } else if (is(repo, "msg")) {
     msg <- repo
@@ -105,12 +118,12 @@ check_IMGTHLA <- function(db_path = getOption("hlatools.local_repos")) {
 #' @keywords internal
 checkout_db_version <- function(db_version = "Latest",
                                 db_path = getOption("hlatools.local_repos")) {
-  db_versions <- c("Latest", "3.32.0", "3.31.0", "3.30.0", "3.29.0", "3.28.0",
-                   "3.27.0", "3.26.0", "3.25.0", "3.24.0", "3.23.0", "3.22.0",
-                   "3.21.0", "3.20.0", "3.19.0", "3.18.0", "3.17.0", "3.16.0",
-                   "3.15.0", "3.14.0", "3.13.0", "3.12.0", "3.11.0", "3.10.0",
-                   "3.9.0",  "3.8.0",  "3.7.0",  "3.6.0",  "3.5.0",  "3.4.0",
-                   "3.3.0",  "3.2.0",  "3.1.0",  "3.0.0")
+  db_versions <- c("Latest", "3.33.0", "3.32.0", "3.31.0", "3.30.0", "3.29.0",
+                   "3.28.0", "3.27.0", "3.26.0", "3.25.0", "3.24.0", "3.23.0",
+                   "3.22.0", "3.21.0", "3.20.0", "3.19.0", "3.18.0", "3.17.0",
+                   "3.16.0", "3.15.0", "3.14.0", "3.13.0", "3.12.0", "3.11.0",
+                   "3.10.0", "3.9.0",  "3.8.0",  "3.7.0",  "3.6.0",  "3.5.0",
+                   "3.4.0", "3.3.0",  "3.2.0",  "3.1.0",  "3.0.0")
   db_version <- match.arg(db_version, db_versions)
   assertive.base::assert_all_are_true(
     requireNamespace("git2r", quietly = TRUE)
@@ -132,7 +145,12 @@ checkout_db_version <- function(db_version = "Latest",
   refs <- git2r::references(repo)
 
   ## Check if "db_version" matches a single reference
-  if (sum(na.omit(vapply(refs, function(r) strsplit1(r@shorthand, "/")[2], FUN.VALUE = "") == db_version)) != 1) {
+  shorthand_ <- if (utils::packageVersion("git2r") < "0.22.1") {
+    function(r) strsplit1(r@shorthand, "/")[2]
+  } else {
+    function(r) strsplit1(r$shorthand, "/")[2]
+  }
+  if (sum(na.omit(vapply(refs, shorthand_, FUN.VALUE = "") == db_version)) != 1) {
     stop("Version ", db_version, " not found")
   }
 

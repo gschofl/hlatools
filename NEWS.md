@@ -1,3 +1,8 @@
+# hlatools 0.1.1
+
+* Update for IPD-IMGT/HLA 3.33.0
+* Update for git2r 0.23.0
+
 # hlatools 0.1.0
 
 ## API changes

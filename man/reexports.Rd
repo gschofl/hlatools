@@ -4,19 +4,12 @@
 \name{reexports}
 \alias{reexports}
 \alias{start}
-\alias{reexports}
 \alias{end}
-\alias{reexports}
 \alias{width}
-\alias{reexports}
 \alias{seqnames}
-\alias{reexports}
 \alias{ranges}
-\alias{reexports}
 \alias{ranges<-}
-\alias{reexports}
 \alias{elementMetadata}
-\alias{reexports}
 \alias{elementMetadata<-}
 \title{Objects exported from other packages}
 \keyword{internal}
