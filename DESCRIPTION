@@ -37,7 +37,7 @@ Imports:
     xml2,
     Rcpp,
     purrr
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Collate:
     'utils.R'
     'all-generics.R'
