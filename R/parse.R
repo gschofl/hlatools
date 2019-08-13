@@ -65,7 +65,7 @@ update_hla_xml <- function(db_path = getOption("hlatools.local_repos")) {
 #' doc  <- read_hla_xml()
 #' dpb1 <- parse_hla_alleles(doc, "HLA-DPB1")
 #' }
-parse_hla_alleles <- function(doc, locusname, ncores = parallel::detectCores()) {
+parse_hla_alleles <- function(doc, locusname, ncores = parallel::detectCores() - 2) {
   locusname <- match_hla_locus(locusname)
   dbv <- numeric_version(xml2::xml_attr(xml2::xml_find_all(doc, "//d1:alleles/d1:allele[1]/d1:releaseversions"), "currentrelease"))
   ## prior to release 3.26.0 all DRBs were lumped together
@@ -100,7 +100,11 @@ make_hla_allele_parser <- function() {
       ns     <- xml2::xml_ns(nodes)
       xpath  <- './d1:sequence/d1:nucsequence'
       nucseq <- Biostrings::DNAStringSet(xml2::xml_text(xml2::xml_find_all(nodes, xpath, ns)))
-      names(nucseq) <- xml2::xml_attr(nodes, "name")
+      nucseq_names <- xml2::xml_attr(nodes, "name")
+      #message("L1: ", length(nucseq))
+      #message("L2: ", length(nucseq_names))
+      stopifnot(length(nucseq) == length(nucseq_names))
+      names(nucseq) <- nucseq_names
       nucseq
     },
     # Parse metadata from an hla.xml allele node
@@ -113,12 +117,14 @@ make_hla_allele_parser <- function() {
       ns      <- xml2::xml_ns(nodes)
       ##
       cit_idx <- xml2::xml_find_lgl(nodes, "boolean(d1:citations)", ns)
+      #message("L5: ", length(cit_idx))
       pmids   <- rep(NA_character_, length(cit_idx))
       pmids[cit_idx] <- vapply(xml2::xml_find_all(nodes[cit_idx], "./d1:citations", ns), function(node) {
         colon(xml2::xml_attr(xml2::xml_children(node), "pubmed"))
       }, FUN.VALUE = character(1))
       ##
       smp_idx <- xml2::xml_find_lgl(nodes, "boolean(d1:sourcematerial/d1:samples)", ns)
+      #message("L6: ", length(smp_idx))
       samples <- rep(NA_character_, length(smp_idx))
       samples[smp_idx] <- vapply(xml2::xml_find_all(nodes[smp_idx], "./d1:sourcematerial/d1:samples", ns), function(node) {
         colon(xml2::xml_attr(xml2::xml_children(node), "name"))
@@ -166,7 +172,12 @@ make_hla_allele_parser <- function() {
       nodeset  <- xml2::xml_find_all(nodes, "./d1:sequence", ns)
       xpath    <- "./d1:feature[not(@featuretype=\"Protein\")]"
       seqnames <- xml2::xml_attr(nodes, "name")
+      message("L3: ", length(nodeset))
+      message("L4: ", length(nodeset))
+      stopifnot(length(nodeset) == length(nodeset))
       rs <- HLARangesList(parallel::mcMap(function(seqname, node) {
+        #message(seqname, " => ", appendLF = FALSE)
+        #message(length(node))
         HLARanges(
           seqnames = seqname,
           ranges   = IRanges::IRanges(

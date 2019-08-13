@@ -36,7 +36,7 @@ HLAGene <- function(locusname, db_version = "Latest", db_path = getOption("hlato
 #'
 #' @docType class
 #' @usage HLAgene(locusname, db_version = "Latest", db_path = getOption("hlatools.local_repos"),
-#'        ncores = parallel::detectCores(), with_dist = FALSE)
+#'        ncores = parallel::detectCores() - 2, with_dist = FALSE)
 #' @keywords data internal
 #' @importFrom XVector subseq subseq<-
 #' @import foreach
@@ -44,7 +44,7 @@ HLAGene <- function(locusname, db_version = "Latest", db_path = getOption("hlato
 #' @section Methods:
 #' \describe{
 #'   \item{\code{x$new(locusname, db_version = "Latest", db_path = getOption("hlatools.local_repos"),
-#'   ncores = parallel::detectCores(), with_dist = FALSE)}}{Create a HLAGene object.}
+#'   ncores = parallel::detectCores() - 2, with_dist = FALSE)}}{Create a HLAGene object.}
 #'   \item{\code{x$print()}}{Display the HLAGene object.}
 #'   \item{\code{x$get_hlatools_version()}}{The package version under which a HLAGene object was created.}
 #'   \item{\code{x$get_db_version()}}{The IPD-IMGT/HLA database version.}
@@ -69,7 +69,7 @@ HLAGene_ <- R6::R6Class(
     initialize = function(locusname,
                           db_version,
                           db_path = getOption("hlatools.local_repos"),
-                          ncores = parallel::detectCores(),
+                          ncores = parallel::detectCores() - 2,
                           with_dist = FALSE) {
       if (db_version != "Latest") {
         checkout_db_version(db_version, db_path)

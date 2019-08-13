@@ -4,7 +4,7 @@
 \alias{HLAAllele}
 \title{Constructor for \linkS4class{HLAAllele} objects}
 \usage{
-HLAAllele(nodes, locusname, ncores = parallel::detectCores())
+HLAAllele(nodes, locusname, ncores = parallel::detectCores() - 2)
 }
 \arguments{
 \item{nodes}{Allele nodes from a \code{hla.xml} object.}

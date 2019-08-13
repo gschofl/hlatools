@@ -1,3 +1,8 @@
+# hlatools 0.1.3
+
+* Include parsing `MICA` and `MICB`
+* Update for IPD-IMGT/HLA 3.37.0
+
 # hlatools 0.1.2
 
 * Update for IPD-IMGT/HLA 3.35.0

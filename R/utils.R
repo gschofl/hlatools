@@ -17,11 +17,11 @@ valid_hla_loci_ <- function() {
     'HLA-E',    'HLA-F',    'HLA-G',
     'HLA-DMA',  'HLA-DMB',
     'HLA-DOA',  'HLA-DOB',
-    'HLA-DRA'
+    'HLA-DRA',
     # 'HLA-DRB2'
     # 'HLA-H',    'HLA-HFE',
     # 'HLA-J',    'HLA-K',    'HLA-L',
-    # 'MICA',     'MICB',
+    'HLA-MICA',   'HLA-MICB'
     # 'HLA-P',    'HLA-T',
     # 'TAP1',     'TAP2',
     # 'HLA-V',    'HLA-W',    'HLA-Y'

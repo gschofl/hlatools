@@ -4,7 +4,7 @@
 \alias{parse_hla_alleles}
 \title{Parse all HLA alleles for a locus from hla.xml}
 \usage{
-parse_hla_alleles(doc, locusname, ncores = parallel::detectCores())
+parse_hla_alleles(doc, locusname, ncores = parallel::detectCores() - 2)
 }
 \arguments{
 \item{doc}{\file{hla.xml} as an \link[xml2:xml_document]{xml2::xml_document} object.}

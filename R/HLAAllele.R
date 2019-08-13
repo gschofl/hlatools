@@ -40,7 +40,7 @@ setClass(
 #' @export
 #' @examples
 #' showClass("HLAAllele")
-HLAAllele <- function(nodes, locusname, ncores = parallel::detectCores()) {
+HLAAllele <- function(nodes, locusname, ncores = parallel::detectCores() - 2) {
   if (missing(nodes)) {
     return(new("HLAAllele"))
   }
