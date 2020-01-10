@@ -32,40 +32,22 @@ HLAGene <- function(locusname, db_version = "Latest", db_path = getOption("hlato
   HLAGene_$new(locusname, db_version, db_path, ...)
 }
 
-#' Class `"HLAGene"`
+#' R6 Class `"HLAGene"`
 #'
-#' @docType class
-#' @usage HLAgene(locusname, db_version = "Latest", db_path = getOption("hlatools.local_repos"),
-#'        ncores = parallel::detectCores() - 2, with_dist = FALSE)
-#' @keywords data internal
+#' A container for the allelic information of an HLA gene.
+#'
 #' @importFrom XVector subseq subseq<-
 #' @import foreach
-#' @return Object of [R6Class] representing an HLA gene.
-#' @section Methods:
-#' \describe{
-#'   \item{\code{x$new(locusname, db_version = "Latest", db_path = getOption("hlatools.local_repos"),
-#'   ncores = parallel::detectCores() - 2, with_dist = FALSE)}}{Create a HLAGene object.}
-#'   \item{\code{x$print()}}{Display the HLAGene object.}
-#'   \item{\code{x$get_hlatools_version()}}{The package version under which a HLAGene object was created.}
-#'   \item{\code{x$get_db_version()}}{The IPD-IMGT/HLA database version.}
-#'   \item{\code{x$get_locusname()}}{The name of the HLA locus.}
-#'   \item{\code{x$get_alleles(allele)}}{A HLAAllele object.}
-#'   \item{\code{x$has_distances()}}{Has a distance matrix between all alleles been calculated?}
-#'   \item{\code{x$calculate_exon_distance_matrix()}}{Calculate a distance matrix
-#'   between all alleles based on the available exon sequences.}
-#'   \item{\code{x$get_closest_complete_neighbor(allele, partially = TRUE)}}{Get
-#'   the full-length allele that is closest to the query allele, based on the
-#'   available exon sequences.}
-#'   \item{\code{x$get_reference_sequence(allele)}}{Get the reference sequence for
-#'   query allele extended to full length by filling up missing sequence information
-#'   with the closest complete neighbour.}
-#'   \item{\code{x$get_extended_reference_set(verbose = FALSE)}{Get the reference
-#'   sequences for all allele extended to full length by filling up missing sequence
-#'   information with the closest complete neighbours.}}
-#' }
-HLAGene_ <- R6::R6Class(
-  classname = "HLAGene",
+HLAGene_ <- R6::R6Class("HLAGene",
   public = list(
+    #' @description
+    #' Create a new HLAgene object.
+    #' @param locusname Name of locus.
+    #' @param db_version Version number of IPD-IMGT/HLA release or "Latest".
+    #' @param db_path Local path to IPD-IMGT/HLA.
+    #' @param ncores How many cores are used for parsing the data.
+    #' @param with_dist Calulate Levenshtein distances between all alleles.
+    #' @return A new `HLAgene` object.
     initialize = function(locusname,
                           db_version,
                           db_path = getOption("hlatools.local_repos"),
@@ -86,22 +68,38 @@ HLAGene_ <- R6::R6Class(
         private$cns <- calc_consensus_string(private$all, private$lcn, verbose = TRUE)
       }
     },
+
+    #' @description
+    #' Display a HLAgene object.
     print = function() {
       fmt0 <- "IPD-IMGT/HLA database <%s>; Locus <%s>\n"
       cat(sprintf(fmt0, self$get_db_version(), self$get_locusname()))
       print(self$get_alleles())
       invisible(self)
     },
+
     ## getters and setters
+    #' @description
+    #' The package version under which a HLAGene object was created.
     get_hlatools_version = function() {
       private$htv
     },
+
+    #' @description
+    #' The IPD-IMGT/HLA database version.
     get_db_version = function() {
       private$dbv
     },
+
+    #' @description
+    #' The name of the HLA locus.
     get_locusname = function() {
       private$lcn
     },
+
+    #' @description
+    #' A [HLAAllele] object.
+    #' @param allele The allele code.
     get_alleles = function(allele) {
       if (missing(allele)) {
         return(private$all)
@@ -111,9 +109,15 @@ HLAGene_ <- R6::R6Class(
       } else allele
       private$all[allele]
     },
+
+    #' @description
+    #' Has a distance matrix between all alleles been calculated?
     has_distances = function() {
       is.matrix(private$dmt)
     },
+
+    #' @description
+    #' Calculate a distance matrix between all alleles based on the available exon sequences.
     calculate_exon_distance_matrix = function() {
       private$dmt <- exon_distance_matrix(private$all, verbose = TRUE)
       private$cns <- calc_consensus_string(private$all, private$lcn, verbose = TRUE)
@@ -133,6 +137,11 @@ HLAGene_ <- R6::R6Class(
 # Methods: HLAGene --------------------------------------------------------
 
 
+#' @description
+#' Get the full-length allele that is closest to the query allele, based on the
+#' available exon sequences.
+#' @param allele The allele code.
+#' @param partially If `TRUE` match partial allele names.
 HLAGene_$set("public", "get_closest_complete_neighbor", function(allele, partially = TRUE) {
   i <- match_alleles(allele, self, partially)
   if (length(i) == 0) {
@@ -156,6 +165,10 @@ HLAGene_$set("public", "get_closest_complete_neighbor", function(allele, partial
   names(which.min(colSums(dmi)))
 })
 
+#' @description
+#' Get the reference sequence for query allele extended to full length by
+#' filling up missing sequence information with the closest complete neighbour.
+#' @param allele The allele code.
 HLAGene_$set("public", "get_reference_sequence", function(allele) {
   ref <- self$get_closest_complete_neighbor(allele)
   if (allele == ref) {
@@ -183,6 +196,10 @@ HLAGene_$set("public", "get_reference_sequence", function(allele) {
   sref
 })
 
+#' @description
+#' Get the reference sequences for all allele extended to full length by
+#' filling up missing sequence information with the closest complete neighbours.
+#' @param allele The allele code.
 HLAGene_$set("public", "get_all_reference_sequences", function(allele) {
   allele <- expand_hla_allele(allele, self$get_locusname())
   complete_alleles <- allele_name(self$get_alleles(is_complete(self)))

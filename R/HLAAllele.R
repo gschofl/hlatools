@@ -1,15 +1,15 @@
 #' @include HLARanges.R
 NULL
 
-#' Class `"HLAAllele"``
+#' R6 Class `"HLAAllele"``
 #'
 #' A container for data parsed from the IPD-IMGT/HLA hla.xml file.
 #' Part of a [HLAGene][HLAGene_] object.
 #'
-#' @slot locus    A `character` string.
-#' @slot sequence A [DNAStringSet-class] object.
-#' @slot metadata A [DataFrame-class] object.
-#' @slot features A [HLARangesList-class] object.
+#' @slot locusname A `character` string.
+#' @slot sequence  A [DNAStringSet-class] object.
+#' @slot metadata  A [DataFrame-class] object.
+#' @slot features  A [HLARangesList-class] object.
 #'
 #' @importClassesFrom Biostrings DNAStringSet
 #' @importClassesFrom S4Vectors DataFrame

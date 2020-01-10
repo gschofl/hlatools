@@ -4,8 +4,12 @@
 \alias{HLAGene}
 \title{Constructor for \link[=HLAGene_]{HLAGene} objects.}
 \usage{
-HLAGene(locusname, db_version = "Latest",
-  db_path = getOption("hlatools.local_repos"), ...)
+HLAGene(
+  locusname,
+  db_version = "Latest",
+  db_path = getOption("hlatools.local_repos"),
+  ...
+)
 }
 \arguments{
 \item{locusname}{<\link{character}>; a valid HLA gene name.}

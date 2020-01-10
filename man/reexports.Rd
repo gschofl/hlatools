@@ -18,6 +18,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{GenomicRanges}{\code{\link[GenomicRanges]{start}}, \code{\link[GenomicRanges]{end}}, \code{\link[GenomicRanges]{width}}, \code{\link[GenomicRanges]{seqnames}}, \code{\link[GenomicRanges]{ranges}}, \code{\link[GenomicRanges]{ranges<-}}, \code{\link[GenomicRanges]{elementMetadata}}, \code{\link[GenomicRanges]{elementMetadata<-}}}
+  \item{GenomicRanges}{\code{\link[GenomicRanges]{elementMetadata}}, \code{\link[GenomicRanges]{elementMetadata<-}}, \code{\link[GenomicRanges]{end}}, \code{\link[GenomicRanges]{ranges}}, \code{\link[GenomicRanges]{ranges<-}}, \code{\link[GenomicRanges]{seqnames}}, \code{\link[GenomicRanges]{start}}, \code{\link[GenomicRanges]{width}}}
 }}
 

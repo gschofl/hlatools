@@ -172,9 +172,9 @@ make_hla_allele_parser <- function() {
       nodeset  <- xml2::xml_find_all(nodes, "./d1:sequence", ns)
       xpath    <- "./d1:feature[not(@featuretype=\"Protein\")]"
       seqnames <- xml2::xml_attr(nodes, "name")
-      message("L3: ", length(nodeset))
-      message("L4: ", length(nodeset))
-      stopifnot(length(nodeset) == length(nodeset))
+      # message("L3: ", length(nodeset))
+      # message("L4: ", length(nodeset))
+      # stopifnot(length(nodeset) == length(nodeset))
       rs <- HLARangesList(parallel::mcMap(function(seqname, node) {
         #message(seqname, " => ", appendLF = FALSE)
         #message(length(node))

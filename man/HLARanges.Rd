@@ -4,9 +4,16 @@
 \alias{HLARanges}
 \title{Constructor for \linkS4class{HLARanges} objects}
 \usage{
-HLARanges(seqnames = S4Vectors::Rle(), ranges = IRanges::IRanges(),
-  id = NA_character_, order = NA_integer_, type = NA_character_,
-  status = NA_character_, frame = NA_integer_, ...)
+HLARanges(
+  seqnames = S4Vectors::Rle(),
+  ranges = IRanges::IRanges(),
+  id = NA_character_,
+  order = NA_integer_,
+  type = NA_character_,
+  status = NA_character_,
+  frame = NA_integer_,
+  ...
+)
 }
 \arguments{
 \item{seqnames}{\code{character} vector of the sequence name.}

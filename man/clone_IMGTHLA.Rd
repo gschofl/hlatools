@@ -6,8 +6,11 @@
 \alias{check_IMGTHLA}
 \title{Clone or pull the \href{https://github.com/ANHIG/IMGTHLA}{ANHIG/IMGTHLA} repository}
 \usage{
-clone_IMGTHLA(db_path = getOption("hlatools.local_repos"),
-  branch = NULL, progress = TRUE)
+clone_IMGTHLA(
+  db_path = getOption("hlatools.local_repos"),
+  branch = NULL,
+  progress = TRUE
+)
 
 pull_IMGTHLA(db_path = getOption("hlatools.local_repos"))
 

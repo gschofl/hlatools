@@ -9,7 +9,7 @@
 \alias{[,HLAAllele,numeric,missing-method}
 \alias{[,HLAAllele,logical,missing-method}
 \alias{[,HLAAllele,character,missing-method}
-\title{Class `"HLAAllele"``}
+\title{R6 Class `"HLAAllele"``}
 \usage{
 \S4method{names}{HLAAllele}(x)
 
@@ -45,7 +45,7 @@ Part of a \link[=HLAGene_]{HLAGene} object.
 \section{Slots}{
 
 \describe{
-\item{\code{locus}}{A \code{character} string.}
+\item{\code{locusname}}{A \code{character} string.}
 
 \item{\code{sequence}}{A \linkS4class{DNAStringSet} object.}
 
