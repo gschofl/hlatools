@@ -21,9 +21,9 @@ library(hlatools)
 
 ## Installation
 
-Install from GitHub using `devtools`:
+Install from GitHub using `remotes`:
 ```{r, eval=FALSE}
-devtools::install_github("gschofl/hlatools")
+remotes::install_github("gschofl/hlatools")
 ```
 
 ## Usage
@@ -71,7 +71,7 @@ hlatools::locusname(x)
 x[hlatools::cwd_status(x) == "Common"][1:10]
 ```
 
-These obects come with an additional set of `R6`-methods that implement an API used mostly in conjunction with the `DR2S` package:
+These objects come with an additional set of `R6`-methods that implement an API used mostly in conjunction with the `DR2S` package:
 
 * `x$get_closest_complete_neighbor(allele, partially = TRUE)`: Find the closest full-length allele based on the genetic distance between exon sequences.
 

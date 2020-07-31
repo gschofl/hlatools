@@ -39,7 +39,7 @@ setClass(
 #' @param type `character` vector of feature type.
 #' @param status `character` vector of completeness status
 #' @param frame `integer` vector of reading order.
-#' @param ... Arguments passed to [GenomicRanges::Granges()].
+#' @param ... Arguments passed to [GenomicRanges::GRanges()].
 #'
 #' @return A [HLARanges-class] object.
 #' @seealso [parse_hla_alleles()], [HLAAllele-class]
@@ -149,7 +149,7 @@ setClass(
   Class = "CompressedHLARangesList",
   representation(elementMetadata = "DataFrame"),
   prototype = prototype(unlistData = new("HLARanges")),
-  contains = c("HLARangesList", "GRangesList")
+  contains = c("HLARangesList", "CompressedGRangesList")
 )
 
 #' Constructor for [HLARangesList-class] objects
@@ -163,7 +163,7 @@ setClass(
 #' @examples
 #' showClass("HLARangesList")
 HLARangesList <- function(...) {
-  new("CompressedHLARangesList", GenomicRanges::GRangesList(...))
+  new("CompressedHLARangesList", GenomicRanges::GRangesList(..., compress = TRUE))
 }
 
 setMethod("getId", "HLARangesList", function(x, ...) {

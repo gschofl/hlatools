@@ -52,7 +52,7 @@ update_hla_xml <- function(db_path = getOption("hlatools.local_repos")) {
 
 #' Parse all HLA alleles for a locus from hla.xml
 #'
-#' @param doc \file{hla.xml} as an [xml2::xml_document] object.
+#' @param doc \file{hla.xml} as an XML document.
 #' @param locusname One of <`HLA-A, HLA-B, HLA-C, HLA-DQB1, HLA-DRB1, HLA-DPB1`>
 #' @param ncores The number of compute cores to use.
 #'
@@ -72,6 +72,9 @@ parse_hla_alleles <- function(doc, locusname, ncores = parallel::detectCores() -
   if (dbv < "3.26.0" && startsWith(locusname, "HLA-DRB")) {
     locusname0 <- locusname
     locusname  <- "HLA-DRB"
+  }
+  if (dbv >= "3.29.0" && startsWith(locusname, "HLA-MIC")) {
+    locusname  <- sub("HLA-", "", locusname)
   }
   ns <- xml2::xml_ns(doc)
   xpath1 <- paste0("/d1:alleles/d1:allele/d1:locus[@locusname='", locusname, "']/parent::node()")
@@ -110,10 +113,11 @@ make_hla_allele_parser <- function() {
     # Parse metadata from an hla.xml allele node
     #
     # @param nodes A hla.xml allele nodeset.
+    # @param locusname The locus name.
     #
     # @return A DataFrame object.
     # @keywords internal
-    parse_metadata = function(nodes) {
+    parse_metadata = function(nodes, locusname) {
       ns      <- xml2::xml_ns(nodes)
       ##
       cit_idx <- xml2::xml_find_lgl(nodes, "boolean(d1:citations)", ns)
@@ -129,6 +133,8 @@ make_hla_allele_parser <- function() {
       samples[smp_idx] <- vapply(xml2::xml_find_all(nodes[smp_idx], "./d1:sourcematerial/d1:samples", ns), function(node) {
         colon(xml2::xml_attr(xml2::xml_children(node), "name"))
       }, FUN.VALUE = character(1))
+      ## Expected number of Exons and introns for completeness
+      nfeatures <- length(feature_orders_(locus = locusname))
       ##
       S4Vectors::DataFrame(
         ##
@@ -151,6 +157,13 @@ make_hla_allele_parser <- function() {
         ##
         cwd_status    = xml2::xml_find_chr(nodes, "string(./d1:cwd_catalogue/@cwd_status)", ns),
         complete      = xml2::xml_find_lgl(nodes, "count(./d1:sequence/d1:feature[@featuretype=\"UTR\"])=2", ns),
+        ##
+        ## CWD status and Completeness (we consider as complete alleles for which
+        ## a full set of nonUTR features is present)
+        #
+        #cwd_status    = xml2::xml_find_chr(nodes, "string(./d1:cwd_catalogue/@cwd_status)", ns),
+        #complete      = xml2::xml_find_lgl(nodes,
+        #  paste0("count(./d1:sequence/d1:feature[@featuretype=\"Exon\" or @featuretype=\"Intron\"])=", nfeatures), ns),
         ##
         ## Source (PubMed ID, Ethnicity, Sample/Cellline)
         ##

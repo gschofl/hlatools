@@ -7,7 +7,7 @@
 parse_hla_alleles(doc, locusname, ncores = parallel::detectCores() - 2)
 }
 \arguments{
-\item{doc}{\file{hla.xml} as an \link[xml2:xml_document]{xml2::xml_document} object.}
+\item{doc}{\file{hla.xml} as an XML document.}
 
 \item{locusname}{One of <\verb{HLA-A, HLA-B, HLA-C, HLA-DQB1, HLA-DRB1, HLA-DPB1}>}
 

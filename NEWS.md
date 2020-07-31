@@ -1,3 +1,14 @@
+# hlatools 0.1.5
+
+* Update for IPD-IMGT/HLA 3.40.0 and 3.41.0
+
+# hlatools 0.1.3
+
+* Complete alleles are now defined as featuring the expected set of exons
+  and introns instead of the 2 UTR sequences.
+* Update for IPD-IMGT/HLA 3.38.0 and 3.39.0
+* As of IPD-IMGT/HLA 3.39.0, the locusname for `MICA` and `MICB` has become `MICA` and `MICB` instead of `HLA-MICA` and `HLA-MICB`.
+
 # hlatools 0.1.3
 
 * Include parsing `MICA` and `MICB`

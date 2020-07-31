@@ -33,6 +33,7 @@ A container for the allelic information of an HLA gene.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Create a new HLAgene object.
 \subsection{Usage}{
@@ -66,6 +67,7 @@ A new \code{HLAgene} object.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
 Display a HLAgene object.
 \subsection{Usage}{
@@ -75,6 +77,7 @@ Display a HLAgene object.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-get_hlatools_version"></a>}}
+\if{latex}{\out{\hypertarget{method-get_hlatools_version}{}}}
 \subsection{Method \code{get_hlatools_version()}}{
 The package version under which a HLAGene object was created.
 \subsection{Usage}{
@@ -84,6 +87,7 @@ The package version under which a HLAGene object was created.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-get_db_version"></a>}}
+\if{latex}{\out{\hypertarget{method-get_db_version}{}}}
 \subsection{Method \code{get_db_version()}}{
 The IPD-IMGT/HLA database version.
 \subsection{Usage}{
@@ -93,6 +97,7 @@ The IPD-IMGT/HLA database version.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-get_locusname"></a>}}
+\if{latex}{\out{\hypertarget{method-get_locusname}{}}}
 \subsection{Method \code{get_locusname()}}{
 The name of the HLA locus.
 \subsection{Usage}{
@@ -102,6 +107,7 @@ The name of the HLA locus.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-get_alleles"></a>}}
+\if{latex}{\out{\hypertarget{method-get_alleles}{}}}
 \subsection{Method \code{get_alleles()}}{
 A \link{HLAAllele} object.
 \subsection{Usage}{
@@ -118,6 +124,7 @@ A \link{HLAAllele} object.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-has_distances"></a>}}
+\if{latex}{\out{\hypertarget{method-has_distances}{}}}
 \subsection{Method \code{has_distances()}}{
 Has a distance matrix between all alleles been calculated?
 \subsection{Usage}{
@@ -127,6 +134,7 @@ Has a distance matrix between all alleles been calculated?
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-calculate_exon_distance_matrix"></a>}}
+\if{latex}{\out{\hypertarget{method-calculate_exon_distance_matrix}{}}}
 \subsection{Method \code{calculate_exon_distance_matrix()}}{
 Calculate a distance matrix between all alleles based on the available exon sequences.
 \subsection{Usage}{
@@ -136,54 +144,118 @@ Calculate a distance matrix between all alleles based on the available exon sequ
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-get_closest_complete_neighbor"></a>}}
+\if{latex}{\out{\hypertarget{method-get_closest_complete_neighbor}{}}}
 \subsection{Method \code{get_closest_complete_neighbor()}}{
+Get the full-length allele that is closest to the query allele, based on the
+available exon sequences.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{HLAGene_$get_closest_complete_neighbor(allele, partially = TRUE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{allele}}{The allele code.}
+
+\item{\code{partially}}{If \code{TRUE} match partial allele names.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-get_reference_sequence"></a>}}
+\if{latex}{\out{\hypertarget{method-get_reference_sequence}{}}}
 \subsection{Method \code{get_reference_sequence()}}{
+Get the reference sequence for query allele extended to full length by
+filling up missing sequence information with the closest complete neighbour.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{HLAGene_$get_reference_sequence(allele)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{allele}}{The allele code.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-get_all_reference_sequences"></a>}}
+\if{latex}{\out{\hypertarget{method-get_all_reference_sequences}{}}}
 \subsection{Method \code{get_all_reference_sequences()}}{
+Get the reference sequences for all allele extended to full length by
+filling up missing sequence information with the closest complete neighbours.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{HLAGene_$get_all_reference_sequences(allele)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{allele}}{The allele code.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-get_reference_sequence_as_ft"></a>}}
+\if{latex}{\out{\hypertarget{method-get_reference_sequence_as_ft}{}}}
 \subsection{Method \code{get_reference_sequence_as_ft()}}{
+Get the reference sequence for query allele extended to full length by
+filling up missing sequence information with the closest complete neighbour
+formatted as a GenBank Feature Table.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{HLAGene_$get_reference_sequence_as_ft(allele)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{allele}}{The allele code.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-get_all_reference_sequences_as_ft"></a>}}
+\if{latex}{\out{\hypertarget{method-get_all_reference_sequences_as_ft}{}}}
 \subsection{Method \code{get_all_reference_sequences_as_ft()}}{
+Get the reference sequences for all allele extended to full length by
+filling up missing sequence information with the closest complete neighbours
+formatted as a GenBank Feature Table.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{HLAGene_$get_all_reference_sequences_as_ft(allele)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{allele}}{The allele code.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-get_extended_reference_set"></a>}}
+\if{latex}{\out{\hypertarget{method-get_extended_reference_set}{}}}
 \subsection{Method \code{get_extended_reference_set()}}{
+TODO: Documentation
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{HLAGene_$get_extended_reference_set(verbose = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{verbose}}{Emit progress messages.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

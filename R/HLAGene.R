@@ -62,7 +62,7 @@ HLAGene_ <- R6::R6Class("HLAGene",
       private$htv <- utils::packageVersion("hlatools")
       private$dbv <- numeric_version(xml2::xml_attr(xml2::xml_find_all(doc, "//d1:alleles/d1:allele[1]/d1:releaseversions"), "currentrelease"))
       private$lcn <- lcn
-      private$all <- parse_hla_alleles(doc, lcn, ncores)
+      private$all <- parse_hla_alleles(doc, locusname = lcn, ncores)
       if (with_dist) {
         private$dmt <- exon_distance_matrix(private$all, verbose = TRUE)
         private$cns <- calc_consensus_string(private$all, private$lcn, verbose = TRUE)
@@ -121,7 +121,190 @@ HLAGene_ <- R6::R6Class("HLAGene",
     calculate_exon_distance_matrix = function() {
       private$dmt <- exon_distance_matrix(private$all, verbose = TRUE)
       private$cns <- calc_consensus_string(private$all, private$lcn, verbose = TRUE)
+    },
+
+    #' @description
+    #' Get the full-length allele that is closest to the query allele, based on the
+    #' available exon sequences.
+    #' @param allele The allele code.
+    #' @param partially If `TRUE` match partial allele names.
+    get_closest_complete_neighbor = function(allele, partially = TRUE) {
+      i <- match_alleles(allele, self, partially)
+      if (length(i) == 0) {
+        stop("Allele ", dQuote(allele), " not found.", call. = FALSE)
+      }
+
+      ## get indices of full-length alleles
+      completes <- which(is_complete(self))
+      if (any(i %in% completes)) {
+        ## return name of first allele amongst matching full-length alleles
+        i <- i[i %in% completes]
+        return(allele_name(self$get_alleles(i[1])))
+      }
+
+      if (!self$has_distances()) {
+        self$calculate_exon_distance_matrix()
+      }
+
+      ## report the full-length with min(sum(dist)) from query alleles
+      dmi <- private$dmt[i, completes, drop = FALSE]
+      names(which.min(colSums(dmi)))
+    },
+
+    #' @description
+    #' Get the reference sequence for query allele extended to full length by
+    #' filling up missing sequence information with the closest complete neighbour.
+    #' @param allele The allele code.
+    get_reference_sequence = function(allele) {
+      ref <- self$get_closest_complete_neighbor(allele)
+      if (allele == ref) {
+        ref <- self$get_alleles(allele)
+        sref <- Biostrings::BStringSet(sequences(ref)[[1]])
+        names(sref) <- as(features(ref)[[1]], "character")
+      } else {
+        ref <- self$get_alleles(ref)
+        alt <- self$get_alleles(allele)
+        fref <- features(ref)[[1]]
+        falt <- features(alt)[[1]]
+        sref <- Biostrings::BString(tolower(sequences(ref)[[1]]))
+        salt <- Biostrings::BString(toupper(sequences(alt)[[1]]))
+        i <- match(names(falt), names(fref))
+        Rref <- iterators::iter(ranges(fref)[i, ])
+        Ralt <- iterators::iter(ranges(falt))
+        while (hlatools::hasNext(Rref) && hlatools::hasNext(Ralt)) {
+          rref <- iterators::nextElem(Rref)
+          ralt <- iterators::nextElem(Ralt)
+          Biostrings::subseq(sref, start(rref), end(rref)) <- Biostrings::subseq(salt, start(ralt), end(ralt))
+        }
+        sref <- Biostrings::BStringSet(sref)
+        names(sref) <- as(merge(x = fref, y = falt), "character")
+      }
+      sref
+    },
+
+    #' @description
+    #' Get the reference sequences for all allele extended to full length by
+    #' filling up missing sequence information with the closest complete neighbours.
+    #' @param allele The allele code.
+    get_all_reference_sequences = function(allele) {
+      allele <- expand_hla_allele(allele, self$get_locusname())
+      complete_alleles <- allele_name(self$get_alleles(is_complete(self)))
+      if (allele %in% complete_alleles) {
+        ref <- self$get_alleles(allele)
+        sref <- Biostrings::BStringSet(sequences(ref)[[1]])
+        names(sref) <- as(features(ref)[[1]], "character")
+        sref
+      } else {
+        alt  <- self$get_alleles(allele)
+        refs <- self$get_alleles(complete_alleles)
+        falt <- features(alt)[[1]]
+        frefs <- features(refs)
+        salt <- Biostrings::BString(toupper(sequences(alt)[[1]]))
+        srefs <- Biostrings::BStringSet(tolower(sequences(refs)))
+        foreach(fref = frefs, sref = srefs, .combine = "c") %do% {
+          i <- match(names(falt), names(fref))
+          Rref <- iter(ranges(fref)[i, ])
+          Ralt <- iter(ranges(falt))
+          while (hlatools::hasNext(Rref) && hlatools::hasNext(Ralt)) {
+            rref <- nextElem(Rref)
+            ralt <- nextElem(Ralt)
+            subseq(sref, start(rref), end(rref)) <- subseq(salt, start(ralt), end(ralt))
+          }
+          sref <- Biostrings::BStringSet(sref)
+          names(sref) <- as(merge(x = fref, y = falt), "character")
+          sref
+        }
+      }
+    },
+
+    #' @description
+    #' Get the reference sequence for query allele extended to full length by
+    #' filling up missing sequence information with the closest complete neighbour
+    #' formatted as a GenBank Feature Table.
+    #' @param allele The allele code.
+    get_reference_sequence_as_ft = function(allele) {
+      allele <- expand_hla_allele(allele, self$get_locusname())
+      x <- self$get_reference_sequence(allele)
+      sprintf(
+        "%s\n%s\n%s%s\n",
+        hla_dat_id(x),
+        hla_dat_de(x),
+        hla_dat_ft(x),
+        hla_dat_sq(x)
+      )
+    },
+
+    #' @description
+    #' Get the reference sequences for all allele extended to full length by
+    #' filling up missing sequence information with the closest complete neighbours
+    #' formatted as a GenBank Feature Table.
+    #' @param allele The allele code.
+    get_all_reference_sequences_as_ft = function(allele) {
+      allele <- expand_hla_allele(allele, self$get_locusname())
+      x <- self$get_all_reference_sequences(allele)
+      n <- length(x)
+      rs <- character(n)
+      for (i in seq_len(n)) {
+        rs[i] <- sprintf(
+          "%s\n%s\n%s%s\n",
+          hla_dat_id(x[i]),
+          hla_dat_de(x[i]),
+          hla_dat_ft(x[i]),
+          hla_dat_sq(x[i])
+        )
+      }
+      paste0(rs, collapse = "")
+    },
+
+    #' @description
+    #' TODO: Documentation
+    #' @param verbose Emit progress messages.
+    get_extended_reference_set = function(verbose = FALSE) {
+      iAlleles  <- iterators::iter(names(self))
+      # (allele <- iterators::nextElem(iAlleles))
+      # (ccn  <- self$get_closest_complete_neighbor(allele))
+      rset <- foreach(allele = iAlleles, .combine = "c") %do% {
+        if (verbose)
+          message(allele, " -> ", appendLF = FALSE)
+        ccn  <- self$get_closest_complete_neighbor(allele)
+        if (verbose)
+          message(ccn, appendLF = TRUE)
+        if (allele == ccn) {
+          sequences(self$get_alleles(allele))
+        } else {
+          refcoord <- character(0)
+          offset   <- 0
+          ref  <- self$get_alleles(ccn)
+          alt  <- self$get_alleles(allele)
+          fref <- features(ref)[[1]]
+          falt <- features(alt)[[1]]
+          sref <- sequences(ref)[[1]]
+          salt <- sequences(alt)[[1]]
+          i    <- match(names(falt), names(fref))
+          Rref <- iterators::iter(ranges(fref)[i, ])
+          Ralt <- iterators::iter(ranges(falt))
+          while (hlatools::hasNext(Rref) && hlatools::hasNext(Ralt)) {
+            rref <- iterators::nextElem(Rref)
+            ralt <- iterators::nextElem(Ralt)
+            sr    <- start(rref) + offset
+            er    <- end(rref) + offset
+            ## if feature widths in reference and allele differ offset
+            ## subsequent feature coordinates accordingly
+            wr   <- width(rref)
+            wa   <- width(ralt)
+            offset <- offset - (wr - wa)
+            ##
+            refcoord <- c(refcoord, paste0(sr, ":", er - (wr - wa)))
+            Biostrings::subseq(sref, sr, er) <- Biostrings::subseq(salt, start(ralt), end(ralt))
+          }
+          sref <- Biostrings::DNAStringSet(sref)
+          names(sref) <- paste0(allele, " ", ccn, " ", paste0(refcoord, collapse = "|"))
+          sref
+        }
+      }
+      rset
     }
+
   ),
   private = list(
     htv = NULL, # [package_version]; hlatools package version
@@ -132,180 +315,6 @@ HLAGene_ <- R6::R6Class("HLAGene",
     cns = NULL  # [DNAStringSet]; consensus sequence based on all full-length alleles
   )
 )
-
-
-# Methods: HLAGene --------------------------------------------------------
-
-
-#' @description
-#' Get the full-length allele that is closest to the query allele, based on the
-#' available exon sequences.
-#' @param allele The allele code.
-#' @param partially If `TRUE` match partial allele names.
-HLAGene_$set("public", "get_closest_complete_neighbor", function(allele, partially = TRUE) {
-  i <- match_alleles(allele, self, partially)
-  if (length(i) == 0) {
-    stop("Allele ", dQuote(allele), " not found.", call. = FALSE)
-  }
-
-  ## get indices of full-length alleles
-  completes <- which(is_complete(self))
-  if (any(i %in% completes)) {
-    ## return name of first allele amongst matching full-length alleles
-    i <- i[i %in% completes]
-    return(allele_name(self$get_alleles(i[1])))
-  }
-
-  if (!self$has_distances()) {
-    self$calculate_exon_distance_matrix()
-  }
-
-  ## report the full-length with min(sum(dist)) from query alleles
-  dmi <- private$dmt[i, completes, drop = FALSE]
-  names(which.min(colSums(dmi)))
-})
-
-#' @description
-#' Get the reference sequence for query allele extended to full length by
-#' filling up missing sequence information with the closest complete neighbour.
-#' @param allele The allele code.
-HLAGene_$set("public", "get_reference_sequence", function(allele) {
-  ref <- self$get_closest_complete_neighbor(allele)
-  if (allele == ref) {
-    ref <- self$get_alleles(allele)
-    sref <- Biostrings::BStringSet(sequences(ref)[[1]])
-    names(sref) <- as(features(ref)[[1]], "character")
-  } else {
-    ref <- self$get_alleles(ref)
-    alt <- self$get_alleles(allele)
-    fref <- features(ref)[[1]]
-    falt <- features(alt)[[1]]
-    sref <- Biostrings::BString(tolower(sequences(ref)[[1]]))
-    salt <- Biostrings::BString(toupper(sequences(alt)[[1]]))
-    i <- match(names(falt), names(fref))
-    Rref <- iterators::iter(ranges(fref)[i, ])
-    Ralt <- iterators::iter(ranges(falt))
-    while (hlatools::hasNext(Rref) && hlatools::hasNext(Ralt)) {
-      rref <- iterators::nextElem(Rref)
-      ralt <- iterators::nextElem(Ralt)
-      Biostrings::subseq(sref, start(rref), end(rref)) <- Biostrings::subseq(salt, start(ralt), end(ralt))
-    }
-    sref <- Biostrings::BStringSet(sref)
-    names(sref) <- as(merge(x = fref, y = falt), "character")
-  }
-  sref
-})
-
-#' @description
-#' Get the reference sequences for all allele extended to full length by
-#' filling up missing sequence information with the closest complete neighbours.
-#' @param allele The allele code.
-HLAGene_$set("public", "get_all_reference_sequences", function(allele) {
-  allele <- expand_hla_allele(allele, self$get_locusname())
-  complete_alleles <- allele_name(self$get_alleles(is_complete(self)))
-  if (allele %in% complete_alleles) {
-    ref <- self$get_alleles(allele)
-    sref <- Biostrings::BStringSet(sequences(ref)[[1]])
-    names(sref) <- as(features(ref)[[1]], "character")
-    sref
-  } else {
-    alt  <- self$get_alleles(allele)
-    refs <- self$get_alleles(complete_alleles)
-    falt <- features(alt)[[1]]
-    frefs <- features(refs)
-    salt <- Biostrings::BString(toupper(sequences(alt)[[1]]))
-    srefs <- Biostrings::BStringSet(tolower(sequences(refs)))
-    foreach(fref = frefs, sref = srefs, .combine = "c") %do% {
-      i <- match(names(falt), names(fref))
-      Rref <- iter(ranges(fref)[i, ])
-      Ralt <- iter(ranges(falt))
-      while (hlatools::hasNext(Rref) && hlatools::hasNext(Ralt)) {
-        rref <- nextElem(Rref)
-        ralt <- nextElem(Ralt)
-        subseq(sref, start(rref), end(rref)) <- subseq(salt, start(ralt), end(ralt))
-      }
-      sref <- Biostrings::BStringSet(sref)
-      names(sref) <- as(merge(x = fref, y = falt), "character")
-      sref
-    }
-  }
-})
-
-HLAGene_$set("public", "get_reference_sequence_as_ft", function(allele) {
-  allele <- expand_hla_allele(allele, self$get_locusname())
-  x <- self$get_reference_sequence(allele)
-  sprintf(
-    "%s\n%s\n%s%s\n",
-    hla_dat_id(x),
-    hla_dat_de(x),
-    hla_dat_ft(x),
-    hla_dat_sq(x)
-  )
-})
-
-HLAGene_$set("public", "get_all_reference_sequences_as_ft", function(allele) {
-  allele <- expand_hla_allele(allele, self$get_locusname())
-  x <- self$get_all_reference_sequences(allele)
-  n <- length(x)
-  rs <- character(n)
-  for (i in seq_len(n)) {
-    rs[i] <- sprintf(
-      "%s\n%s\n%s%s\n",
-      hla_dat_id(x[i]),
-      hla_dat_de(x[i]),
-      hla_dat_ft(x[i]),
-      hla_dat_sq(x[i])
-    )
-  }
-  paste0(rs, collapse = "")
-})
-
-HLAGene_$set("public", "get_extended_reference_set", function(verbose = FALSE) {
-  iAlleles  <- iterators::iter(names(self))
-  # (allele <- iterators::nextElem(iAlleles))
-  # (ccn  <- self$get_closest_complete_neighbor(allele))
-  rset <- foreach(allele = iAlleles, .combine = "c") %do% {
-    if (verbose)
-      message(allele, " -> ", appendLF = FALSE)
-    ccn  <- self$get_closest_complete_neighbor(allele)
-    if (verbose)
-      message(ccn, appendLF = TRUE)
-    if (allele == ccn) {
-      sequences(self$get_alleles(allele))
-    } else {
-      refcoord <- character(0)
-      offset   <- 0
-      ref  <- self$get_alleles(ccn)
-      alt  <- self$get_alleles(allele)
-      fref <- features(ref)[[1]]
-      falt <- features(alt)[[1]]
-      sref <- sequences(ref)[[1]]
-      salt <- sequences(alt)[[1]]
-      i    <- match(names(falt), names(fref))
-      Rref <- iterators::iter(ranges(fref)[i, ])
-      Ralt <- iterators::iter(ranges(falt))
-      while (hlatools::hasNext(Rref) && hlatools::hasNext(Ralt)) {
-        rref <- iterators::nextElem(Rref)
-        ralt <- iterators::nextElem(Ralt)
-        sr    <- start(rref) + offset
-        er    <- end(rref) + offset
-        ## if feature widths in reference and allele differ offset
-        ## subsequent feature coordinates accordingly
-        wr   <- width(rref)
-        wa   <- width(ralt)
-        offset <- offset - (wr - wa)
-        ##
-        refcoord <- c(refcoord, paste0(sr, ":", er - (wr - wa)))
-        Biostrings::subseq(sref, sr, er) <- Biostrings::subseq(salt, start(ralt), end(ralt))
-      }
-      sref <- Biostrings::DNAStringSet(sref)
-      names(sref) <- paste0(allele, " ", ccn, " ", paste0(refcoord, collapse = "|"))
-      sref
-    }
-  }
-  rset
-})
-
 
 # Formal Methods (S4) -----------------------------------------------------
 

@@ -54,10 +54,11 @@ setMethod("initialize", signature(.Object = "HLAAllele"), function(.Object, node
     .Object@features  = HLARangesList()
     .Object@metadata  = S4Vectors::DataFrame()
   } else {
-    .Object@locusname = match_hla_locus(locusname)
+    lcn               <- match_hla_locus(locusname)
+    .Object@locusname = lcn
     .Object@sequence  = HLAAllele_parser$parse_sequence(nodes)
     .Object@features  = HLAAllele_parser$parse_features(nodes, ncores)
-    .Object@metadata  = HLAAllele_parser$parse_metadata(nodes)
+    .Object@metadata  = HLAAllele_parser$parse_metadata(nodes, lcn)
   }
   .Object
 })
@@ -102,7 +103,7 @@ setMethod("exon", "HLAAllele", function(x, exon = NULL, ...) {
   if (!is.null(exon)) {
     ## convert exon number to feature order
     fod <- exon * 2
-    rng <- ranges(ftr)[IRanges::`%in%`(getOrder(ftr), fod)]
+    rng <- ranges(ftr)[BiocGenerics::`%in%`(getOrder(ftr), fod)]
   } else {
     rng <- ranges(ftr)[getType(ftr) == "Exon"]
   }
@@ -117,7 +118,7 @@ setMethod("intron", "HLAAllele", function(x, intron = NULL, ...) {
   if (!is.null(intron)) {
     ## convert intron number to feature order
     fod <- intron * 2 + 1
-    rng <- ranges(ftr)[IRanges::`%in%`(getOrder(ftr), fod)]
+    rng <- ranges(ftr)[BiocGenerics::`%in%`(getOrder(ftr), fod)]
   } else {
     rng <- ranges(ftr)[getType(ftr) == "Intron"]
   }
@@ -141,7 +142,7 @@ setMethod("utr", "HLAAllele", function(x, utr = NULL, ...) {
       stop("No 5' UTR available")
     }
     fod <- fod[utr]
-    rng <- ranges(ftr)[IRanges::`%in%`(getOrder(ftr), fod)]
+    rng <- ranges(ftr)[BiocGenerics::`%in%`(getOrder(ftr), fod)]
   } else {
     rng <- ranges(ftr)[getType(ftr) == "UTR"]
   }
@@ -270,7 +271,7 @@ setMethod("is_lsl", signature(x = "HLAAllele"), function(x, ...) {
 setAs(from = "HLAAllele", to = "data.table", function(from) {
   alleles <- strsplit(allele_name(from), "*", fixed = TRUE)
   fts <- features(from)
-  dtplyr::tbl_dt(data.table(
+  dtplyr::lazy_dt(data.table(
     gene = vapply(alleles, `[[`, 1, FUN.VALUE = ""),
     allele_name = vapply(alleles, `[[`, 2, FUN.VALUE = ""),
     data_assigned = lubridate::ymd(hlatools::elementMetadata(from)$date_assigned),

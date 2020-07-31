@@ -30,7 +30,7 @@ HLARanges(
 
 \item{frame}{\code{integer} vector of reading order.}
 
-\item{...}{Arguments passed to \code{\link[GenomicRanges:Granges]{GenomicRanges::Granges()}}.}
+\item{...}{Arguments passed to \code{\link[GenomicRanges:GRanges-class]{GenomicRanges::GRanges()}}.}
 }
 \value{
 A \linkS4class{HLARanges} object.

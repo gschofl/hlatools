@@ -18,16 +18,38 @@ valid_hla_loci_ <- function() {
     'HLA-DMA',  'HLA-DMB',
     'HLA-DOA',  'HLA-DOB',
     'HLA-DRA',
-    # 'HLA-DRB2'
     # 'HLA-H',    'HLA-HFE',
     # 'HLA-J',    'HLA-K',    'HLA-L',
-    'HLA-MICA',   'HLA-MICB'
+    'HLA-MICA', 'HLA-MICB', 'MICA', "MICB"
     # 'HLA-P',    'HLA-T',
     # 'TAP1',     'TAP2',
     # 'HLA-V',    'HLA-W',    'HLA-Y'
   )
 }
 
+feature_orders_ <- function(locus) {
+  stopifnot(!missing(locus))
+  locus <- match.arg(locus, valid_hla_loci_())
+  list(
+    'HLA-A'    = 2:16, 'HLA-B'    = 2:14, 'HLA-C' = 2:16,
+    'HLA-DPA1' = 2:8,  'HLA-DPB1' = 2:10,
+    'HLA-DQA1' = 2:8,  'HLA-DQB1' = 2:12,
+    'HLA-DRB1' = 2:12, 'HLA-DRB3' = 2:12, 'HLA-DRB4' = 2:12, 'HLA-DRB5' = 2:12,
+    'HLA-E'    = 2:16, 'HLA-F'    = 2:14, 'HLA-G' = 2:12,
+    'HLA-DMA'  = 2:10, 'HLA-DMB'  = 2:12,
+    'HLA-DOA'  = 2:10, 'HLA-DOB'  = 2:12,
+    'HLA-DRA'  = 2:8,
+    # 'HLA-H',    'HLA-HFE',
+    # 'HLA-J',    'HLA-K',    'HLA-L',
+    'HLA-MICA' = 2:12, 'HLA-MICB' = 2:12,
+    'MICA'     = 2:12, 'MICB'     = 2:12
+    # 'HLA-P',    'HLA-T',
+    # 'TAP1',     'TAP2',
+    # 'HLA-V',    'HLA-W',    'HLA-Y'
+  )[[locus]]
+}
+
+locus <- "HLA-A"
 expand_hla_allele <- function(x, locus = NULL) {
   if (is.null(locus)) {
     ifelse(!grepl("^HLA-\\S+", x), paste0("HLA-", x), x)

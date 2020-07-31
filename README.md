@@ -1,32 +1,32 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-hlatools
-========
 
-Overview
---------
+# hlatools
 
-`hlatools` provides a collection of tools to work with [IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) data
+## Overview
 
-Installation
-------------
+`hlatools` provides a collection of tools to work with
+[IPD-IMGT/HLA](https://www.ebi.ac.uk/ipd/imgt/hla/) data
 
-Install from GitHub using `devtools`:
+## Installation
+
+Install from GitHub using `remotes`:
 
 ``` r
-devtools::install_github("gschofl/hlatools")
+remotes::install_github("gschofl/hlatools")
 ```
 
-Usage
------
+## Usage
 
 ### Get HLA data
 
--   `clone_IMGTHLA()`: Clone the *ANHIG/IMGTHLA* repo on [GitHub](https://github.com/ANHIG/IMGTHLA) to a location specified by the option `hlatools.local_repos`. Defaults to *~/local/db/*.
+  - `clone_IMGTHLA()`: Clone the *ANHIG/IMGTHLA* repo on
+    [GitHub](https://github.com/ANHIG/IMGTHLA) to a location specified
+    by the option `hlatools.local_repos`. Defaults to *\~/local/db/*.
 
--   `pull_IMGTHLA()`: Send a pull request to *ANHIG/IMGTHLA*.
+  - `pull_IMGTHLA()`: Send a pull request to *ANHIG/IMGTHLA*.
 
--   `check_IMGTHLA()`: Check if your local repository is up-to-date.
+  - `check_IMGTHLA()`: Check if your local repository is up-to-date.
 
 ### Read HLA data
 
@@ -35,35 +35,35 @@ A HLA gene can be read into a `HLAGene` object:
 ``` r
 x <- hlatools::HLAGene("DPB1")
 x
-#> IPD-IMGT/HLA database <3.31.0>; Locus <HLA-DPB1>
+#> IPD-IMGT/HLA database <3.41.0>; Locus <HLA-DPB1>
 #> An object of class 'HLAAllele' for 'HLA-DPB1'
-#> DataFrame with 962 rows and 6 columns
-#>              allele_name        g_group     p_group      cwd_status
-#>              <character>    <character> <character>     <character>
-#> 1   HLA-DPB1*01:01:01:01 DPB1*01:01:01G DPB1*01:01P          Common
-#> 2   HLA-DPB1*01:01:01:02 DPB1*01:01:01G DPB1*01:01P Not CWD defined
-#> 3   HLA-DPB1*01:01:01:03 DPB1*01:01:01G DPB1*01:01P Not CWD defined
-#> 4   HLA-DPB1*01:01:01:04 DPB1*01:01:01G DPB1*01:01P Not CWD defined
-#> 5   HLA-DPB1*01:01:02:01 DPB1*01:01:02G DPB1*01:01P          Common
-#> ...                  ...            ...         ...             ...
-#> 958      HLA-DPB1*689:01           None        None Not CWD defined
-#> 959      HLA-DPB1*690:01           None        None Not CWD defined
-#> 960     HLA-DPB1*691:01N           None        None Not CWD defined
-#> 961      HLA-DPB1*692:01           None        None Not CWD defined
-#> 962     HLA-DPB1*693:01N           None        None Not CWD defined
-#>        SeqLen                                                  FeatureType
-#>     <integer>                                                  <character>
-#> 1       11468 UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
-#> 2       11468 UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
-#> 3       11468 UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
-#> 4       11468 UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
-#> 5       11469 UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
-#> ...       ...                                                          ...
-#> 958       264                                                         Exon
-#> 959       264                                                         Exon
-#> 960       264                                                         Exon
-#> 961       264                                                         Exon
-#> 962       263                                                         Exon
+#> DataFrame with 1584 rows and 6 columns
+#>               allele_name        g_group     p_group      cwd_status    SeqLen
+#>               <character>    <character> <character>     <character> <integer>
+#> 1    HLA-DPB1*01:01:01:01 DPB1*01:01:01G DPB1*01:01P          Common     11468
+#> 2    HLA-DPB1*01:01:01:02 DPB1*01:01:01G DPB1*01:01P Not CWD defined     11468
+#> 3    HLA-DPB1*01:01:01:03 DPB1*01:01:01G DPB1*01:01P Not CWD defined     11468
+#> 4    HLA-DPB1*01:01:01:04 DPB1*01:01:01G DPB1*01:01P Not CWD defined     11468
+#> 5    HLA-DPB1*01:01:01:05 DPB1*01:01:01G DPB1*01:01P Not CWD defined     11030
+#> ...                   ...            ...         ...             ...       ...
+#> 1580     HLA-DPB1*1116:01           None        None Not CWD defined       677
+#> 1581     HLA-DPB1*1117:01 DPB1*05:01:01G DPB1*05:01P Not CWD defined       677
+#> 1582     HLA-DPB1*1118:01 DPB1*05:01:01G DPB1*05:01P Not CWD defined       657
+#> 1583     HLA-DPB1*1119:01 DPB1*05:01:01G DPB1*05:01P Not CWD defined       657
+#> 1584     HLA-DPB1*1120:01 DPB1*05:01:01G DPB1*05:01P Not CWD defined       657
+#>                                                       FeatureType
+#>                                                       <character>
+#> 1    UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
+#> 2    UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
+#> 3    UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
+#> 4    UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
+#> 5    UTR:Exon:Intron:Exon:Intron:Exon:Intron:Exon:Intron:Exon:UTR
+#> ...                                                           ...
+#> 1580                                          Exon:Exon:Exon:Exon
+#> 1581                                          Exon:Exon:Exon:Exon
+#> 1582                                               Exon:Exon:Exon
+#> 1583                                               Exon:Exon:Exon
+#> 1584                                               Exon:Exon:Exon
 ```
 
 A number of accessor functions can be used to work with these objects:
@@ -71,7 +71,7 @@ A number of accessor functions can be used to work with these objects:
 ``` r
 x <- hlatools::HLAGene("DPA1")
 hlatools::db_version(x)
-#> [1] '3.31.0'
+#> [1] '3.41.0'
 hlatools::locusname(x)
 #> [1] "HLA-DPA1"
 x1 <- x[hlatools::is_complete(x)][1:10]
@@ -81,13 +81,12 @@ hlatools::allele_name(x1)
 #>  [7] "HLA-DPA1*01:03:01:07" "HLA-DPA1*01:03:01:08" "HLA-DPA1*01:03:01:09"
 #> [10] "HLA-DPA1*01:03:01:10"
 hlatools::cwd_status(x1)
-#>  [1] "Common"          "Not CWD defined" "Not CWD defined"
-#>  [4] "Not CWD defined" "Not CWD defined" "Not CWD defined"
-#>  [7] "Not CWD defined" "Not CWD defined" "Not CWD defined"
-#> [10] "Not CWD defined"
+#>  [1] "Common"          "Not CWD defined" "Not CWD defined" "Not CWD defined"
+#>  [5] "Not CWD defined" "Not CWD defined" "Not CWD defined" "Not CWD defined"
+#>  [9] "Not CWD defined" "Not CWD defined"
 hlatools::ethnicity(x1)
-#>  [1] "Caucasoid:Oriental" "Caucasoid"          "Unknown"           
-#>  [4] "Unknown"            "Caucasoid"          "Oriental"          
+#>  [1] "Caucasoid:Oriental" "Caucasoid:Black"    "Caucasoid"         
+#>  [4] "Caucasoid"          "Caucasoid"          "Oriental"          
 #>  [7] "Oriental"           "Oriental"           "Caucasoid"         
 #> [10] "Caucasoid"
 hlatools::g_group(x1)
@@ -98,31 +97,31 @@ hlatools::p_group(x1)
 #>  [1] "DPA1*01:03P" "DPA1*01:03P" "DPA1*01:03P" "DPA1*01:03P" "DPA1*01:03P"
 #>  [6] "DPA1*01:03P" "DPA1*01:03P" "DPA1*01:03P" "DPA1*01:03P" "DPA1*01:03P"
 hlatools::sequences(x1)
-#>   A DNAStringSet instance of length 10
-#>      width seq                                         names               
-#>  [1]  9775 GGTGGACCTGAAAGAAAGAT...AAAAGGAATTGTTTAAAGTA HLA-DPA1*01:03:01:01
-#>  [2]  9775 GGTGGACCTGAAAGAAAGAT...AAAAGGAATTGTTTAAAGTA HLA-DPA1*01:03:01:02
-#>  [3]  9775 GGTGGACCTGAAAGAAAGAT...AAAAGGAATTGTTTAAAGTA HLA-DPA1*01:03:01:03
-#>  [4]  9775 GGTGGACCTGAAAGAAAGAT...AAAAGGAATTGTTTAAAGTA HLA-DPA1*01:03:01:04
-#>  [5]  9757 GGTGGACCTGAAAGAAAGAT...AAAAGGAATTGTTTAAAGTA HLA-DPA1*01:03:01:05
-#>  [6]  9479 AAATTCTCCCATCTCTTCCC...AAAAGGAATTGTTTAAAGTA HLA-DPA1*01:03:01:06
-#>  [7]  9477 AAATTCTCCCATCTCTTCCC...AAAAGGAATTGTTTAAAGTA HLA-DPA1*01:03:01:07
-#>  [8]  9478 AAATTCTCCCATCTCTTCCC...AAAAGGAATTGTTTAAAGTA HLA-DPA1*01:03:01:08
-#>  [9]  5265 TTACCCAGCAACAGAGAATG...GATAACTAACTGAGTAGTTA HLA-DPA1*01:03:01:09
-#> [10]  5266 TTACCCAGCAACAGAGAATG...GATAACTAACTGAGTAGTTA HLA-DPA1*01:03:01:10
+#> DNAStringSet object of length 10:
+#>      width seq                                              names               
+#>  [1]  9775 GGTGGACCTGAAAGAAAGATTAA...AAAAAAGGAATTGTTTAAAGTA HLA-DPA1*01:03:01:01
+#>  [2]  9775 GGTGGACCTGAAAGAAAGATTAA...AAAAAAGGAATTGTTTAAAGTA HLA-DPA1*01:03:01:02
+#>  [3]  9775 GGTGGACCTGAAAGAAAGATTAA...AAAAAAGGAATTGTTTAAAGTA HLA-DPA1*01:03:01:03
+#>  [4]  9775 GGTGGACCTGAAAGAAAGATTAA...AAAAAAGGAATTGTTTAAAGTA HLA-DPA1*01:03:01:04
+#>  [5]  9757 GGTGGACCTGAAAGAAAGATTAA...AAAAAAGGAATTGTTTAAAGTA HLA-DPA1*01:03:01:05
+#>  [6]  9479 AAATTCTCCCATCTCTTCCCCAG...AAAAAAGGAATTGTTTAAAGTA HLA-DPA1*01:03:01:06
+#>  [7]  9477 AAATTCTCCCATCTCTTCCCCAG...AAAAAAGGAATTGTTTAAAGTA HLA-DPA1*01:03:01:07
+#>  [8]  9478 AAATTCTCCCATCTCTTCCCCAG...AAAAAAGGAATTGTTTAAAGTA HLA-DPA1*01:03:01:08
+#>  [9]  5265 TTACCCAGCAACAGAGAATGTCA...CCGATAACTAACTGAGTAGTTA HLA-DPA1*01:03:01:09
+#> [10]  5735 TTTTTACATCTCTTTCTCTAACT...GGTGGGTGCCTGTAACTACTTA HLA-DPA1*01:03:01:10
 hlatools::exon(x1, exon = 2)
-#>   A DNAStringSet instance of length 10
-#>      width seq                                         names               
-#>  [1]   246 CGGACCATGTGTCAACTTAT...CCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
-#>  [2]   246 CGGACCATGTGTCAACTTAT...CCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
-#>  [3]   246 CGGACCATGTGTCAACTTAT...CCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
-#>  [4]   246 CGGACCATGTGTCAACTTAT...CCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
-#>  [5]   246 CGGACCATGTGTCAACTTAT...CCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
-#>  [6]   246 CGGACCATGTGTCAACTTAT...CCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
-#>  [7]   246 CGGACCATGTGTCAACTTAT...CCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
-#>  [8]   246 CGGACCATGTGTCAACTTAT...CCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
-#>  [9]   246 CGGACCATGTGTCAACTTAT...CCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
-#> [10]   246 CGGACCATGTGTCAACTTAT...CCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
+#> DNAStringSet object of length 10:
+#>      width seq                                              names               
+#>  [1]   246 CGGACCATGTGTCAACTTATGCC...AACCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
+#>  [2]   246 CGGACCATGTGTCAACTTATGCC...AACCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
+#>  [3]   246 CGGACCATGTGTCAACTTATGCC...AACCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
+#>  [4]   246 CGGACCATGTGTCAACTTATGCC...AACCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
+#>  [5]   246 CGGACCATGTGTCAACTTATGCC...AACCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
+#>  [6]   246 CGGACCATGTGTCAACTTATGCC...AACCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
+#>  [7]   246 CGGACCATGTGTCAACTTATGCC...AACCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
+#>  [8]   246 CGGACCATGTGTCAACTTATGCC...AACCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
+#>  [9]   246 CGGACCATGTGTCAACTTATGCC...AACCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
+#> [10]   246 CGGACCATGTGTCAACTTATGCC...AACCACACTCAGGCCACCAACG HLA-DPA1*01:03:01...
 ```
 
 We can access previous releases of the IPD-IMGT/HLA database:
@@ -192,135 +191,101 @@ x[hlatools::cwd_status(x) == "Common"][1:10]
 #> 10                                     Exon:Exon:Exon:Exon:Exon
 ```
 
-These obects come with an additional set of `R6`-methods that implement an API used mostly in conjunction with the `DR2S` package:
+These objects come with an additional set of `R6`-methods that implement
+an API used mostly in conjunction with the `DR2S` package:
 
--   `x$get_closest_complete_neighbor(allele, partially = TRUE)`: Find the closest full-length allele based on the genetic distance between exon sequences.
+  - `x$get_closest_complete_neighbor(allele, partially = TRUE)`: Find
+    the closest full-length allele based on the genetic distance between
+    exon sequences.
 
--   `x$get_reference_sequence(allele)`: Return a `BStringSet` object of a full-length reference sequence for `allele`. If `allele` is not fully known the missing stretches are taken from the allele returned by a call to `get_closest_complete_neighbor()`.
+  - `x$get_reference_sequence(allele)`: Return a `BStringSet` object of
+    a full-length reference sequence for `allele`. If `allele` is not
+    fully known the missing stretches are taken from the allele returned
+    by a call to `get_closest_complete_neighbor()`.
 
 ### Session Info
 
-    #> Session info -------------------------------------------------------------
+    #> ─ Session info ───────────────────────────────────────────────────────────────
     #>  setting  value                       
-    #>  version  R version 3.4.3 (2017-11-30)
+    #>  version  R version 4.0.2 (2020-06-22)
+    #>  os       Ubuntu 20.04.1 LTS          
     #>  system   x86_64, linux-gnu           
     #>  ui       X11                         
     #>  language en_GB:en                    
     #>  collate  en_GB.UTF-8                 
+    #>  ctype    en_GB.UTF-8                 
     #>  tz       Europe/Berlin               
-    #>  date     2018-02-28
-    #> Packages -----------------------------------------------------------------
-    #>  package              * version    date      
-    #>  assertive.base         0.0-7      2016-12-30
-    #>  assertive.properties   0.0-4      2016-12-30
-    #>  assertthat             0.2.0      2017-04-11
-    #>  backports              1.1.2      2017-12-13
-    #>  base                 * 3.4.3      2017-12-01
-    #>  bindr                  0.1        2016-11-13
-    #>  bindrcpp               0.2        2017-06-17
-    #>  BiocGenerics           0.24.0     2017-11-17
-    #>  Biostrings             2.46.0     2017-11-17
-    #>  bitops                 1.0-6      2013-08-17
-    #>  codetools              0.2-15     2016-10-05
-    #>  compiler               3.4.3      2017-12-01
-    #>  data.table             1.10.4-3   2017-10-27
-    #>  datasets             * 3.4.3      2017-12-01
-    #>  devtools               1.13.5     2018-02-18
-    #>  digest                 0.6.15     2018-01-28
-    #>  dplyr                  0.7.4      2017-09-28
-    #>  evaluate               0.10.1     2017-06-24
-    #>  foreach                1.4.4      2017-12-12
-    #>  GenomeInfoDb           1.14.0     2017-11-17
-    #>  GenomeInfoDbData       0.99.1     2017-11-17
-    #>  GenomicRanges          1.30.0     2017-11-17
-    #>  git2r                  0.21.0     2018-01-04
-    #>  glue                   1.2.0.9000 2018-02-27
-    #>  graphics             * 3.4.3      2017-12-01
-    #>  grDevices            * 3.4.3      2017-12-01
-    #>  hlatools             * 0.0.7.9000 2018-02-28
-    #>  htmltools              0.3.6      2017-04-28
-    #>  IRanges                2.12.0     2017-11-17
-    #>  iterators              1.0.9      2017-12-12
-    #>  knitr                  1.20       2018-02-20
-    #>  magrittr               1.5        2014-11-22
-    #>  memoise                1.1.0      2017-04-21
-    #>  methods              * 3.4.3      2017-12-01
-    #>  parallel               3.4.3      2017-12-01
-    #>  pillar                 1.2.0      2018-02-26
-    #>  pkgconfig              2.0.1      2017-03-21
-    #>  R6                     2.2.2      2017-06-17
-    #>  Rcpp                   0.12.15    2018-01-20
-    #>  RCurl                  1.95-4.10  2018-01-04
-    #>  rlang                  0.2.0.9000 2018-02-27
-    #>  rmarkdown              1.8        2017-11-17
-    #>  rprojroot              1.3-2      2018-01-03
-    #>  S4Vectors              0.16.0     2017-11-17
-    #>  stats                * 3.4.3      2017-12-01
-    #>  stats4                 3.4.3      2017-12-01
-    #>  stringi                1.1.6      2017-11-17
-    #>  stringr                1.3.0      2018-02-19
-    #>  tibble                 1.4.2      2018-01-22
-    #>  tools                  3.4.3      2017-12-01
-    #>  utils                * 3.4.3      2017-12-01
-    #>  withr                  2.1.1.9000 2018-02-27
-    #>  xml2                   1.2.0      2018-01-24
-    #>  XVector                0.18.0     2017-11-17
-    #>  yaml                   2.1.16     2017-12-12
-    #>  zlibbioc               1.24.0     2017-11-17
-    #>  source                         
-    #>  CRAN (R 3.4.2)                 
-    #>  CRAN (R 3.4.2)                 
-    #>  CRAN (R 3.4.2)                 
-    #>  cran (@1.1.2)                  
-    #>  local                          
-    #>  CRAN (R 3.4.2)                 
-    #>  cran (@0.2)                    
-    #>  Bioconductor                   
-    #>  Bioconductor                   
-    #>  CRAN (R 3.4.2)                 
-    #>  CRAN (R 3.3.1)                 
-    #>  local                          
-    #>  cran (@1.10.4-)                
-    #>  local                          
-    #>  cran (@1.13.5)                 
-    #>  cran (@0.6.15)                 
-    #>  cran (@0.7.4)                  
-    #>  cran (@0.10.1)                 
-    #>  cran (@1.4.4)                  
-    #>  Bioconductor                   
-    #>  Bioconductor                   
-    #>  Bioconductor                   
-    #>  cran (@0.21.0)                 
-    #>  Github (tidyverse/glue@9d96cbf)
-    #>  local                          
-    #>  local                          
-    #>  local (gschofl/hlatools@NA)    
-    #>  CRAN (R 3.4.2)                 
-    #>  Bioconductor                   
-    #>  cran (@1.0.9)                  
-    #>  cran (@1.20)                   
-    #>  CRAN (R 3.4.2)                 
-    #>  CRAN (R 3.4.2)                 
-    #>  local                          
-    #>  local                          
-    #>  cran (@1.2.0)                  
-    #>  CRAN (R 3.4.2)                 
-    #>  cran (@2.2.2)                  
-    #>  cran (@0.12.15)                
-    #>  cran (@1.95-4.)                
-    #>  Github (hadley/rlang@3143f00)  
-    #>  cran (@1.8)                    
-    #>  cran (@1.3-2)                  
-    #>  Bioconductor                   
-    #>  local                          
-    #>  local                          
-    #>  cran (@1.1.6)                  
-    #>  cran (@1.3.0)                  
-    #>  cran (@1.4.2)                  
-    #>  local                          
-    #>  local                          
-    #>  Github (r-lib/withr@5d05571)   
-    #>  cran (@1.2.0)                  
-    #>  Bioconductor                   
-    #>  cran (@2.1.16)                 
-    #>  Bioconductor
+    #>  date     2020-07-31                  
+    #> 
+    #> ─ Packages ───────────────────────────────────────────────────────────────────
+    #>  package              * version  date       lib source        
+    #>  assertive.base         0.0-7    2016-12-30 [1] CRAN (R 4.0.0)
+    #>  assertive.properties   0.0-4    2016-12-30 [1] CRAN (R 4.0.0)
+    #>  assertthat             0.2.1    2019-03-21 [1] CRAN (R 4.0.0)
+    #>  backports              1.1.8    2020-06-17 [1] CRAN (R 4.0.1)
+    #>  BiocGenerics           0.34.0   2020-04-27 [1] Bioconductor  
+    #>  Biostrings             2.56.0   2020-04-27 [1] Bioconductor  
+    #>  bitops                 1.0-6    2013-08-17 [1] CRAN (R 4.0.0)
+    #>  callr                  3.4.3    2020-03-28 [1] CRAN (R 4.0.0)
+    #>  cli                    2.0.2    2020-02-28 [1] CRAN (R 4.0.0)
+    #>  codetools              0.2-16   2018-12-24 [1] CRAN (R 4.0.0)
+    #>  crayon                 1.3.4    2017-09-16 [1] CRAN (R 4.0.0)
+    #>  data.table             1.13.0   2020-07-24 [1] CRAN (R 4.0.2)
+    #>  desc                   1.2.0    2018-05-01 [1] CRAN (R 4.0.0)
+    #>  devtools               2.3.1    2020-07-21 [1] CRAN (R 4.0.2)
+    #>  digest                 0.6.25   2020-02-23 [1] CRAN (R 4.0.0)
+    #>  dplyr                  1.0.1    2020-07-31 [1] CRAN (R 4.0.2)
+    #>  ellipsis               0.3.1    2020-05-15 [1] CRAN (R 4.0.0)
+    #>  evaluate               0.14     2019-05-28 [1] CRAN (R 4.0.0)
+    #>  fansi                  0.4.1    2020-01-08 [1] CRAN (R 4.0.0)
+    #>  foreach                1.5.0    2020-03-30 [1] CRAN (R 4.0.0)
+    #>  fs                     1.4.2    2020-06-30 [1] CRAN (R 4.0.2)
+    #>  generics               0.0.2    2018-11-29 [1] CRAN (R 4.0.0)
+    #>  GenomeInfoDb           1.24.2   2020-06-15 [1] Bioconductor  
+    #>  GenomeInfoDbData       1.2.3    2020-05-05 [1] Bioconductor  
+    #>  GenomicRanges          1.40.0   2020-04-27 [1] Bioconductor  
+    #>  git2r                  0.27.1   2020-05-03 [1] CRAN (R 4.0.0)
+    #>  glue                   1.4.1    2020-05-13 [1] CRAN (R 4.0.0)
+    #>  hlatools             * 0.1.5    2020-07-31 [1] local         
+    #>  htmltools              0.5.0    2020-06-16 [1] CRAN (R 4.0.1)
+    #>  IRanges                2.22.2   2020-05-21 [1] Bioconductor  
+    #>  iterators              1.0.12   2019-07-26 [1] CRAN (R 4.0.0)
+    #>  knitr                  1.29     2020-06-23 [1] CRAN (R 4.0.2)
+    #>  lifecycle              0.2.0    2020-03-06 [1] CRAN (R 4.0.0)
+    #>  magrittr               1.5      2014-11-22 [1] CRAN (R 4.0.0)
+    #>  memoise                1.1.0    2017-04-21 [1] CRAN (R 4.0.0)
+    #>  pillar                 1.4.6    2020-07-10 [1] CRAN (R 4.0.2)
+    #>  pkgbuild               1.1.0    2020-07-13 [1] CRAN (R 4.0.2)
+    #>  pkgconfig              2.0.3    2019-09-22 [1] CRAN (R 4.0.0)
+    #>  pkgload                1.1.0    2020-05-29 [1] CRAN (R 4.0.1)
+    #>  prettyunits            1.1.1    2020-01-24 [1] CRAN (R 4.0.0)
+    #>  processx               3.4.3    2020-07-05 [1] CRAN (R 4.0.2)
+    #>  ps                     1.3.3    2020-05-08 [1] CRAN (R 4.0.0)
+    #>  purrr                  0.3.4    2020-04-17 [1] CRAN (R 4.0.0)
+    #>  R6                     2.4.1    2019-11-12 [1] CRAN (R 4.0.0)
+    #>  Rcpp                   1.0.5    2020-07-06 [1] CRAN (R 4.0.2)
+    #>  RCurl                  1.98-1.2 2020-04-18 [1] CRAN (R 4.0.0)
+    #>  remotes                2.2.0    2020-07-21 [1] CRAN (R 4.0.2)
+    #>  rlang                  0.4.7    2020-07-09 [1] CRAN (R 4.0.2)
+    #>  rmarkdown              2.3      2020-06-18 [1] CRAN (R 4.0.2)
+    #>  rprojroot              1.3-2    2018-01-03 [1] CRAN (R 4.0.0)
+    #>  S4Vectors              0.26.1   2020-05-16 [1] Bioconductor  
+    #>  sessioninfo            1.1.1    2018-11-05 [1] CRAN (R 4.0.0)
+    #>  stringi                1.4.6    2020-02-17 [1] CRAN (R 4.0.0)
+    #>  stringr                1.4.0    2019-02-10 [1] CRAN (R 4.0.0)
+    #>  testthat               2.3.2    2020-03-02 [1] CRAN (R 4.0.0)
+    #>  tibble                 3.0.3    2020-07-10 [1] CRAN (R 4.0.2)
+    #>  tidyselect             1.1.0    2020-05-11 [1] CRAN (R 4.0.0)
+    #>  usethis                1.6.1    2020-04-29 [1] CRAN (R 4.0.0)
+    #>  vctrs                  0.3.2    2020-07-15 [1] CRAN (R 4.0.2)
+    #>  withr                  2.2.0    2020-04-20 [1] CRAN (R 4.0.0)
+    #>  xfun                   0.16     2020-07-24 [1] CRAN (R 4.0.2)
+    #>  xml2                   1.3.2    2020-04-23 [1] CRAN (R 4.0.0)
+    #>  XVector                0.28.0   2020-04-27 [1] Bioconductor  
+    #>  yaml                   2.2.1    2020-02-01 [1] CRAN (R 4.0.0)
+    #>  zlibbioc               1.34.0   2020-04-27 [1] Bioconductor  
+    #> 
+    #> [1] /home/gerhard/local/R/Library
+    #> [2] /usr/local/lib/R/site-library
+    #> [3] /usr/lib/R/site-library
+    #> [4] /usr/lib/R/library
