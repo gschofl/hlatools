@@ -9,7 +9,7 @@
     ]
   },
   "Bioconductor": {
-    "Version": null
+    "Version": "3.11"
   },
   "Packages": {
     "BH": {
@@ -24,6 +24,13 @@
       "Version": "0.34.0",
       "Source": "Bioconductor",
       "Hash": "ae191b5608f175de0f69b6302390c705"
+    },
+    "BiocManager": {
+      "Package": "BiocManager",
+      "Version": "1.30.10",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "db75371846625725e221470b310da1d5"
     },
     "Biostrings": {
       "Package": "Biostrings",

@@ -13,4 +13,3 @@
   ##
   invisible(NULL)
 }
-

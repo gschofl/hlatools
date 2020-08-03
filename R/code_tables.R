@@ -179,7 +179,3 @@ print.allele_tbl <- function(x, ..., n = 5) {
   NextMethod(n = n)
   cat("...\n", sep = "")
 }
-
-
-
-

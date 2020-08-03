@@ -335,4 +335,3 @@ setGeneric("getStatus", signature = "x", function(x, ...) standardGeneric("getSt
 #' @examples
 #' ##
 setGeneric("getFrame", signature = "x", function(x, ...) standardGeneric("getFrame"))
-

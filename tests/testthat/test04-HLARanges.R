@@ -29,4 +29,3 @@ test_that("HLARanges to string works", {
   ##
   expect_is(as(string1, "HLARanges"), "HLARanges")
 })
-

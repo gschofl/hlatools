@@ -106,5 +106,3 @@ ihasNext <- function(it) {
     class = c("ihasNext", "abstractiter", "iter")
   )
 }
-
-

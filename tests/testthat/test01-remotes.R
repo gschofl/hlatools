@@ -41,6 +41,3 @@ test_that("check_IMGTHLA works", {
   skip_if_not(local_repo)
   expect_message(check_IMGTHLA(), "Your local IPD-IMGT/HLA repository is up-to-date", fixed = TRUE)
 })
-
-
-

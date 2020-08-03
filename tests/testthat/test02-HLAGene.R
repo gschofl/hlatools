@@ -54,9 +54,3 @@ test_that("HLAGene element-wise API", {
   y <- dpa["01:03"]
   expect_equal(length(y), 12)
 })
-
-
-
-
-
-

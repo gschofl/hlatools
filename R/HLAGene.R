@@ -481,12 +481,10 @@ hla_dat_ft <- function(x) {
   tbl <- as(names(x), "HLARanges")
   nm <- names(tbl)
   nm <- ifelse(grepl("UTR$", nm), "UTR", nm)
-  status   <- getStatus(tbl)
   keys     <- strsplitN(nm, " ", 1)
   numbers  <- strsplitN(nm, " ", 2)
   keys     <- ifelse(keys == "UTR", keys, tolower(keys))
   numbers  <- ifelse(numbers == "UTR", "", numbers)
-  #partials <- ifelse(is.na(status) | status == "Complete", FALSE, TRUE)
   foreach(k = keys, s = start(tbl), e = end(tbl), n = numbers, .combine = "paste0") %do% {
     l1 <- sprintf("FT   %-16s%s..%s\n", k, s, e)
     l2 <- if (nzchar(n)) {
@@ -511,6 +509,3 @@ hla_dat_sq <- function(x) {
   l3 <- "\n//"
   paste0(l1, l2, l3)
 }
-
-
-

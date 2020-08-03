@@ -277,7 +277,7 @@ setAs(from = "HLAAllele", to = "data.table", function(from) {
     data_assigned = lubridate::ymd(hlatools::elementMetadata(from)$date_assigned),
     cwd_status = cwd_status(from),
     ethnicity = gsub(":", "|", ethnicity(from)),
-    exons = vapply(fts, function(x) collapse(getOrder(x)[getType(x) == "Exon"]/2), FUN.VALUE = "", USE.NAMES = FALSE),
+    exons = vapply(fts, function(x) collapse(getOrder(x)[getType(x) == "Exon"] / 2), FUN.VALUE = "", USE.NAMES = FALSE),
     exon_status = vapply(fts, function(x) collapse(substr(getStatus(x), 1, 1)[getType(x) == "Exon"]), FUN.VALUE = "", USE.NAMES = FALSE)
   ))
 })

@@ -153,6 +153,3 @@ checkout_db_version <- function(db_version = "Latest",
 
   invisible(repo)
 }
-
-
-

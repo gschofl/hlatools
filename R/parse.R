@@ -101,7 +101,7 @@ make_hla_allele_parser <- function() {
     # @keywords internal
     parse_sequence = function(nodes) {
       ns     <- xml2::xml_ns(nodes)
-      xpath  <- './d1:sequence/d1:nucsequence'
+      xpath  <- "./d1:sequence/d1:nucsequence"
       nucseq <- Biostrings::DNAStringSet(xml2::xml_text(xml2::xml_find_all(nodes, xpath, ns)))
       nucseq_names <- xml2::xml_attr(nodes, "name")
       #message("L1: ", length(nucseq))
@@ -134,7 +134,7 @@ make_hla_allele_parser <- function() {
         colon(xml2::xml_attr(xml2::xml_children(node), "name"))
       }, FUN.VALUE = character(1))
       ## Expected number of Exons and introns for completeness
-      nfeatures <- length(feature_orders_(locus = locusname))
+      #nfeatures <- length(feature_orders_(locus = locusname))
       ##
       S4Vectors::DataFrame(
         ##
@@ -213,4 +213,3 @@ make_hla_allele_parser <- function() {
 }
 
 HLAAllele_parser <- make_hla_allele_parser()
-

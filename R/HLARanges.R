@@ -250,4 +250,3 @@ setAs("character", "HLARanges", function(from) string_to_HLARanges(from))
 setAs("character", "HLARangesList", function(from) {
   HLARangesList(lapply(from, string_to_HLARanges))
 })
-
