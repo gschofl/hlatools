@@ -49,7 +49,6 @@ feature_orders_ <- function(locus) {
   )[[locus]]
 }
 
-locus <- "HLA-A"
 expand_hla_allele <- function(x, locus = NULL) {
   if (is.null(locus)) {
     ifelse(!grepl("^HLA-\\S+", x), paste0("HLA-", x), x)

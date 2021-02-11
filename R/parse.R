@@ -73,7 +73,7 @@ parse_hla_alleles <- function(doc, locusname, ncores = parallel::detectCores() -
     locusname0 <- locusname
     locusname  <- "HLA-DRB"
   }
-  if (dbv >= "3.29.0" && startsWith(locusname, "HLA-MIC")) {
+  if (dbv >= "3.29.0" && dbv <= "3.40.0" && startsWith(locusname, "HLA-MIC")) {
     locusname  <- sub("HLA-", "", locusname)
   }
   ns <- xml2::xml_ns(doc)
