@@ -73,7 +73,20 @@ parse_hla_alleles <- function(doc, locusname, ncores = parallel::detectCores() -
     locusname0 <- locusname
     locusname  <- "HLA-DRB"
   }
-  if (dbv >= "3.29.0" && dbv <= "3.40.0" && startsWith(locusname, "HLA-MIC")) {
+  ## version <= 3.38.0 : HLA-MICA
+  ## version == 3.39.0 : MICA
+  ## version >= 3.40.0 : HLA-MICA
+
+  # db_path <- getOption("hlatools.local_repos")
+  # checkout_db_version("3.39.0", db_path)
+  # doc <- read_hla_xml(db_path)
+  # (dbv <- numeric_version(xml2::xml_attr(xml2::xml_find_all(doc, "//d1:alleles/d1:allele[1]/d1:releaseversions"), "currentrelease")))
+  # ns <- xml2::xml_ns(doc)
+  # xpath1 <- paste0("/d1:alleles/d1:allele/d1:locus[@locusname='MICA']/parent::node()")
+  # xml2::xml_find_all(doc, xpath1, ns)
+  # checkout_db_version("Latest", db_path)
+
+  if (dbv == "3.39.0" && startsWith(locusname, "HLA-MIC")) {
     locusname  <- sub("HLA-", "", locusname)
   }
   ns <- xml2::xml_ns(doc)

@@ -1,7 +1,15 @@
 # hlatools 0.1.6
 
+* Update for IPD-IMGT/HLA 3.44.0
+
+# hlatools 0.1.7
+
+Fix more broken parsing of MICA and MICB
+
+# hlatools 0.1.6
+
 * Update for IPD-IMGT/HLA 3.40.2, 3.42.0 and 3.43.0
-* Fix parsing MICA and MIC, which was broken since 3.40.0
+* Fix parsing MICA and MICB, which was broken since 3.40.0
 
 # hlatools 0.1.5
 
