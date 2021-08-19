@@ -1,6 +1,6 @@
 {
   "R": {
-    "Version": "4.0.5",
+    "Version": "4.1.1",
     "Repositories": [
       {
         "Name": "CRAN",
@@ -12,13 +12,6 @@
     "Version": "3.13"
   },
   "Packages": {
-    "BH": {
-      "Package": "BH",
-      "Version": "1.75.0-0",
-      "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "e4c04affc2cac20c8fec18385cd14691"
-    },
     "BiocGenerics": {
       "Package": "BiocGenerics",
       "Version": "0.38.0",
@@ -98,10 +91,10 @@
     },
     "Rcpp": {
       "Package": "Rcpp",
-      "Version": "1.0.6",
+      "Version": "1.0.7",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "dbb5e436998a7eba5a9d682060533338"
+      "Repository": "CRAN",
+      "Hash": "dab19adae4440ae55aa8a9d238b246bb"
     },
     "S4Vectors": {
       "Package": "S4Vectors",
@@ -299,10 +292,10 @@
     },
     "cli": {
       "Package": "cli",
-      "Version": "3.0.0",
+      "Version": "3.0.1",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "096829b701eec2d2b4538be63de97e75"
+      "Hash": "e3ae5d68dea0c55a12ea12a9fda02e61"
     },
     "clipr": {
       "Package": "clipr",
@@ -593,10 +586,10 @@
     },
     "pillar": {
       "Package": "pillar",
-      "Version": "1.6.1",
+      "Version": "1.6.2",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "8672ae02bd20f6479bce2d06c7ff1401"
+      "Repository": "CRAN",
+      "Hash": "43f228eb4b49093d1c8a5c93cae9efe9"
     },
     "pkgbuild": {
       "Package": "pkgbuild",
@@ -647,6 +640,13 @@
       "Repository": "RSPM",
       "Hash": "0cbca2bc4d16525d009c4dbba156b37c"
     },
+    "progress": {
+      "Package": "progress",
+      "Version": "1.2.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "14dc9f7a3c91ebb14ec5bb9208a07061"
+    },
     "ps": {
       "Package": "ps",
       "Version": "1.6.0",
@@ -677,10 +677,10 @@
     },
     "readr": {
       "Package": "readr",
-      "Version": "1.4.0",
+      "Version": "2.0.1",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "2639976851f71f330264a9c9c3d43a61"
+      "Repository": "CRAN",
+      "Hash": "34807ea4fb5900386ddef904eef8bdb8"
     },
     "rematch2": {
       "Package": "rematch2",
@@ -754,10 +754,10 @@
     },
     "stringi": {
       "Package": "stringi",
-      "Version": "1.6.2",
+      "Version": "1.7.3",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "9df5e6f9a7fa11b84adf0429961de66a"
+      "Repository": "CRAN",
+      "Hash": "7943cfae120c77a255025e5f63856532"
     },
     "stringr": {
       "Package": "stringr",
@@ -782,10 +782,10 @@
     },
     "tibble": {
       "Package": "tibble",
-      "Version": "3.1.2",
+      "Version": "3.1.3",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "349b40a9f144516d537c875e786ec8b8"
+      "Repository": "CRAN",
+      "Hash": "038455513fde65e79c25e724e0c84ca2"
     },
     "tidyselect": {
       "Package": "tidyselect",
@@ -801,6 +801,13 @@
       "Repository": "RSPM",
       "Hash": "db9a6f2cf147751322d22c9f6647c7bd"
     },
+    "tzdb": {
+      "Package": "tzdb",
+      "Version": "0.1.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "fb2b801053decce71295bb8cb04d438b"
+    },
     "usethis": {
       "Package": "usethis",
       "Version": "2.0.1",
@@ -810,10 +817,10 @@
     },
     "utf8": {
       "Package": "utf8",
-      "Version": "1.2.1",
+      "Version": "1.2.2",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "c3ad47dc6da0751f18ed53c4613e3ac7"
+      "Repository": "CRAN",
+      "Hash": "c9c462b759a5cc844ae25b5942654d13"
     },
     "vctrs": {
       "Package": "vctrs",
@@ -821,6 +828,13 @@
       "Source": "Repository",
       "Repository": "RSPM",
       "Hash": "ecf749a1b39ea72bd9b51b76292261f1"
+    },
+    "vroom": {
+      "Package": "vroom",
+      "Version": "1.5.4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "1a23013f39e67bb57cbda6f4ddde5470"
     },
     "waldo": {
       "Package": "waldo",
@@ -845,10 +859,10 @@
     },
     "xfun": {
       "Package": "xfun",
-      "Version": "0.24",
+      "Version": "0.25",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "88cdb9779a657ad80ad942245fffba31"
+      "Repository": "CRAN",
+      "Hash": "853d45ffff0a9af1e0af017cd359f75e"
     },
     "xml2": {
       "Package": "xml2",

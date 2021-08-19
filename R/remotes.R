@@ -118,8 +118,8 @@ check_IMGTHLA <- function(db_path = getOption("hlatools.local_repos")) {
 #' @keywords internal
 checkout_db_version <- function(db_version = "Latest",
                                 db_path = getOption("hlatools.local_repos")) {
-  db_versions <- c("Latest", paste("3", rev(0:44), "0", sep = "."))
-  db_version <- match.arg(db_version, db_versions)
+  db_versions <- "(Latest|\\d\\.\\d+\\.\\d)"
+  assertive.base::assert_all_are_true(grepl(db_versions, db_version))
   assertive.base::assert_all_are_true(
     requireNamespace("git2r", quietly = TRUE)
   )

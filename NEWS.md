@@ -1,3 +1,7 @@
+# hlatools 0.1.9
+
+* Update for IPD-IMGT/HLA 3.45.0
+
 # hlatools 0.1.6
 
 * Update for IPD-IMGT/HLA 3.44.0
