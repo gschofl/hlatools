@@ -14,26 +14,26 @@ A container for the allelic information of an HLA gene.
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{HLAGene_$new()}}
-\item \href{#method-print}{\code{HLAGene_$print()}}
-\item \href{#method-get_hlatools_version}{\code{HLAGene_$get_hlatools_version()}}
-\item \href{#method-get_db_version}{\code{HLAGene_$get_db_version()}}
-\item \href{#method-get_locusname}{\code{HLAGene_$get_locusname()}}
-\item \href{#method-get_alleles}{\code{HLAGene_$get_alleles()}}
-\item \href{#method-has_distances}{\code{HLAGene_$has_distances()}}
-\item \href{#method-calculate_exon_distance_matrix}{\code{HLAGene_$calculate_exon_distance_matrix()}}
-\item \href{#method-get_closest_complete_neighbor}{\code{HLAGene_$get_closest_complete_neighbor()}}
-\item \href{#method-get_reference_sequence}{\code{HLAGene_$get_reference_sequence()}}
-\item \href{#method-get_all_reference_sequences}{\code{HLAGene_$get_all_reference_sequences()}}
-\item \href{#method-get_reference_sequence_as_ft}{\code{HLAGene_$get_reference_sequence_as_ft()}}
-\item \href{#method-get_all_reference_sequences_as_ft}{\code{HLAGene_$get_all_reference_sequences_as_ft()}}
-\item \href{#method-get_extended_reference_set}{\code{HLAGene_$get_extended_reference_set()}}
-\item \href{#method-clone}{\code{HLAGene_$clone()}}
+\item \href{#method-HLAGene-new}{\code{HLAGene_$new()}}
+\item \href{#method-HLAGene-print}{\code{HLAGene_$print()}}
+\item \href{#method-HLAGene-get_hlatools_version}{\code{HLAGene_$get_hlatools_version()}}
+\item \href{#method-HLAGene-get_db_version}{\code{HLAGene_$get_db_version()}}
+\item \href{#method-HLAGene-get_locusname}{\code{HLAGene_$get_locusname()}}
+\item \href{#method-HLAGene-get_alleles}{\code{HLAGene_$get_alleles()}}
+\item \href{#method-HLAGene-has_distances}{\code{HLAGene_$has_distances()}}
+\item \href{#method-HLAGene-calculate_exon_distance_matrix}{\code{HLAGene_$calculate_exon_distance_matrix()}}
+\item \href{#method-HLAGene-get_closest_complete_neighbor}{\code{HLAGene_$get_closest_complete_neighbor()}}
+\item \href{#method-HLAGene-get_reference_sequence}{\code{HLAGene_$get_reference_sequence()}}
+\item \href{#method-HLAGene-get_all_reference_sequences}{\code{HLAGene_$get_all_reference_sequences()}}
+\item \href{#method-HLAGene-get_reference_sequence_as_ft}{\code{HLAGene_$get_reference_sequence_as_ft()}}
+\item \href{#method-HLAGene-get_all_reference_sequences_as_ft}{\code{HLAGene_$get_all_reference_sequences_as_ft()}}
+\item \href{#method-HLAGene-get_extended_reference_set}{\code{HLAGene_$get_extended_reference_set()}}
+\item \href{#method-HLAGene-clone}{\code{HLAGene_$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-HLAGene-new"></a>}}
+\if{latex}{\out{\hypertarget{method-HLAGene-new}{}}}
 \subsection{Method \code{new()}}{
 Create a new HLAgene object.
 \subsection{Usage}{
@@ -66,8 +66,8 @@ A new \code{HLAgene} object.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-HLAGene-print"></a>}}
+\if{latex}{\out{\hypertarget{method-HLAGene-print}{}}}
 \subsection{Method \code{print()}}{
 Display a HLAgene object.
 \subsection{Usage}{
@@ -76,8 +76,8 @@ Display a HLAgene object.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_hlatools_version"></a>}}
-\if{latex}{\out{\hypertarget{method-get_hlatools_version}{}}}
+\if{html}{\out{<a id="method-HLAGene-get_hlatools_version"></a>}}
+\if{latex}{\out{\hypertarget{method-HLAGene-get_hlatools_version}{}}}
 \subsection{Method \code{get_hlatools_version()}}{
 The package version under which a HLAGene object was created.
 \subsection{Usage}{
@@ -86,8 +86,8 @@ The package version under which a HLAGene object was created.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_db_version"></a>}}
-\if{latex}{\out{\hypertarget{method-get_db_version}{}}}
+\if{html}{\out{<a id="method-HLAGene-get_db_version"></a>}}
+\if{latex}{\out{\hypertarget{method-HLAGene-get_db_version}{}}}
 \subsection{Method \code{get_db_version()}}{
 The IPD-IMGT/HLA database version.
 \subsection{Usage}{
@@ -96,8 +96,8 @@ The IPD-IMGT/HLA database version.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_locusname"></a>}}
-\if{latex}{\out{\hypertarget{method-get_locusname}{}}}
+\if{html}{\out{<a id="method-HLAGene-get_locusname"></a>}}
+\if{latex}{\out{\hypertarget{method-HLAGene-get_locusname}{}}}
 \subsection{Method \code{get_locusname()}}{
 The name of the HLA locus.
 \subsection{Usage}{
@@ -106,8 +106,8 @@ The name of the HLA locus.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_alleles"></a>}}
-\if{latex}{\out{\hypertarget{method-get_alleles}{}}}
+\if{html}{\out{<a id="method-HLAGene-get_alleles"></a>}}
+\if{latex}{\out{\hypertarget{method-HLAGene-get_alleles}{}}}
 \subsection{Method \code{get_alleles()}}{
 A \link{HLAAllele} object.
 \subsection{Usage}{
@@ -123,8 +123,8 @@ A \link{HLAAllele} object.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-has_distances"></a>}}
-\if{latex}{\out{\hypertarget{method-has_distances}{}}}
+\if{html}{\out{<a id="method-HLAGene-has_distances"></a>}}
+\if{latex}{\out{\hypertarget{method-HLAGene-has_distances}{}}}
 \subsection{Method \code{has_distances()}}{
 Has a distance matrix between all alleles been calculated?
 \subsection{Usage}{
@@ -133,8 +133,8 @@ Has a distance matrix between all alleles been calculated?
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-calculate_exon_distance_matrix"></a>}}
-\if{latex}{\out{\hypertarget{method-calculate_exon_distance_matrix}{}}}
+\if{html}{\out{<a id="method-HLAGene-calculate_exon_distance_matrix"></a>}}
+\if{latex}{\out{\hypertarget{method-HLAGene-calculate_exon_distance_matrix}{}}}
 \subsection{Method \code{calculate_exon_distance_matrix()}}{
 Calculate a distance matrix between all alleles based on the available exon sequences.
 \subsection{Usage}{
@@ -143,8 +143,8 @@ Calculate a distance matrix between all alleles based on the available exon sequ
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_closest_complete_neighbor"></a>}}
-\if{latex}{\out{\hypertarget{method-get_closest_complete_neighbor}{}}}
+\if{html}{\out{<a id="method-HLAGene-get_closest_complete_neighbor"></a>}}
+\if{latex}{\out{\hypertarget{method-HLAGene-get_closest_complete_neighbor}{}}}
 \subsection{Method \code{get_closest_complete_neighbor()}}{
 Get the full-length allele that is closest to the query allele, based on the
 available exon sequences.
@@ -163,8 +163,8 @@ available exon sequences.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_reference_sequence"></a>}}
-\if{latex}{\out{\hypertarget{method-get_reference_sequence}{}}}
+\if{html}{\out{<a id="method-HLAGene-get_reference_sequence"></a>}}
+\if{latex}{\out{\hypertarget{method-HLAGene-get_reference_sequence}{}}}
 \subsection{Method \code{get_reference_sequence()}}{
 Get the reference sequence for query allele extended to full length by
 filling up missing sequence information with the closest complete neighbour.
@@ -181,8 +181,8 @@ filling up missing sequence information with the closest complete neighbour.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_all_reference_sequences"></a>}}
-\if{latex}{\out{\hypertarget{method-get_all_reference_sequences}{}}}
+\if{html}{\out{<a id="method-HLAGene-get_all_reference_sequences"></a>}}
+\if{latex}{\out{\hypertarget{method-HLAGene-get_all_reference_sequences}{}}}
 \subsection{Method \code{get_all_reference_sequences()}}{
 Get the reference sequences for all allele extended to full length by
 filling up missing sequence information with the closest complete neighbours.
@@ -199,8 +199,8 @@ filling up missing sequence information with the closest complete neighbours.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_reference_sequence_as_ft"></a>}}
-\if{latex}{\out{\hypertarget{method-get_reference_sequence_as_ft}{}}}
+\if{html}{\out{<a id="method-HLAGene-get_reference_sequence_as_ft"></a>}}
+\if{latex}{\out{\hypertarget{method-HLAGene-get_reference_sequence_as_ft}{}}}
 \subsection{Method \code{get_reference_sequence_as_ft()}}{
 Get the reference sequence for query allele extended to full length by
 filling up missing sequence information with the closest complete neighbour
@@ -218,8 +218,8 @@ formatted as a GenBank Feature Table.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_all_reference_sequences_as_ft"></a>}}
-\if{latex}{\out{\hypertarget{method-get_all_reference_sequences_as_ft}{}}}
+\if{html}{\out{<a id="method-HLAGene-get_all_reference_sequences_as_ft"></a>}}
+\if{latex}{\out{\hypertarget{method-HLAGene-get_all_reference_sequences_as_ft}{}}}
 \subsection{Method \code{get_all_reference_sequences_as_ft()}}{
 Get the reference sequences for all allele extended to full length by
 filling up missing sequence information with the closest complete neighbours
@@ -237,8 +237,8 @@ formatted as a GenBank Feature Table.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_extended_reference_set"></a>}}
-\if{latex}{\out{\hypertarget{method-get_extended_reference_set}{}}}
+\if{html}{\out{<a id="method-HLAGene-get_extended_reference_set"></a>}}
+\if{latex}{\out{\hypertarget{method-HLAGene-get_extended_reference_set}{}}}
 \subsection{Method \code{get_extended_reference_set()}}{
 TODO: Documentation
 \subsection{Usage}{
@@ -254,8 +254,8 @@ TODO: Documentation
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-HLAGene-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-HLAGene-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

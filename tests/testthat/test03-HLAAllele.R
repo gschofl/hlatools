@@ -25,7 +25,7 @@ test_that("HLAAllele global API", {
   expect_equal(length(features(dpa)[[1]]), 9)
   ## Sequences
   expect_is(sequences(dpa), "DNAStringSet")
-  expect_equal(length(sequences(dpa)), 373)
+  expect_equal(length(sequences(dpa)), 491)
   expect_equal(names(sequences(dpa))[[1]], "HLA-DPA1*01:03:01:01")
   expect_equal(width(sequences(dpa))[[1]], 9775)
   ## Metadata
@@ -51,7 +51,7 @@ test_that("HLAAllele element-wise API", {
   ##
   expect_equal(ethnicity(x), "Caucasoid:Oriental")
   ##
-  expect_equal(sample_name(x), "BOLETH:JM15:LB:LG2:PRIESS:QBL:T5-1:TUBO:WJR076")
+  expect_equal(sample_name(x), "JM15:LB:LG2:PRIESS:QBL:T5-1:TUBO:WJR076")
   ##
   expect_true(is_complete(x))
   expect_false(is_lsl(x))
@@ -65,9 +65,9 @@ test_that("HLAAllele subsetting", {
   expect_equal(NROW(dpa["DPA1*01:03:01:01"]), 1)
   expect_equal(NROW(dpa["01:03:01:01"]), 1)
   ## Partial subsetting by allele name
-  expect_equal(NROW(dpa["01:03:01"]), 56)
-  expect_equal(NROW(dpa["DPA1*01:03"]), 93)
-  expect_equal(NROW(dpa["HLA-DPA1*01"]), 191)
+  expect_equal(NROW(dpa["01:03:01"]), 66)
+  expect_equal(NROW(dpa["DPA1*01:03"]), 110)
+  expect_equal(NROW(dpa["HLA-DPA1*01"]), 253)
   ## Subsetting by number
   expect_equal(NROW(dpa[1]), 1)
   expect_equal(NROW(dpa[1:4]), 4)

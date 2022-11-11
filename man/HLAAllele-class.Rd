@@ -6,9 +6,9 @@
 \alias{names,HLAAllele-method}
 \alias{length,HLAAllele-method}
 \alias{c,HLAAllele-method}
-\alias{[,HLAAllele,numeric,missing,ANY-method}
-\alias{[,HLAAllele,logical,missing,ANY-method}
-\alias{[,HLAAllele,character,missing,ANY-method}
+\alias{[,HLAAllele,numeric,missing-method}
+\alias{[,HLAAllele,logical,missing-method}
+\alias{[,HLAAllele,character,missing-method}
 \title{R6 Class `"HLAAllele"``}
 \usage{
 \S4method{names}{HLAAllele}(x)
@@ -17,11 +17,11 @@
 
 \S4method{c}{HLAAllele}(x, ..., recursive = FALSE)
 
-\S4method{[}{HLAAllele,numeric,missing,ANY}(x, i, j, ..., drop = TRUE)
+\S4method{[}{HLAAllele,numeric,missing}(x, i, j, ..., drop = TRUE)
 
-\S4method{[}{HLAAllele,logical,missing,ANY}(x, i, j, ..., drop = TRUE)
+\S4method{[}{HLAAllele,logical,missing}(x, i, j, ..., drop = TRUE)
 
-\S4method{[}{HLAAllele,character,missing,ANY}(x, i, j, ..., drop = TRUE)
+\S4method{[}{HLAAllele,character,missing}(x, i, j, ..., drop = TRUE)
 }
 \description{
 A container for data parsed from the IPD-IMGT/HLA hla.xml file.
