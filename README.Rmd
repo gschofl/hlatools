@@ -54,7 +54,7 @@ hlatools::locusname(x)
 x1 <- x[hlatools::is_complete(x)][1:10]
 hlatools::allele_name(x1)
 hlatools::cwd_status(x1)
-hlatools::ethnicity(x1)
+hlatools::ancestry(x1)
 hlatools::g_group(x1)
 hlatools::p_group(x1)
 hlatools::sequences(x1)

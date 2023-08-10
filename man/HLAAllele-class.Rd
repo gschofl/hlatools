@@ -29,19 +29,19 @@ Part of a \link[=HLAGene_]{HLAGene} object.
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{names}: Get sequence names from \linkS4class{HLAAllele}s.
+\item \code{names(HLAAllele)}: Get sequence names from \linkS4class{HLAAllele}s.
 
-\item \code{length}: Get number of \linkS4class{HLAAllele}s.
+\item \code{length(HLAAllele)}: Get number of \linkS4class{HLAAllele}s.
 
-\item \code{c}: Combine \linkS4class{HLAAllele} objects.
+\item \code{c(HLAAllele)}: Combine \linkS4class{HLAAllele} objects.
 
-\item \code{[}: Subset \linkS4class{HLAAllele} objects.
+\item \code{x[i}: Subset \linkS4class{HLAAllele} objects.
 
-\item \code{[}: Subset \linkS4class{HLAAllele} objects.
+\item \code{x[i}: Subset \linkS4class{HLAAllele} objects.
 
-\item \code{[}: Subset \linkS4class{HLAAllele} objects.
+\item \code{x[i}: Subset \linkS4class{HLAAllele} objects.
+
 }}
-
 \section{Slots}{
 
 \describe{

@@ -84,7 +84,7 @@ hlatools::cwd_status(x1)
 #>  [1] "Common"          "Not CWD defined" "Not CWD defined" "Not CWD defined"
 #>  [5] "Not CWD defined" "Not CWD defined" "Not CWD defined" "Not CWD defined"
 #>  [9] "Not CWD defined" "Not CWD defined"
-hlatools::ethnicity(x1)
+hlatools::ancestry(x1)
 #>  [1] "Caucasoid:Oriental" "Caucasoid:Black"    "Caucasoid"         
 #>  [4] "Caucasoid"          "Caucasoid"          "Oriental"          
 #>  [7] "Oriental"           "Oriental"           "Caucasoid"         

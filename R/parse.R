@@ -94,13 +94,15 @@ parse_hla_alleles <- function(doc, locusname, ncores = parallel::detectCores() -
   nodes1 <- xml2::xml_find_all(doc, xpath1, ns)
   xpath2 <- paste0(".//d1:releaseversions[not(starts-with(@releasestatus,'Allele Deleted'))]/parent::node()")
   nodes2 <- xml2::xml_find_all(nodes1, xpath2, ns)
+  xpath3 <- paste0(".//d1:releaseversions[not(starts-with(@releasestatus,'Deleted'))]/parent::node()")
+  nodes3 <- xml2::xml_find_all(nodes2, xpath3, ns)
   if (locusname == "HLA-DRB") {
-    xpath3 <- paste0("./self::node()[starts-with(@name,'", locusname0, "')]")
-    nodes2 <- xml2::xml_find_all(nodes2, xpath3, ns)
+    xpath4 <- paste0("./self::node()[starts-with(@name,'", locusname0, "')]")
+    nodes3 <- xml2::xml_find_all(nodes3, xpath4, ns)
     locusname <- locusname0
   }
   #slen_nodeset <- length(nodes2)
-  rs <- HLAAllele(nodes = nodes2, locusname = locusname, ncores = ncores)
+  rs <- HLAAllele(nodes = nodes3, locusname = locusname, ncores = ncores)
   rs
 }
 
@@ -146,6 +148,15 @@ make_hla_allele_parser <- function() {
       samples[smp_idx] <- vapply(xml2::xml_find_all(nodes[smp_idx], "./d1:sourcematerial/d1:samples", ns), function(node) {
         colon(xml2::xml_attr(xml2::xml_children(node), "name"))
       }, FUN.VALUE = character(1))
+      ## With v3.52.0 "ethnicity" was changed to "ancestry"
+      ancestry <- vapply(xml2::xml_find_all(nodes, "./d1:sourcematerial/d1:ancestry", ns), function(node) {
+        colon(xml2::xml_text(xml2::xml_children(node)))
+      }, FUN.VALUE = character(1))
+      if (length(ancestry) == 0) {
+        ancestry <-  vapply(xml2::xml_find_all(nodes, "./d1:sourcematerial/d1:ethnicity", ns), function(node) {
+          colon(xml2::xml_text(xml2::xml_children(node)))
+        }, FUN.VALUE = character(1))
+      }
       ## Expected number of Exons and introns for completeness
       #nfeatures <- length(feature_orders_(locus = locusname))
       ##
@@ -178,13 +189,11 @@ make_hla_allele_parser <- function() {
         #complete      = xml2::xml_find_lgl(nodes,
         #  paste0("count(./d1:sequence/d1:feature[@featuretype=\"Exon\" or @featuretype=\"Intron\"])=", nfeatures), ns),
         ##
-        ## Source (PubMed ID, Ethnicity, Sample/Cellline)
+        ## Source (PubMed ID, Ancestry, Sample/Cellline)
         ##
         pmid          = pmids,
-        ethnicity     = vapply(xml2::xml_find_all(nodes, "./d1:sourcematerial/d1:ethnicity", ns), function(node) {
-          colon(xml2::xml_text(xml2::xml_children(node)))
-        }, FUN.VALUE = character(1)),
-        sample       = samples
+        ancestry      = ancestry,
+        sample        = samples
       )
     },
     # Parse features from an hla.xml allele node

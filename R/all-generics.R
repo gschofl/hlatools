@@ -106,19 +106,19 @@ setGeneric("p_group", signature = "x", function(x, ...) standardGeneric("p_group
 #' }
 setGeneric("cwd_status", signature = "x", function(x, ...) standardGeneric("cwd_status"))
 
-#' Access ethnicity status
+#' Access ancestry status
 #'
 #' @param x A [HLAGene][HLAGene_] or [HLAAllele-class] object.
 #' @param ... Further arguments passed to methods.
 #'
-#' @return A character vector of colon-separated sample ethnicities.
+#' @return A character vector of colon-separated sample ancestries.
 #' @export
 #' @examples
 #' \dontrun{
 #' x <- HLAGene("DPB1")
-#' ethnicity(x[is_complete(x)])
+#' ancestry(x[is_complete(x)])
 #' }
-setGeneric("ethnicity", signature = "x", function(x, ...) standardGeneric("ethnicity"))
+setGeneric("ancestry", signature = "x", function(x, ...) standardGeneric("ancestry"))
 
 #' Access (colon-separated) sample names
 #'

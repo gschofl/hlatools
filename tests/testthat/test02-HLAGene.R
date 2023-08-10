@@ -39,8 +39,8 @@ test_that("HLAGene element-wise API", {
   expect_length(cwd_status(dpa), 373)
   expect_equal(cwd_status(dpa)[1], "", fixed = TRUE)
   ##
-  expect_length(ethnicity(dpa), 373)
-  expect_equal(ethnicity(dpa)[1], "Caucasoid:Oriental", fixed = TRUE)
+  expect_length(ancestry(dpa), 373)
+  expect_equal(ancestry(dpa)[1], "Caucasoid:Oriental", fixed = TRUE)
   ##
   expect_length(sample_name(dpa), 373)
   expect_equal(sample_name(dpa)[1], "BOLETH:JM15:LB:LG2:PRIESS:QBL:T5-1:TUBO:WJR076", fixed = TRUE)

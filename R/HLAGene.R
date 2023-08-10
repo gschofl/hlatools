@@ -352,8 +352,8 @@ setMethod("cwd_status", signature(x = "HLAGene"), function(x, ...) {
   elementMetadata(x)$cwd_status
 })
 
-setMethod("ethnicity", signature(x = "HLAGene"), function(x, ...) {
-  elementMetadata(x)$ethnicity
+setMethod("ancestry", signature(x = "HLAGene"), function(x, ...) {
+  elementMetadata(x)$ancestry
 })
 
 setMethod("sample_name", signature(x = "HLAGene"), function(x, ...) {

@@ -1,13 +1,12 @@
 Package: hlatools
 Title: A collection of tools to work with IPD-IMGT/HLA data
-Version: 0.1.11
+Version: 0.1.12
 Authors@R: person("Gerhard", "Schöfl", email = "schoefl@dkms-lab.de", role = c("aut", "cre"))
 Description: A collection of tools to work with IPD-IMGT/HLA data.
 Depends:
     R (>= 3.3.0)
 License: MIT + file LICENSE
 Suggests:
-    git2r,
     testthat (>= 2.0.0)
 LazyData: true
 Type: Package
@@ -22,6 +21,7 @@ Imports:
     BiocGenerics,
     Biostrings,
     GenomicRanges,
+    git2r,
     IRanges,
     S4Vectors,
     XVector,
@@ -38,7 +38,7 @@ Imports:
     xml2,
     Rcpp,
     purrr
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1
 Collate:
     'utils.R'
     'all-generics.R'

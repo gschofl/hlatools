@@ -251,8 +251,8 @@ setMethod("cwd_status", signature(x = "HLAAllele"), function(x, ...) {
   elementMetadata(x)$cwd_status
 })
 
-setMethod("ethnicity", signature(x = "HLAAllele"), function(x, ...) {
-  elementMetadata(x)$ethnicity
+setMethod("ancestry", signature(x = "HLAAllele"), function(x, ...) {
+  elementMetadata(x)$ancestry
 })
 
 setMethod("sample_name", signature(x = "HLAAllele"), function(x, ...) {
@@ -276,7 +276,7 @@ setAs(from = "HLAAllele", to = "data.table", function(from) {
     allele_name = vapply(alleles, `[[`, 2, FUN.VALUE = ""),
     data_assigned = lubridate::ymd(hlatools::elementMetadata(from)$date_assigned),
     cwd_status = cwd_status(from),
-    ethnicity = gsub(":", "|", ethnicity(from)),
+    ancestry = gsub(":", "|", ancestry(from)),
     exons = vapply(fts, function(x) collapse(getOrder(x)[getType(x) == "Exon"] / 2), FUN.VALUE = "", USE.NAMES = FALSE),
     exon_status = vapply(fts, function(x) collapse(substr(getStatus(x), 1, 1)[getType(x) == "Exon"]), FUN.VALUE = "", USE.NAMES = FALSE)
   ))
