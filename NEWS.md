@@ -1,3 +1,7 @@
+# hlatools 0.1.13
+
+* Update for IPD-IMGT/HLA up to 3.54.0
+
 # hlatools 0.1.12
 
 * "etnicity" replaced with "ancestry" in IPD-IMGT/HLA XML source
