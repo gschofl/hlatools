@@ -90,7 +90,11 @@ parse_hla_alleles <- function(doc, locusname, ncores = parallel::detectCores() -
     locusname  <- sub("HLA-", "", locusname)
   }
   ns <- xml2::xml_ns(doc)
-  xpath1 <- paste0("/d1:alleles/d1:allele/d1:locus[@locusname='", locusname, "']/parent::node()")
+  if (dbv <= "3.55.0") {
+    xpath1 <- paste0("/d1:alleles/d1:allele/d1:locus[@locusname='", locusname, "']/parent::node()")
+  } else {
+    xpath1 <- paste0("/d1:release/d1:alleles/d1:allele/d1:locus[@locusname='", locusname, "']/parent::node()")
+  }
   nodes1 <- xml2::xml_find_all(doc, xpath1, ns)
   xpath2 <- paste0(".//d1:releaseversions[not(starts-with(@releasestatus,'Allele Deleted'))]/parent::node()")
   nodes2 <- xml2::xml_find_all(nodes1, xpath2, ns)

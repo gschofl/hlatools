@@ -1,3 +1,8 @@
+# hlatools 0.1.14
+
+* Update for IPD-IMGT/HLA up to 3.56.0
+* IPD-IMGT/HLA changed structure of XML file from 3.55 to 3.56
+
 # hlatools 0.1.13
 
 * Update for IPD-IMGT/HLA up to 3.54.0
