@@ -25,7 +25,7 @@ test_that("HLAAllele global API", {
   expect_equal(length(features(dpa)[[1]]), 9)
   ## Sequences
   expect_is(sequences(dpa), "DNAStringSet")
-  expect_equal(length(sequences(dpa)), 619)
+  expect_equal(length(sequences(dpa)), 764)
   expect_equal(names(sequences(dpa))[[1]], "HLA-DPA1*01:03:01:01")
   expect_equal(width(sequences(dpa))[[1]], 9775)
   ## Metadata
@@ -65,9 +65,9 @@ test_that("HLAAllele subsetting", {
   expect_equal(NROW(dpa["DPA1*01:03:01:01"]), 1)
   expect_equal(NROW(dpa["01:03:01:01"]), 1)
   ## Partial subsetting by allele name
-  expect_equal(NROW(dpa["01:03:01"]), 80)
-  expect_equal(NROW(dpa["DPA1*01:03"]), 133)
-  expect_equal(NROW(dpa["HLA-DPA1*01"]), 327)
+  expect_equal(NROW(dpa["01:03:01"]), 96)
+  expect_equal(NROW(dpa["DPA1*01:03"]), 157)
+  expect_equal(NROW(dpa["HLA-DPA1*01"]), 407)
   ## Subsetting by number
   expect_equal(NROW(dpa[1]), 1)
   expect_equal(NROW(dpa[1:4]), 4)
@@ -95,3 +95,4 @@ test_that("HLAAllele exon, intron, and utr", {
   expect_equal(Biostrings::toString(Biostrings::subseq(u, 1, 10)), "AATACTGTAA")
   expect_error(utr(x, 3))
 })
+

@@ -1,3 +1,9 @@
+# hlatools 0.1.15
+
+* NMDP changed download link from numerical MACs
+  old -> https://bioinformatics.bethematchclinical.org/HLA/numer.v3.zip
+  new -> https://hml.nmdp.org/mac/files/numer.v3.zip
+  
 # hlatools 0.1.14
 
 * Update for IPD-IMGT/HLA up to 3.56.0

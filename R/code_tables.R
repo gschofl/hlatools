@@ -18,7 +18,7 @@
 nmdp_table <- function() {
   tmp <- tempfile(fileext = ".zip")
   on.exit(unlink(tmp))
-  url <- "https://bioinformatics.bethematchclinical.org/HLA/numer.v3.zip"
+  url <- "https://hml.nmdp.org/mac/files/numer.v3.zip"
   utils::download.file(url, tmp)
   rs <- readr::read_delim(tmp, "\t",
                           col_names = c("code", "subtype"),
