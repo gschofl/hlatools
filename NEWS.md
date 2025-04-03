@@ -1,3 +1,7 @@
+# hlatools 0.1.16
+
+* Update for IPD-IMGT/HLA up to 3.59.0
+
 # hlatools 0.1.15
 
 * NMDP changed download link from numerical MACs
