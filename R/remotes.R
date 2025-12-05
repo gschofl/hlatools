@@ -42,8 +42,8 @@ pull_IMGTHLA <- function(db_path = getOption("hlatools.local_repos")) {
     requireNamespace("git2r", quietly = TRUE)
   )
   repo_path <- normalizePath(file.path(db_path, "IMGTHLA"), mustWork = FALSE)
-  tryCatch({
-    repo <- git2r::repository(repo_path)
+  repo <- tryCatch({
+    git2r::repository(repo_path)
     }, error =  function(e) {
       if (grepl("Unable to open repository", e$message))
         ## go and try cloning the IPD-IMGT/HLA repo
@@ -51,6 +51,16 @@ pull_IMGTHLA <- function(db_path = getOption("hlatools.local_repos")) {
       else
         stop(e$message, call. = FALSE)
     })
+  ## Check if HEAD is on a branch (not detached)
+  head_ref <- git2r::repository_head(repo)
+  if (!inherits(head_ref, "git_branch")) {
+    warning(
+      "HEAD is detached (not on a branch). Cannot pull.\n",
+      "Run: cd ", repo_path, " && git checkout Latest",
+      call. = FALSE
+    )
+    return(invisible(repo))
+  }
   git2r::pull(repo)
   invisible(repo)
 }
