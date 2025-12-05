@@ -1,3 +1,8 @@
+# hlatools 0.1.16.9000 (development)
+
+* [RUTIL-1](https://youtrack.labor.local/issue/RUTIL-1): Fix `pull_IMGTHLA()` failing when HEAD is detached. Now issues a warning with instructions instead of throwing an error.
+* Update renv dependencies to latest versions.
+
 # hlatools 0.1.16
 
 * Update for IPD-IMGT/HLA up to 3.59.0
